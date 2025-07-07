@@ -3,7 +3,7 @@ local spaceship = {}
 local helper = require("helper")
 local explosions = require("explosions")
 
-local lifes = 3
+local lifes = 1
 local hitTimer = 0
 
 local explosionAnim

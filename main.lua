@@ -15,6 +15,7 @@ local explosions = require("explosions")
 local enemyShips = require("enemyShips")
 local background = require("background")
 local score = require("score")
+local gameover = require("gameover")
 
 function love.load()
     love.window.setTitle("Interstellar War")
@@ -25,6 +26,7 @@ function love.load()
     spaceship.load()
     enemyShips.load()
     score.load()
+    gameover.load()
 end
 
 function love.update(dt)
@@ -43,6 +45,10 @@ function love.draw()
     explosions.draw()
     spaceship.draw()
     score.draw()
+
+    if spaceship.lifes() == 0 then
+        gameover.draw()
+    end
 end
 
 function love.keypressed(key)
