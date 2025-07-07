@@ -26,7 +26,7 @@ function playerShots.shoot(spaceship)
     table.insert(playerShots, shot)
 end
 
-function playerShots.moveShots(dt, enemyShips, minimumRange)
+function playerShots.move(dt, enemyShips, minimumRange)
     for i=#playerShots, 1, -1 do
         local currentShot = playerShots[i] 
         currentShot.y = currentShot.y - shotSpeed * dt

@@ -30,7 +30,7 @@ function love.update(dt)
     enemyShips.spawn(dt)
     enemyShips.move(dt)
     spaceship.move(dt)
-    playerShots.moveShots(dt, enemyShips, enemyShips.getPicWidth() / 2)
+    playerShots.move(dt, enemyShips, enemyShips.getPicWidth() / 2)
     explosions.update(dt)
 end
 
