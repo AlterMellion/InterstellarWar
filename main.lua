@@ -10,10 +10,10 @@ local background
 local scrollingSpeed = 25
 local backGroundy = 0
 
-local screenHeight = love.graphics.getHeight()
-local screenWidth = love.graphics.getWidth()
+screenHeight = love.graphics.getHeight()
+screenWidth = love.graphics.getWidth()
 
-local spaceship = {}
+local spaceship = require("spaceship")
 
 local enemyShips = {}
 local maxEnemiesOnScreen = 3
@@ -28,51 +28,11 @@ local shotSpeed = 200
 local explosionAnim = {}
 local explosions = {}
 
-function initSpaceship()
-    spaceship.speed = 200
-    spaceship.x = screenWidth / 2
-    spaceship.y = screenHeight - spaceship.pic:getHeight() / 2
-end
-
 function drawCenter(image, x, y)
     love.graphics.draw(image, x, y, 0, 1, 1,
         image:getWidth()/2,
         image:getHeight()/2
     )
-end
-
-function moveSpaceship(dt)
-    if love.keyboard.isDown("left") then
-        spaceship.x = spaceship.x - spaceship.speed * dt
-        
-        if spaceship.x < 0 then
-            spaceship.x = 0
-        end
-    end
-
-    if love.keyboard.isDown("right") then
-        spaceship.x = spaceship.x + spaceship.speed * dt
-
-        if (spaceship.x + spaceship.pic:getWidth()) >= screenWidth then
-            spaceship.x = screenWidth - spaceship.pic:getWidth()
-        end
-    end
-
-    if love.keyboard.isDown("up") then
-        spaceship.y = spaceship.y - spaceship.speed * dt
-
-        if spaceship.y <= 0 then
-            spaceship.y = 0
-        end
-    end
-
-    if love.keyboard.isDown("down") then
-        spaceship.y = spaceship.y + spaceship.speed * dt
-
-        if spaceship.y + spaceship.pic:getHeight() > screenHeight then
-            spaceship.y = screenHeight - spaceship.pic:getHeight()
-        end
-    end
 end
 
 function initEnemyShip()
@@ -219,7 +179,7 @@ function love.load()
     enemyPic = love.graphics.newImage("pics/enemyShip.png")
     basicShotPic = love.graphics.newImage("pics/basicShot.png")
     
-    initSpaceship()
+    spaceship.initSpaceship()
     enemyShips = {}
     playerShots = {}
     
@@ -234,7 +194,7 @@ function love.update(dt)
     spawnEnemyShip(dt)
     moveEnemyShips(dt)
 
-    moveSpaceship(dt)
+    spaceship.moveSpaceship(dt)
 
     moveShots(dt)
 
