@@ -6,10 +6,6 @@ end
 -- Cette ligne permet d'afficher des traces dans la console pendant l'éxécution
 io.stdout:setvbuf("no")
 
-local background
-local scrollingSpeed = 25
-local backGroundy = 0
-
 screenHeight = love.graphics.getHeight()
 screenWidth = love.graphics.getWidth()
 
@@ -17,19 +13,13 @@ local spaceship = require("spaceship")
 local playerShots = require("playerShots")
 local explosions = require("explosions")
 local enemyShips = require("enemyShips")
+local background = require("background")
 
 function drawCenter(image, x, y)
     love.graphics.draw(image, x, y, 0, 1, 1,
         image:getWidth()/2,
         image:getHeight()/2
     )
-end
-
-function scrollBackground(dt)
-    backGroundy = backGroundy + scrollingSpeed * dt
-    if backGroundy >= background:getHeight() then
-        backGroundy = 0
-    end
 end
 
 function distanceBetweenTwoObjects(x1, y1, x2, y2)
@@ -47,7 +37,7 @@ end
 
 function love.load()
     love.window.setTitle("Interstellar War")
-    background = love.graphics.newImage("pics/spaceBackground.jpg")
+    background.load()
     explosions.load()
     playerShots.load()
     spaceship.initSpaceship()
@@ -55,7 +45,7 @@ function love.load()
 end
 
 function love.update(dt)
-    scrollBackground(dt)
+    background.scroll(dt)
     enemyShips.spawnEnemyShip(dt)
     enemyShips.moveEnemyShips(dt)
     spaceship.moveSpaceship(dt)
@@ -64,8 +54,7 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.draw(background, 0, backGroundy)
-    love.graphics.draw(background, 0, backGroundy - background:getHeight())
+    background.display()
     drawCenter(spaceship.pic, spaceship.x, spaceship.y)
     enemyShips.displayEnemyships()
     playerShots.displayPlayerShots()
