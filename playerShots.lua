@@ -2,6 +2,7 @@ local playerShots = {}
 
 local explosions = require("explosions")
 local helper = require("helper")
+local score = require("score")
 
 local basicShotPic
 local shotSpeed = 200
@@ -51,6 +52,7 @@ function playerShots.move(dt, enemyShips, minimumRange)
                     table.insert(explosions, explosion)
                     table.remove(enemyShips, j)
                     table.remove(playerShots, i)
+                    score.update(1)
                     break
                 end
             end
