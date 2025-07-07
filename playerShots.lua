@@ -9,6 +9,8 @@ local shotSpeed = 200
 local explosionAnim
 local sound
 
+local wasHit = false
+
 function playerShots.load()
     basicShotPic = love.graphics.newImage("pics/basicShot.png")
     explosionAnim = explosions.getAnimation()

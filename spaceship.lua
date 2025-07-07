@@ -1,19 +1,40 @@
 local spaceship = {}
 
 local helper = require("helper")
+local explosions = require("explosions")
+
+local lifes = 3
+local hitTimer = 0
+
+local explosionAnim
 
 function spaceship.load()
     spaceship.pic = love.graphics.newImage("pics/spaceship.png")
     spaceship.speed = 200
     spaceship.x = screenWidth / 2
     spaceship.y = screenHeight - spaceship.pic:getHeight() / 2
+
+    explosionAnim = explosions.getAnimation()
 end
 
 function spaceship.draw()
-    helper.drawCenter(spaceship.pic, spaceship.x, spaceship.y)
+    if lifes > 0 then
+        helper.drawCenter(spaceship.pic, spaceship.x, spaceship.y)
+    end
+
+    for i=1, lifes do
+        local scale = 0.40
+        local x = screenWidth - (spaceship.pic:getWidth() * i * scale)
+        love.graphics.draw(spaceship.pic, x, spaceship.pic:getHeight() * scale, 0, scale, scale,
+            spaceship.pic:getWidth()/2,
+            spaceship.pic:getHeight()/2
+        )
+    end
 end
 
 function spaceship.move(dt)
+    hitTimer = hitTimer + dt
+
     if love.keyboard.isDown("left") then
         spaceship.x = spaceship.x - spaceship.speed * dt
         
@@ -43,6 +64,30 @@ function spaceship.move(dt)
 
         if spaceship.y + spaceship.pic:getHeight() > screenHeight then
             spaceship.y = screenHeight - spaceship.pic:getHeight()
+        end
+    end
+end
+
+function spaceship.lifes()
+    return lifes
+end
+
+function spaceship.updateLifes(value)
+    if hitTimer > 2 then
+        lifes = lifes + value
+        hitTimer = 0
+
+        if lifes < 1 then
+            local explosion = {
+                x = spaceship.x,
+                y = spaceship.y,
+                currentTime = 0,
+                duration = explosionAnim.duration,
+                quads = explosionAnim.quads,
+                spriteSheet = explosionAnim.spriteSheet
+            }
+            table.insert(explosions, explosion)
+            explosions.playSound()
         end
     end
 end

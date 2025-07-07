@@ -30,7 +30,7 @@ end
 function love.update(dt)
     background.scroll(dt)
     enemyShips.spawn(dt)
-    enemyShips.move(dt)
+    enemyShips.move(dt, spaceship)
     spaceship.move(dt)
     playerShots.move(dt, enemyShips, enemyShips.getPicWidth() / 2)
     explosions.update(dt)

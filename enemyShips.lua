@@ -37,12 +37,17 @@ function enemyShips.spawn(dt)
     end
 end
 
-function enemyShips.move(dt)
+function enemyShips.move(dt, spaceship)
     for i=#enemyShips, 1, -1 do
         enemyShips[i].y = enemyShips[i].y + enemyShips[i].speed * dt
-
         if enemyShips[i].y > screenHeight + enemyPic:getHeight() then
             table.remove(enemyShips, i)
+        else
+            local distance = helper.distanceBetweenTwoObjects(enemyShips[i].x, enemyShips[i].y, spaceship.x, spaceship.y)
+            if distance < enemyPic:getWidth() / 2 then
+                spaceship.updateLifes(-1)
+                do break end
+            end
         end
     end
 end
