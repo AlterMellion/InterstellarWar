@@ -1,5 +1,6 @@
 local enemyShips = {}
 
+require("math")
 local helper = require("helper")
 
 local maxEnemiesOnScreen = 3
@@ -17,10 +18,13 @@ end
 
 function enemyShips.init()
     local enemyShip = {}
+    math.randomseed(os.time())
+    math.random() 
     enemyShip.speed = math.random(120, 150)
     enemyShip.pic = enemyPic
     enemyShip.x = math.random(enemyShip.pic:getWidth(), screenWidth - enemyShip.pic:getWidth())
     enemyShip.y = 0 - enemyShip.pic:getHeight()
+    --print("Spawn new ship: x"..enemyShip.x.." - y"..enemyShip.y.." - speed"..enemyShip.speed)
     return enemyShip
 end
 
