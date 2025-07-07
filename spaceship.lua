@@ -7,6 +7,7 @@ local lifes = 3
 local hitTimer = 0
 
 local explosionAnim
+local sound
 
 function spaceship.load()
     spaceship.pic = love.graphics.newImage("pics/spaceship.png")
@@ -15,6 +16,8 @@ function spaceship.load()
     spaceship.y = screenHeight - spaceship.pic:getHeight() / 2
 
     explosionAnim = explosions.getAnimation()
+
+    sound = love.audio.newSource("audio/hitHurt.wav", "static")
 end
 
 function spaceship.draw()
@@ -88,6 +91,10 @@ function spaceship.updateLifes(value)
             }
             table.insert(explosions, explosion)
             explosions.playSound()
+        else
+            if value == -1 then
+                sound:play()
+            end
         end
     end
 end
