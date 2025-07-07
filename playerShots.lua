@@ -7,10 +7,13 @@ local score = require("score")
 local basicShotPic
 local shotSpeed = 200
 local explosionAnim
+local sound
 
 function playerShots.load()
     basicShotPic = love.graphics.newImage("pics/basicShot.png")
     explosionAnim = explosions.getAnimation()
+
+    sound = love.audio.newSource("audio/laserShoot.wav", "static")
 end
 
 function playerShots.draw()
@@ -25,6 +28,8 @@ function playerShots.shoot(spaceship)
         y = spaceship.y - basicShotPic:getHeight()
     }
     table.insert(playerShots, shot)
+    sound:stop()
+    sound:play()
 end
 
 function playerShots.move(dt, enemyShips, minimumRange)
@@ -53,6 +58,7 @@ function playerShots.move(dt, enemyShips, minimumRange)
                     table.remove(enemyShips, j)
                     table.remove(playerShots, i)
                     score.update(1)
+                    explosions.playSound()
                     break
                 end
             end
