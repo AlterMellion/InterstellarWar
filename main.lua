@@ -14,19 +14,14 @@ screenHeight = love.graphics.getHeight()
 screenWidth = love.graphics.getWidth()
 
 local spaceship = require("spaceship")
+local playerShots = require("playerShots")
+local explosions = require("explosions")
 
 local enemyShips = {}
 local maxEnemiesOnScreen = 3
 local enemyPic
 local enemyTimer = 0
 local enemyFrequency = 2
-
-local playerShots = {}
-local basicShotPic
-local shotSpeed = 200
-
-local explosionAnim = {}
-local explosions = {}
 
 function drawCenter(image, x, y)
     love.graphics.draw(image, x, y, 0, 1, 1,
@@ -76,52 +71,6 @@ function scrollBackground(dt)
     end
 end
 
-function displayPlayerShots()
-    for i, shot in ipairs(playerShots) do
-        drawCenter(basicShotPic, shot.x, shot.y)
-    end
-end
-
-function fireShot()
-    local shot = {
-        x = spaceship.x,
-        y = spaceship.y - basicShotPic:getHeight()
-    }
-    table.insert(playerShots, shot)
-end
-
-function moveShots(dt)
-    for i=#playerShots, 1, -1 do
-        local currentShot = playerShots[i] 
-        currentShot.y = currentShot.y - shotSpeed * dt
-
-        if currentShot.y < 0 - basicShotPic:getHeight() then
-            table.remove(playerShots, i)
-            do break end
-        else
-            for j=#enemyShips, 1, -1 do
-                local currentEnemy = enemyShips[j]
-                local distance = distanceBetweenTwoObjects(currentEnemy.x, currentEnemy.y, currentShot.x, currentShot.y)
-                
-                if distance < enemyPic:getWidth() / 2 then
-                    local explosion = {
-                        x = currentEnemy.x,
-                        y = currentEnemy.y,
-                        currentTime = 0,
-                        duration = explosionAnim.duration,
-                        quads = explosionAnim.quads,
-                        spriteSheet = explosionAnim.spriteSheet
-                    }
-                    table.insert(explosions, explosion)
-                    table.remove(enemyShips, j)
-                    table.remove(playerShots, i)
-                    break
-                end
-            end
-        end
-    end
-end
-
 function distanceBetweenTwoObjects(x1, y1, x2, y2)
     local deltaX = x2 - x1
     local deltaY = y2 - y1
@@ -135,57 +84,15 @@ function distanceBetweenTwoObjects(x1, y1, x2, y2)
     return distance
 end
 
-function updateExplosions(dt)
-    for i=#explosions, 1, -1 do
-        explosions[i].currentTime = explosions[i].currentTime + dt
-        if explosions[i].currentTime >= explosions[i].duration then
-            table.remove(explosions, i)
-        end
-    end
-end
-
-function drawExplosions()
-    for i, explosion in ipairs(explosions) do
-        playAnimation(explosion, explosion.x, explosion.y, 96, 96)
-    end
-end
-
-function playAnimation(animation, x, y, ox, oy)
-    local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
-    love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], x, y, 0, 1, 1, ox, oy)
-end
-
-function newAnimation(image, width, height, duration)
-    local animation = {}
-    animation.spriteSheet = image;
-    animation.quads = {};
-
-    for y = 0, image:getHeight() - height, height do
-        for x = 0, image:getWidth() - width, width do
-            table.insert(animation.quads, love.graphics.newQuad(x, y, width, height, image:getDimensions()))
-        end
-    end
-
-    animation.duration = duration or 1
-    animation.currentTime = 0
-    return animation
-end
-
 function love.load()
     love.window.setTitle("Interstellar War")
     background = love.graphics.newImage("pics/spaceBackground.jpg")
-
-    spaceship.pic = love.graphics.newImage("pics/spaceship.png")
     enemyPic = love.graphics.newImage("pics/enemyShip.png")
-    basicShotPic = love.graphics.newImage("pics/basicShot.png")
     
+    explosions.load()
+    playerShots.load()
     spaceship.initSpaceship()
     enemyShips = {}
-    playerShots = {}
-    
-    local explosionSprites = love.graphics.newImage("pics/explosion.png")
-    explosionAnim = newAnimation(explosionSprites, 192, 192, 1)
-    explosions = {}
 end
 
 function love.update(dt)
@@ -196,9 +103,9 @@ function love.update(dt)
 
     spaceship.moveSpaceship(dt)
 
-    moveShots(dt)
+    playerShots.moveShots(dt, enemyShips, enemyPic:getWidth() / 2)
 
-    updateExplosions(dt)
+    explosions.updateExplosions(dt)
 end
 
 function love.draw()
@@ -208,15 +115,15 @@ function love.draw()
     drawCenter(spaceship.pic, spaceship.x, spaceship.y)
     
     displayEnemyships()
-    displayPlayerShots()
+    playerShots.displayPlayerShots()
 
-    drawExplosions()
+    explosions.drawExplosions()
 end
 
 function love.keypressed(key)
     if(key == "space") then
         if #playerShots < 4 then
-            fireShot()
+            playerShots.fireShot(spaceship)
         end
     end
 end
