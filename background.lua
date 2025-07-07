@@ -7,7 +7,7 @@ function background.load()
     background = love.graphics.newImage("pics/spaceBackground.jpg")
 end
 
-function background.display()
+function background.draw()
     love.graphics.draw(background, 0, y)
     love.graphics.draw(background, 0, y - background:getHeight())
 end

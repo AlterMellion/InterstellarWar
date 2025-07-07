@@ -1,4 +1,5 @@
 local explosions = {}
+
 local animation = require("animation")
 local explosionAnim
 
@@ -11,7 +12,7 @@ function explosions.getAnimation()
     return explosionAnim
 end
 
-function explosions.updateExplosions(dt)
+function explosions.update(dt)
     for i=#explosions, 1, -1 do
         explosions[i].currentTime = explosions[i].currentTime + dt
         if explosions[i].currentTime >= explosions[i].duration then
@@ -20,7 +21,7 @@ function explosions.updateExplosions(dt)
     end
 end
 
-function explosions.drawExplosions()
+function explosions.draw()
     for i, explosion in ipairs(explosions) do
         animation.play(explosion, explosion.x, explosion.y, 96, 96)
     end

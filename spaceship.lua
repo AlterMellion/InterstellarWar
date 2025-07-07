@@ -1,14 +1,19 @@
 local spaceship = {}
 
-function spaceship.initSpaceship()
+local helper = require("helper")
+
+function spaceship.load()
     spaceship.pic = love.graphics.newImage("pics/spaceship.png")
     spaceship.speed = 200
     spaceship.x = screenWidth / 2
     spaceship.y = screenHeight - spaceship.pic:getHeight() / 2
 end
 
+function spaceship.draw()
+    helper.drawCenter(spaceship.pic, spaceship.x, spaceship.y)
+end
 
-function spaceship.moveSpaceship(dt)
+function spaceship.move(dt)
     if love.keyboard.isDown("left") then
         spaceship.x = spaceship.x - spaceship.speed * dt
         

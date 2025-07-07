@@ -1,4 +1,7 @@
 local enemyShips = {}
+
+local helper = require("helper")
+
 local maxEnemiesOnScreen = 3
 local enemyPic
 local enemyTimer = 0
@@ -12,7 +15,7 @@ function enemyShips.getPicWidth()
     return enemyPic:getWidth()
 end
 
-function enemyShips.initEnemyShip()
+function enemyShips.init()
     local enemyShip = {}
     enemyShip.speed = math.random(120, 150)
     enemyShip.pic = enemyPic
@@ -21,16 +24,16 @@ function enemyShips.initEnemyShip()
     return enemyShip
 end
 
-function enemyShips.spawnEnemyShip(dt)
+function enemyShips.spawn(dt)
     enemyTimer = enemyTimer + dt
     if #enemyShips < maxEnemiesOnScreen and enemyTimer > enemyFrequency then
-        table.insert(enemyShips, enemyShips.initEnemyShip())
+        table.insert(enemyShips, enemyShips.init())
         enemyTimer = 0
         enemyFrequency = math.random(1, 3)
     end
 end
 
-function enemyShips.moveEnemyShips(dt)
+function enemyShips.move(dt)
     for i=#enemyShips, 1, -1 do
         enemyShips[i].y = enemyShips[i].y + enemyShips[i].speed * dt
 
@@ -40,9 +43,9 @@ function enemyShips.moveEnemyShips(dt)
     end
 end
 
-function enemyShips.displayEnemyships()
+function enemyShips.draw()
     for i, enemyShip in ipairs(enemyShips) do
-        drawCenter(enemyShip.pic, enemyShip.x, enemyShip.y)
+        helper.drawCenter(enemyShip.pic, enemyShip.x, enemyShip.y)
     end
 end
 

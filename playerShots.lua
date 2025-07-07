@@ -1,6 +1,7 @@
 local playerShots = {}
 
 local explosions = require("explosions")
+local helper = require("helper")
 
 local basicShotPic
 local shotSpeed = 200
@@ -11,13 +12,13 @@ function playerShots.load()
     explosionAnim = explosions.getAnimation()
 end
 
-function playerShots.displayPlayerShots()
+function playerShots.draw()
     for i, shot in ipairs(playerShots) do
-        drawCenter(basicShotPic, shot.x, shot.y)
+        helper.drawCenter(basicShotPic, shot.x, shot.y)
     end
 end
 
-function playerShots.fireShot(spaceship)
+function playerShots.shoot(spaceship)
     local shot = {
         x = spaceship.x,
         y = spaceship.y - basicShotPic:getHeight()
@@ -36,7 +37,7 @@ function playerShots.moveShots(dt, enemyShips, minimumRange)
         else
             for j=#enemyShips, 1, -1 do
                 local currentEnemy = enemyShips[j]
-                local distance = distanceBetweenTwoObjects(currentEnemy.x, currentEnemy.y, currentShot.x, currentShot.y)
+                local distance = helper.distanceBetweenTwoObjects(currentEnemy.x, currentEnemy.y, currentShot.x, currentShot.y)
                 
                 if distance < minimumRange then
                     local explosion = {
