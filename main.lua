@@ -48,6 +48,8 @@ function love.draw()
 
     if spaceship.lifes() == 0 then
         gameover.draw()
+        background.stopMusic()
+        background.playGameOverTheme()
     end
 end
 
