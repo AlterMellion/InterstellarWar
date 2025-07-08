@@ -16,6 +16,10 @@ local enemyShips = require("enemyShips")
 local background = require("background")
 local score = require("score")
 local gameover = require("gameover")
+local continue = require("continue")
+
+local isGameOver = false
+local sleepTimer = 0
 
 function love.load()
     love.window.setTitle("Interstellar War")
@@ -27,6 +31,7 @@ function love.load()
     enemyShips.load()
     score.load()
     gameover.load()
+    continue.load()
 end
 
 function love.update(dt)
@@ -36,6 +41,14 @@ function love.update(dt)
     spaceship.move(dt)
     playerShots.move(dt, enemyShips, enemyShips.getPicWidth() / 2)
     explosions.update(dt)
+
+    if isGameOver then
+        sleepTimer = sleepTimer + dt
+        if sleepTimer > 1 then
+            continue.updateCountdown()
+            sleepTimer = 0
+        end
+    end
 end
 
 function love.draw()
@@ -46,8 +59,10 @@ function love.draw()
     spaceship.draw()
     score.draw()
 
-    if spaceship.lifes() == 0 then
+    if spaceship.lifes() == 0 or isGameOver then
+        isGameOver = true
         gameover.draw()
+        continue.draw()
         background.stopMusic()
         background.playGameOverTheme()
     end
