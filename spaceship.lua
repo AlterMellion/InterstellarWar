@@ -11,11 +11,17 @@ local hitDuration= 2
 local explosionAnim
 local sound
 
+local picWidth
+local picHeight
+
 function spaceship.load()
     spaceship.pic = love.graphics.newImage("pics/spaceship.png")
+    picWidth = spaceship.pic:getWidth()
+    picHeight = spaceship.pic:getHeight()
+
     spaceship.speed = 200
-    spaceship.x = screenWidth / 2
-    spaceship.y = screenHeight - spaceship.pic:getHeight() / 2
+    spaceship.x = screenWidth/2
+    spaceship.y = screenHeight - picHeight/2
 
     explosionAnim = explosions.getAnimation()
 
@@ -31,10 +37,10 @@ function spaceship.draw()
 
     for i=1, lifes do
         local scale = 0.40
-        local x = screenWidth - (spaceship.pic:getWidth() * i * scale)
-        love.graphics.draw(spaceship.pic, x, spaceship.pic:getHeight() * scale, 0, scale, scale,
-            spaceship.pic:getWidth()/2,
-            spaceship.pic:getHeight()/2
+        local x = screenWidth - (picWidth * i * scale)
+        love.graphics.draw(spaceship.pic, x, picHeight * scale, 0, scale, scale,
+            picWidth/2,
+            picHeight/2
         )
     end
 end
@@ -48,32 +54,32 @@ function spaceship.move(dt)
     if love.keyboard.isDown("left") then
         spaceship.x = spaceship.x - spaceship.speed * dt
         
-        if spaceship.x < 0 then
-            spaceship.x = 0
+        if spaceship.x - picWidth/2 < 0 then
+            spaceship.x = picWidth/2
         end
     end
 
     if love.keyboard.isDown("right") then
         spaceship.x = spaceship.x + spaceship.speed * dt
 
-        if (spaceship.x + spaceship.pic:getWidth()) >= screenWidth then
-            spaceship.x = screenWidth - spaceship.pic:getWidth()
+        if (spaceship.x + picWidth/2) >= screenWidth then
+            spaceship.x = screenWidth - picWidth/2
         end
     end
 
     if love.keyboard.isDown("up") then
         spaceship.y = spaceship.y - spaceship.speed * dt
 
-        if spaceship.y <= 0 then
-            spaceship.y = 0
+        if spaceship.y - picHeight/2 <= 0 then
+            spaceship.y = picHeight/2
         end
     end
 
     if love.keyboard.isDown("down") then
         spaceship.y = spaceship.y + spaceship.speed * dt
 
-        if spaceship.y + spaceship.pic:getHeight() > screenHeight then
-            spaceship.y = screenHeight - spaceship.pic:getHeight()
+        if spaceship.y + picHeight /2 > screenHeight then
+            spaceship.y = screenHeight - picHeight/2
         end
     end
 end

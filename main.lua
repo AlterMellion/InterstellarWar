@@ -6,6 +6,8 @@ end
 -- Cette ligne permet d'afficher des traces dans la console pendant l'éxécution
 io.stdout:setvbuf("no")
 
+love.window.setMode(600, 800)
+
 screenHeight = love.graphics.getHeight()
 screenWidth = love.graphics.getWidth()
 
