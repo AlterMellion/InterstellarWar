@@ -1,7 +1,6 @@
 # TutoJeu
 
 # ToDo
-- add animation to the shots and engine flares
 - add start menu
 - add life up
 - add different shots
