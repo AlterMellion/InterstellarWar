@@ -93,7 +93,7 @@ function spaceship.updateLifes(value)
         lifes = lifes + value
         
         if lifes == 0 then
-            explosions.playAnim(spaceship.x, spaceship.y)
+            explosions.add(spaceship.x, spaceship.y)
         else
             if value == -1 then
                 hurtSound:play()

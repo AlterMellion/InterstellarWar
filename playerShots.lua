@@ -34,7 +34,7 @@ function playerShots.shoot(spaceship)
     sound:play()
 end
 
-function playerShots.move(dt, enemyShips, minimumRange)
+function playerShots.move(dt, enemyShips)
     for i=#playerShots, 1, -1 do
         local currentShot = playerShots[i] 
         currentShot.y = currentShot.y - shotSpeed * dt
@@ -47,8 +47,8 @@ function playerShots.move(dt, enemyShips, minimumRange)
                 local currentEnemy = enemyShips[j]
                 local distance = helper.distanceBetweenTwoObjects(currentEnemy.x, currentEnemy.y, currentShot.x, currentShot.y)
                 
-                if distance < minimumRange then   
-                    explosions.playAnim(currentEnemy.x, currentEnemy.y)
+                if distance < enemyShips[i].spriteWidth/2 then   
+                    explosions.add(currentEnemy.x, currentEnemy.y)
                     table.remove(enemyShips, j)
                     table.remove(playerShots, i)
                     score.update(1)
