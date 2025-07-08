@@ -1,6 +1,8 @@
 # TutoJeu
 
 # ToDo
+- fix the collision detection with the screen
+- add animation to the shots and engine flares
 - add start menu
 - add life up
 - add different shots
