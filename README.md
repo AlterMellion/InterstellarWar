@@ -1,7 +1,6 @@
 # TutoJeu
 
 # ToDo
-- increase either speed or number of enemies on screen
 - add animation to the shots and engine flares
 - add start menu
 - add life up
