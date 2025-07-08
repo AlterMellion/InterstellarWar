@@ -1,7 +1,6 @@
 # TutoJeu
 
 # ToDo
-- add continue count down qfter game over
 - add start menu
 - add life up
 - add different shots
