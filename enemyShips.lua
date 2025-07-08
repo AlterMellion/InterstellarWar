@@ -2,11 +2,13 @@ local enemyShips = {}
 
 require("math")
 local helper = require("helper")
+local score = require("score")
 
 local maxEnemiesOnScreen = 3
 local enemyPic
 local enemyTimer = 0
 local enemyFrequency = 2
+local speedBoost = 0
 
 function enemyShips.load()
     enemyPic = love.graphics.newImage("pics/enemyShip.png")
@@ -24,7 +26,6 @@ function enemyShips.init()
     enemyShip.pic = enemyPic
     enemyShip.x = math.random(enemyShip.pic:getWidth(), screenWidth - enemyShip.pic:getWidth())
     enemyShip.y = 0 - enemyShip.pic:getHeight()
-    --print("Spawn new ship: x"..enemyShip.x.." - y"..enemyShip.y.." - speed"..enemyShip.speed)
     return enemyShip
 end
 
@@ -38,8 +39,13 @@ function enemyShips.spawn(dt)
 end
 
 function enemyShips.move(dt, spaceship)
+    local currentScore = score.getValue()
+    if currentScore % 10 == 0 then
+        speedBoost = currentScore
+    end
+
     for i=#enemyShips, 1, -1 do
-        enemyShips[i].y = enemyShips[i].y + enemyShips[i].speed * dt
+        enemyShips[i].y = enemyShips[i].y + (enemyShips[i].speed + speedBoost) * dt
         if enemyShips[i].y > screenHeight + enemyPic:getHeight() then
             table.remove(enemyShips, i)
         else

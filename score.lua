@@ -14,4 +14,8 @@ function score.update(points)
     score.value = score.value + points
 end
 
+function score.getValue()
+    return score.value
+end
+
 return score
