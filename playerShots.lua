@@ -47,20 +47,11 @@ function playerShots.move(dt, enemyShips, minimumRange)
                 local currentEnemy = enemyShips[j]
                 local distance = helper.distanceBetweenTwoObjects(currentEnemy.x, currentEnemy.y, currentShot.x, currentShot.y)
                 
-                if distance < minimumRange then
-                    local explosion = {
-                        x = currentEnemy.x,
-                        y = currentEnemy.y,
-                        currentTime = 0,
-                        duration = explosionAnim.duration,
-                        quads = explosionAnim.quads,
-                        spriteSheet = explosionAnim.spriteSheet
-                    }
-                    table.insert(explosions, explosion)
+                if distance < minimumRange then   
+                    explosions.playAnim(currentEnemy.x, currentEnemy.y)
                     table.remove(enemyShips, j)
                     table.remove(playerShots, i)
                     score.update(1)
-                    explosions.playSound()
                     break
                 end
             end

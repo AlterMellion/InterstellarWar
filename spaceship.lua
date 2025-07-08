@@ -9,7 +9,7 @@ local isHit = false
 local hitDuration= 2
 
 local explosionAnim
-local sound
+local hurtSound
 
 local picWidth
 local picHeight
@@ -25,7 +25,7 @@ function spaceship.load()
 
     explosionAnim = explosions.getAnimation()
 
-    sound = love.audio.newSource("audio/hitHurt.wav", "static")
+    hurtSound = love.audio.newSource("audio/hitHurt.wav", "static")
 end
 
 function spaceship.draw()
@@ -93,19 +93,10 @@ function spaceship.updateLifes(value)
         lifes = lifes + value
         
         if lifes == 0 then
-            local explosion = {
-                x = spaceship.x,
-                y = spaceship.y,
-                currentTime = 0,
-                duration = explosionAnim.duration,
-                quads = explosionAnim.quads,
-                spriteSheet = explosionAnim.spriteSheet
-            }
-            table.insert(explosions, explosion)
-            explosions.playSound()
+            explosions.playAnim(spaceship.x, spaceship.y)
         else
             if value == -1 then
-                sound:play()
+                hurtSound:play()
                 isHit = true
                 hitTimer = 0
             end

@@ -14,6 +14,19 @@ function explosions.getAnimation()
     return explosionAnim
 end
 
+function explosions.playAnim(x, y)
+    local explosion = {
+        x = x,
+        y = y,
+        currentTime = 0,
+        duration = explosionAnim.duration,
+        quads = explosionAnim.quads,
+        spriteSheet = explosionAnim.spriteSheet
+    }
+    table.insert(explosions, explosion)
+    explosions.playSound()
+end
+
 function explosions.update(dt)
     for i=#explosions, 1, -1 do
         explosions[i].currentTime = explosions[i].currentTime + dt
