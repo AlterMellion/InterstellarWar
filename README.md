@@ -1,7 +1,6 @@
 # TutoJeu
 
 # ToDo
-- fix explosion: we can the spaceship in the middle of it
 - increase either speed or number of enemies on screen
 - add animation to the shots and engine flares
 - add start menu
