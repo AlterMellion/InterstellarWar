@@ -5,6 +5,8 @@ local explosions = require("explosions")
 
 local lifes = 3
 local hitTimer = 0
+local isHit = false
+local hitDuration= 2
 
 local explosionAnim
 local sound
@@ -22,7 +24,9 @@ end
 
 function spaceship.draw()
     if lifes > 0 then
-        helper.drawCenter(spaceship.pic, spaceship.x, spaceship.y)
+        if not isHit or (isHit and math.floor(love.timer.getTime() * 100) % 2 == 0) then
+            helper.drawCenter(spaceship.pic, spaceship.x, spaceship.y)
+        end
     end
 
     for i=1, lifes do
@@ -37,6 +41,9 @@ end
 
 function spaceship.move(dt)
     hitTimer = hitTimer + dt
+    if hitTimer > hitDuration then
+        isHit = false
+    end
 
     if love.keyboard.isDown("left") then
         spaceship.x = spaceship.x - spaceship.speed * dt
@@ -76,11 +83,10 @@ function spaceship.lifes()
 end
 
 function spaceship.updateLifes(value)
-    if hitTimer > 2 then
+    if hitTimer > hitDuration then
         lifes = lifes + value
-        hitTimer = 0
-
-        if lifes < 1 then
+        
+        if lifes == 0 then
             local explosion = {
                 x = spaceship.x,
                 y = spaceship.y,
@@ -94,6 +100,8 @@ function spaceship.updateLifes(value)
         else
             if value == -1 then
                 sound:play()
+                isHit = true
+                hitTimer = 0
             end
         end
     end

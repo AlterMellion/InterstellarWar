@@ -1,7 +1,6 @@
 # TutoJeu
 
 # ToDo
-- when hit, make the ship blink
 - add continue count down qfter game over
 - add start menu
 - add life up
