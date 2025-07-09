@@ -2,6 +2,7 @@ local spaceship = {}
 
 local helper = require("helper")
 local explosions = require("explosions")
+local animation = require("animation")
 
 local lifes
 local hitTimer = 0
@@ -12,16 +13,28 @@ local hurtSound
 
 local picWidth
 local picHeight
+local spaceshipPic
+local spaceshipSprite
+local spaceshipAnim
+local currentTime
+
+local spriteWidth = 86
+local spriteHeight = 79
+
 
 function spaceship.load()
-    spaceship.pic = love.graphics.newImage("pics/spaceship.png")
-    picWidth = spaceship.pic:getWidth()
-    picHeight = spaceship.pic:getHeight()
+    spaceshipPic = love.graphics.newImage("pics/spaceship.png")
+    picWidth = spaceshipPic:getWidth()
+    picHeight = spaceshipPic:getHeight()
+
+    spaceshipSprite = love.graphics.newImage("pics/spaceshipAnim.png")
+    spaceshipAnim = animation.new(spaceshipSprite, spriteWidth, spriteHeight, 0.25)
+    spaceshipAnim.currentTime = 0
 
     lifes = 3
     spaceship.speed = 200
     spaceship.x = screenWidth/2
-    spaceship.y = screenHeight - picHeight/2
+    spaceship.y = screenHeight - spriteHeight/2
 
     hurtSound = love.audio.newSource("audio/hitHurt.wav", "static")
 end
@@ -29,21 +42,28 @@ end
 function spaceship.draw()
     if lifes > 0 then
         if not isHit or (isHit and math.floor(love.timer.getTime() * 100) % 2 == 0) then
-            helper.drawCenter(spaceship.pic, spaceship.x, spaceship.y)
+            animation.play(spaceshipAnim, spaceship.x, spaceship.y, spriteWidth/2, spriteHeight/2)
         end
     end
 
+    -- Display remaining lifes
     for i=1, lifes do
         local scale = 0.40
         local x = screenWidth - (picWidth * i * scale)
-        love.graphics.draw(spaceship.pic, x, picHeight * scale, 0, scale, scale,
+        love.graphics.draw(spaceshipPic, x, picHeight * scale, 0, scale, scale,
             picWidth/2,
             picHeight/2
         )
+        local x = screenWidth - (spriteWidth * i * scale)
     end
 end
 
 function spaceship.move(dt)
+    spaceshipAnim.currentTime = spaceshipAnim.currentTime + dt
+    if spaceshipAnim.currentTime >= spaceshipAnim.duration then
+        spaceshipAnim.currentTime = spaceshipAnim.currentTime - spaceshipAnim.duration
+    end
+
     hitTimer = hitTimer + dt
     if hitTimer > hitDuration then
         isHit = false
@@ -52,32 +72,32 @@ function spaceship.move(dt)
     if love.keyboard.isDown("left") then
         spaceship.x = spaceship.x - spaceship.speed * dt
         
-        if spaceship.x - picWidth/2 < 0 then
-            spaceship.x = picWidth/2
+        if spaceship.x - spriteWidth/2 < 0 then
+            spaceship.x = spriteWidth/2
         end
     end
 
     if love.keyboard.isDown("right") then
         spaceship.x = spaceship.x + spaceship.speed * dt
 
-        if (spaceship.x + picWidth/2) >= screenWidth then
-            spaceship.x = screenWidth - picWidth/2
+        if (spaceship.x + spriteWidth/2) >= screenWidth then
+            spaceship.x = screenWidth - spriteWidth/2
         end
     end
 
     if love.keyboard.isDown("up") then
         spaceship.y = spaceship.y - spaceship.speed * dt
 
-        if spaceship.y - picHeight/2 <= 0 then
-            spaceship.y = picHeight/2
+        if spaceship.y - spriteHeight/2 <= 0 then
+            spaceship.y = spriteHeight/2
         end
     end
 
     if love.keyboard.isDown("down") then
         spaceship.y = spaceship.y + spaceship.speed * dt
 
-        if spaceship.y + picHeight /2 > screenHeight then
-            spaceship.y = screenHeight - picHeight/2
+        if spaceship.y + spriteHeight /2 > screenHeight then
+            spaceship.y = screenHeight - spriteHeight/2
         end
     end
 end

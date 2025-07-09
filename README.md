@@ -3,7 +3,6 @@
 # ToDo
 - check why the enemy ships stall, sometimes, after a collision,if the playership doesn't move
 - player shot: add a cool down to limit the shots, instead of a hard limit
-- add animation to spaceship
 - see if there is not a way to simplify the code to play an anim
 - add life up
 - add different shots

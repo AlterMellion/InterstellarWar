@@ -7,20 +7,15 @@ local animation = require("animation")
 
 local basicShotPic
 local shotSpeed = 200
-local explosionAnim
 local sound
 
 local shotAnim
 local spriteWidth = 28
 local spriteHeight = 66
 
-local wasHit = false
-
 function playerShots.load()
     basicShotPic = love.graphics.newImage("pics/basicShotAnim.png")
     shotAnim = animation.new(basicShotPic, spriteWidth, spriteHeight, 0.25)
-
-    explosionAnim = explosions.getAnimation()
 
     sound = love.audio.newSource("audio/laserShoot.wav", "static")
 end

@@ -2,7 +2,6 @@ local enemyShip = {}
 
 require("math")
 local animation = require("animation")
-    
 
 local enemyPic
 local enemyAnim
