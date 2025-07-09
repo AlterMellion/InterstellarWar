@@ -32,8 +32,12 @@ function background.stopMusic()
     level1Music:stop()
 end
 
-function background.playGameOverTheme()
+function background.startGameOverTheme()
     gameOverMusic:play()
+end
+
+function background.stopGameOverTheme()
+    gameOverMusic:stop()
 end
 
 return background

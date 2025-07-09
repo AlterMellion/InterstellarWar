@@ -53,6 +53,13 @@ function love.update(dt)
             if sleepTimer > 1 then
                 continue.updateCountdown()
                 sleepTimer = 0
+
+                if continue.countdownNumber() < 1 then
+                    gameStarted = false
+                    isGameOver = false
+                    background.stopGameOverTheme()
+                    startScreen.startMusic()
+                end
             end
         end
     end
@@ -72,9 +79,12 @@ function love.draw()
             gameover.draw()
             continue.draw()
             background.stopMusic()
-            background.playGameOverTheme()
+            background.startGameOverTheme()
         end
     else
+        continue.resetCountdown()
+        spaceship.load()
+        score.load()
         startScreen.draw()
     end
 end

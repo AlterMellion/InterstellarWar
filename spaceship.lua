@@ -3,12 +3,11 @@ local spaceship = {}
 local helper = require("helper")
 local explosions = require("explosions")
 
-local lifes = 3
+local lifes
 local hitTimer = 0
 local isHit = false
 local hitDuration= 2
 
-local explosionAnim
 local hurtSound
 
 local picWidth
@@ -19,11 +18,10 @@ function spaceship.load()
     picWidth = spaceship.pic:getWidth()
     picHeight = spaceship.pic:getHeight()
 
+    lifes = 3
     spaceship.speed = 200
     spaceship.x = screenWidth/2
     spaceship.y = screenHeight - picHeight/2
-
-    explosionAnim = explosions.getAnimation()
 
     hurtSound = love.audio.newSource("audio/hitHurt.wav", "static")
 end

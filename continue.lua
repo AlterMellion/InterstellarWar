@@ -1,7 +1,6 @@
 local continue = {}
 
 local continueMessage
-local countdownMessage
 local font
 local countdownNumber = 10
 
@@ -20,6 +19,14 @@ function continue.draw()
         love.graphics.printf(continueMessage, 0, screenHeight / 2 - font:getHeight() / 2 + 50, screenWidth, "center")
         love.graphics.printf(countdownNumber, 0, screenHeight / 2 - font:getHeight() / 2 + 100, screenWidth, "center")
     end
+end
+
+function continue.countdownNumber()
+    return countdownNumber
+end
+
+function continue.resetCountdown()
+    countdownNumber = 3
 end
 
 return continue
