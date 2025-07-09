@@ -1,7 +1,9 @@
 # TutoJeu
 
 # ToDo
-- add start menu
+- if Continue restart the game right away, otherwise, go back to start menu
+- add animation to spaceship
+- see if there is not a way to simplify the code to play an anim
 - add life up
 - add different shots
 - change level after x points

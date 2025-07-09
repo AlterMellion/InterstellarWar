@@ -19,9 +19,11 @@ local background = require("background")
 local score = require("score")
 local gameover = require("gameover")
 local continue = require("continue")
+local startScreen = require("startScreen")
 
 local isGameOver = false
 local sleepTimer = 0
+local gameStarted = false
 
 function love.load()
     love.window.setTitle("Interstellar War")
@@ -34,46 +36,62 @@ function love.load()
     score.load()
     gameover.load()
     continue.load()
+    startScreen.load()
 end
 
 function love.update(dt)
-    background.scroll(dt)
-    enemyShips.spawn(dt)
-    enemyShips.move(dt, spaceship)
-    spaceship.move(dt)
-    playerShots.move(dt, enemyShips)
-    explosions.update(dt)
+    if gameStarted then
+        background.scroll(dt)
+        enemyShips.spawn(dt)
+        enemyShips.move(dt, spaceship)
+        spaceship.move(dt)
+        playerShots.move(dt, enemyShips)
+        explosions.update(dt)
 
-    if isGameOver then
-        sleepTimer = sleepTimer + dt
-        if sleepTimer > 1 then
-            continue.updateCountdown()
-            sleepTimer = 0
+        if isGameOver then
+            sleepTimer = sleepTimer + dt
+            if sleepTimer > 1 then
+                continue.updateCountdown()
+                sleepTimer = 0
+            end
         end
     end
 end
 
 function love.draw()
-    background.draw()
-    enemyShips.draw()
-    playerShots.draw()
-    explosions.draw()
-    spaceship.draw()
-    score.draw()
+    if gameStarted then
+        background.draw()
+        enemyShips.draw()
+        playerShots.draw()
+        explosions.draw()
+        spaceship.draw()
+        score.draw()
 
-    if spaceship.lifes() == 0 or isGameOver then
-        isGameOver = true
-        gameover.draw()
-        continue.draw()
-        background.stopMusic()
-        background.playGameOverTheme()
+        if spaceship.lifes() == 0 or isGameOver then
+            isGameOver = true
+            gameover.draw()
+            continue.draw()
+            background.stopMusic()
+            background.playGameOverTheme()
+        end
+    else
+        startScreen.draw()
     end
 end
 
 function love.keypressed(key)
-    if(key == "space") then
-        if #playerShots < 4 then
-            playerShots.shoot(spaceship)
+    if gameStarted then
+        if key == "space" then
+            if #playerShots < 4 then
+                playerShots.shoot(spaceship)
+            end
+        end
+    else
+        if(key == "return") then
+            print("enter: start game")
+            gameStarted = true
+            startScreen.stopMusic()
+            background.startMusic()
         end
     end
 end
