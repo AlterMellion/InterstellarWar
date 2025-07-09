@@ -4,6 +4,7 @@ local explosions = require("explosions")
 local helper = require("helper")
 local score = require("score")
 local animation = require("animation")
+local enemyShip = require("enemyShip")
 
 local basicShotPic
 local shotSpeed = 200
@@ -16,7 +17,7 @@ local spriteHeight = 66
 
 local maxShotsBeforeOverHeat = 5
 local currentShots = 0
-local isWeaponOverHeated = false
+local eaponOverHeated = false
 local timeSinceOverHeat = 0
 local weaponCoolDown = 1
 
@@ -34,11 +35,10 @@ function playerShots.draw()
     end
 end
 
-function playerShots.isCooledDown(dt)
+function playerShots.isWeaponCooledDown(dt)
     timeSinceOverHeat = timeSinceOverHeat + dt
     if timeSinceOverHeat >= weaponCoolDown then
-        print("cooled down")
-        isWeaponOverHeated = false
+        eaponOverHeated = false
         currentShots = 0
         timeSinceOverHeat = 0
     else
@@ -47,7 +47,7 @@ function playerShots.isCooledDown(dt)
 end
 
 function playerShots.shoot(spaceship)
-    if not isWeaponOverHeated then
+    if not eaponOverHeated then
         currentShots = currentShots + 1
         local shot = {
             x = spaceship.x,
@@ -64,14 +64,13 @@ function playerShots.shoot(spaceship)
     end
 
     if currentShots == maxShotsBeforeOverHeat then
-        print("overheating")
-        isWeaponOverHeated = true
+        eaponOverHeated = true
     end
 end
 
 function playerShots.update(dt, enemyShipsTable)
-    if isWeaponOverHeated then
-        playerShots.isCooledDown(dt)
+    if eaponOverHeated then
+        playerShots.isWeaponCooledDown(dt)
     end
 
     for i=#playerShots, 1, -1 do
@@ -80,18 +79,17 @@ function playerShots.update(dt, enemyShipsTable)
             playerShots[i].currentTime = playerShots[i].currentTime - playerShots[i].duration
         end
 
-        local currentShot = playerShots[i] 
-        currentShot.y = currentShot.y - shotSpeed * dt
+        playerShots[i].y = playerShots[i].y - shotSpeed * dt
 
-        if currentShot.y < 0 - basicShotPic:getHeight() then
+        if playerShots[i].y < 0 - basicShotPic:getHeight() then
             table.remove(playerShots, i)
             do break end
         else
-            for j=#enemyShipsTable, 1, -1 do
+            for j=1, #enemyShipsTable, 1 do
                 local currentEnemy = enemyShipsTable[j]
-                local distance = helper.distanceBetweenTwoObjects(currentEnemy.x, currentEnemy.y, currentShot.x, currentShot.y)
-                
-                if enemyShipsTable[i] ~= nil and distance < enemyShipsTable[i].spriteWidth/2 then   
+                local distance = helper.distanceBetweenTwoObjects(currentEnemy.x, currentEnemy.y, playerShots[i].x, playerShots[i].y)
+
+                if enemyShipsTable[i] ~= nil and distance < enemyShip.getSpriteWidth(enemyShipsTable[i])/2 then
                     explosions.add(currentEnemy.x, currentEnemy.y)
                     table.remove(enemyShipsTable, j)
                     table.remove(playerShots, i)
