@@ -90,6 +90,7 @@ function love.draw()
         end
     else
         startScreen.draw()
+        resetGame()
     end
 end
 

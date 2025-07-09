@@ -2,7 +2,8 @@ local continue = {}
 
 local continueMessage
 local font
-local countdownNumber = 10
+local maxCountdown = 10
+local countdownNumber = maxCountdown
 
 function continue.load()
     font = love.graphics.newFont("fonts/pixelmix.ttf", 35)
@@ -26,7 +27,7 @@ function continue.countdownNumber()
 end
 
 function continue.resetCountdown()
-    countdownNumber = 3
+    countdownNumber = maxCountdown
 end
 
 return continue
