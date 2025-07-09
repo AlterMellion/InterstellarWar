@@ -54,7 +54,7 @@ function love.update(dt)
         enemyShips.spawn(dt)
         enemyShips.move(dt, spaceship)
         spaceship.move(dt)
-        playerShots.move(dt, enemyShips.getTable())
+        playerShots.update(dt, enemyShips.getTable())
         explosions.update(dt)
 
         if isGameOver then
@@ -99,9 +99,7 @@ end
 function love.keypressed(key)
     if isGameStarted then
         if key == "space" then
-            if #playerShots < 4 then
-                playerShots.shoot(spaceship)
-            end
+            playerShots.shoot(spaceship)
         end
 
         if isGameOver then

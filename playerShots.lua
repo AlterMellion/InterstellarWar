@@ -7,17 +7,25 @@ local animation = require("animation")
 
 local basicShotPic
 local shotSpeed = 200
-local sound
+local shotSound
+local overheatSound
 
 local shotAnim
 local spriteWidth = 28
 local spriteHeight = 66
 
+local maxShotsBeforeOverHeat = 5
+local currentShots = 0
+local isWeaponOverHeated = false
+local timeSinceOverHeat = 0
+local weaponCoolDown = 1
+
 function playerShots.load()
     basicShotPic = love.graphics.newImage("pics/basicShotAnim.png")
     shotAnim = animation.new(basicShotPic, spriteWidth, spriteHeight, 0.25)
 
-    sound = love.audio.newSource("audio/laserShoot.wav", "static")
+    shotSound = love.audio.newSource("audio/laserShoot.wav", "static")
+    overheatSound = love.audio.newSource("audio/overheat.wav", "static")
 end
 
 function playerShots.draw()
@@ -26,22 +34,46 @@ function playerShots.draw()
     end
 end
 
-function playerShots.shoot(spaceship)
-    local shot = {
-        x = spaceship.x,
-        y = spaceship.y - basicShotPic:getHeight(),
-        currentTime = 0,
-        duration = shotAnim.duration,
-        quads = shotAnim.quads,
-        spriteSheet = shotAnim.spriteSheet,
-        spriteWidth = spriteWidth
-    }
-    table.insert(playerShots, shot)
-    sound:stop()
-    sound:play()
+function playerShots.isCooledDown(dt)
+    timeSinceOverHeat = timeSinceOverHeat + dt
+    if timeSinceOverHeat >= weaponCoolDown then
+        print("cooled down")
+        isWeaponOverHeated = false
+        currentShots = 0
+        timeSinceOverHeat = 0
+    else
+        overheatSound:play()
+    end
 end
 
-function playerShots.move(dt, enemyShipsTable)
+function playerShots.shoot(spaceship)
+    if not isWeaponOverHeated then
+        currentShots = currentShots + 1
+        local shot = {
+            x = spaceship.x,
+            y = spaceship.y - basicShotPic:getHeight(),
+            currentTime = 0,
+            duration = shotAnim.duration,
+            quads = shotAnim.quads,
+            spriteSheet = shotAnim.spriteSheet,
+            spriteWidth = spriteWidth
+        }
+        table.insert(playerShots, shot)
+        shotSound:stop()
+        shotSound:play()
+    end
+
+    if currentShots == maxShotsBeforeOverHeat then
+        print("overheating")
+        isWeaponOverHeated = true
+    end
+end
+
+function playerShots.update(dt, enemyShipsTable)
+    if isWeaponOverHeated then
+        playerShots.isCooledDown(dt)
+    end
+
     for i=#playerShots, 1, -1 do
         playerShots[i].currentTime = playerShots[i].currentTime + dt
         if playerShots[i].currentTime >= playerShots[i].duration then
