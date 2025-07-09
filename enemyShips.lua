@@ -4,14 +4,13 @@ require("math")
 local helper = require("helper")
 local animation = require("animation")
 local score = require("score")
+local enemyShip = require("enemyShip")
 
 local maxEnemiesOnScreen = 3
-local enemyPic
 local enemyTimer = 0
 local enemyFrequencyMax = 2.5
 local speedBoost = 0
 local increaseDifficulty = true
-local enemyAnim
 local enemyShipsTable
 
 local spriteWidth = 92
@@ -19,32 +18,13 @@ local spriteHeight = 67
 
 function enemyShips.load()
     enemyShipsTable = {}
-    enemyPic = love.graphics.newImage("pics/enemyShipAnim.png")
-    enemyAnim = animation.new(enemyPic, spriteWidth, spriteHeight, 0.25)
-end
-
-function enemyShips.init()
-    math.randomseed(os.time())
-    math.random()
-
-    local enemyShip = {
-        speed = math.random(120, 150),
-        x = math.random(spriteWidth, screenWidth - spriteWidth),
-        y = 0 - spriteHeight,
-        currentTime = 0,
-        duration = enemyAnim.duration,
-        quads = enemyAnim.quads,
-        spriteSheet = enemyAnim.spriteSheet,
-        spriteWidth = spriteWidth
-    }
-    return enemyShip
 end
 
 function enemyShips.spawn(dt)
     enemyTimer = enemyTimer + dt
     local enemyFrequency = math.random(0.5, enemyFrequencyMax)
     if #enemyShipsTable < maxEnemiesOnScreen and enemyTimer > enemyFrequency then
-        table.insert(enemyShipsTable, enemyShips.init())
+        table.insert(enemyShipsTable, enemyShip.init())
         enemyTimer = 0
     end
 end
@@ -90,8 +70,8 @@ function enemyShips.move(dt, spaceship)
 end
 
 function enemyShips.draw()
-    for i, enemyShip in ipairs(enemyShipsTable) do
-        animation.play(enemyShip, enemyShip.x, enemyShip.y, spriteWidth/2, spriteHeight/2)
+    for i, enemy in ipairs(enemyShipsTable) do
+        enemyShip.draw(enemy)
     end
 end
 
