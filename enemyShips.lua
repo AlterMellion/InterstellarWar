@@ -12,11 +12,13 @@ local enemyFrequencyMax = 2.5
 local speedBoost = 0
 local increaseDifficulty = true
 local enemyAnim
+local enemyShipsTable
 
 local spriteWidth = 92
 local spriteHeight = 67
 
 function enemyShips.load()
+    enemyShipsTable = {}
     enemyPic = love.graphics.newImage("pics/enemyShipAnim.png")
     enemyAnim = animation.new(enemyPic, spriteWidth, spriteHeight, 0.25)
 end
@@ -41,8 +43,8 @@ end
 function enemyShips.spawn(dt)
     enemyTimer = enemyTimer + dt
     local enemyFrequency = math.random(0.5, enemyFrequencyMax)
-    if #enemyShips < maxEnemiesOnScreen and enemyTimer > enemyFrequency then
-        table.insert(enemyShips, enemyShips.init())
+    if #enemyShipsTable < maxEnemiesOnScreen and enemyTimer > enemyFrequency then
+        table.insert(enemyShipsTable, enemyShips.init())
         enemyTimer = 0
     end
 end
@@ -68,17 +70,17 @@ function enemyShips.move(dt, spaceship)
         increaseDifficulty = true
     end
 
-    for i=#enemyShips, 1, -1 do
-        enemyShips[i].currentTime = enemyShips[i].currentTime + dt
-        if enemyShips[i].currentTime >= enemyShips[i].duration then
-            enemyShips[i].currentTime = enemyShips[i].currentTime - enemyShips[i].duration
+    for i=#enemyShipsTable, 1, -1 do
+        enemyShipsTable[i].currentTime = enemyShipsTable[i].currentTime + dt
+        if enemyShipsTable[i].currentTime >= enemyShipsTable[i].duration then
+            enemyShipsTable[i].currentTime = enemyShipsTable[i].currentTime - enemyShipsTable[i].duration
         end
 
-        enemyShips[i].y = enemyShips[i].y + (enemyShips[i].speed + speedBoost) * dt
-        if enemyShips[i].y > screenHeight + spriteHeight then
-            table.remove(enemyShips, i)
+        enemyShipsTable[i].y = enemyShipsTable[i].y + (enemyShipsTable[i].speed + speedBoost) * dt
+        if enemyShipsTable[i].y > screenHeight + spriteHeight then
+            table.remove(enemyShipsTable, i)
         else
-            local distance = helper.distanceBetweenTwoObjects(enemyShips[i].x, enemyShips[i].y, spaceship.x, spaceship.y)
+            local distance = helper.distanceBetweenTwoObjects(enemyShipsTable[i].x, enemyShipsTable[i].y, spaceship.x, spaceship.y)
             if distance < spriteWidth/2 then
                 spaceship.updateLifes(-1)
                 do break end
@@ -88,9 +90,17 @@ function enemyShips.move(dt, spaceship)
 end
 
 function enemyShips.draw()
-    for i, enemyShip in ipairs(enemyShips) do
+    for i, enemyShip in ipairs(enemyShipsTable) do
         animation.play(enemyShip, enemyShip.x, enemyShip.y, spriteWidth/2, spriteHeight/2)
     end
+end
+
+function enemyShips.getTable()
+    return enemyShipsTable
+end
+
+function enemyShips.reset()
+    enemyShipsTable = {}
 end
 
 return enemyShips

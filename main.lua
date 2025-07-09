@@ -45,7 +45,7 @@ function love.update(dt)
         enemyShips.spawn(dt)
         enemyShips.move(dt, spaceship)
         spaceship.move(dt)
-        playerShots.move(dt, enemyShips)
+        playerShots.move(dt, enemyShips.getTable())
         explosions.update(dt)
 
         if isGameOver then
@@ -83,6 +83,7 @@ function love.draw()
         end
     else
         continue.resetCountdown()
+        enemyShips.reset()
         spaceship.load()
         score.load()
         startScreen.draw()

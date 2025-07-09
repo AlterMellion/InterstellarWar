@@ -46,7 +46,7 @@ function playerShots.shoot(spaceship)
     sound:play()
 end
 
-function playerShots.move(dt, enemyShips)
+function playerShots.move(dt, enemyShipsTable)
     for i=#playerShots, 1, -1 do
         playerShots[i].currentTime = playerShots[i].currentTime + dt
         if playerShots[i].currentTime >= playerShots[i].duration then
@@ -60,13 +60,13 @@ function playerShots.move(dt, enemyShips)
             table.remove(playerShots, i)
             do break end
         else
-            for j=#enemyShips, 1, -1 do
-                local currentEnemy = enemyShips[j]
+            for j=#enemyShipsTable, 1, -1 do
+                local currentEnemy = enemyShipsTable[j]
                 local distance = helper.distanceBetweenTwoObjects(currentEnemy.x, currentEnemy.y, currentShot.x, currentShot.y)
                 
-                if enemyShips[i] ~= nil and distance < enemyShips[i].spriteWidth/2 then   
+                if enemyShipsTable[i] ~= nil and distance < enemyShipsTable[i].spriteWidth/2 then   
                     explosions.add(currentEnemy.x, currentEnemy.y)
-                    table.remove(enemyShips, j)
+                    table.remove(enemyShipsTable, j)
                     table.remove(playerShots, i)
                     score.update(1)
                     break
