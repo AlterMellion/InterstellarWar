@@ -23,7 +23,14 @@ local startScreen = require("startScreen")
 
 local isGameOver = false
 local sleepTimer = 0
-local gameStarted = false
+local isGameStarted = false
+
+function resetGame()
+    continue.resetCountdown()
+    enemyShips.reset()
+    spaceship.load()
+    score.load()
+end
 
 function love.load()
     love.window.setTitle("Interstellar War")
@@ -40,7 +47,7 @@ function love.load()
 end
 
 function love.update(dt)
-    if gameStarted then
+    if isGameStarted then
         background.scroll(dt)
         enemyShips.spawn(dt)
         enemyShips.move(dt, spaceship)
@@ -55,7 +62,7 @@ function love.update(dt)
                 sleepTimer = 0
 
                 if continue.countdownNumber() < 1 then
-                    gameStarted = false
+                    isGameStarted = false
                     isGameOver = false
                     background.stopGameOverTheme()
                     startScreen.startMusic()
@@ -66,7 +73,7 @@ function love.update(dt)
 end
 
 function love.draw()
-    if gameStarted then
+    if isGameStarted then
         background.draw()
         enemyShips.draw()
         playerShots.draw()
@@ -82,25 +89,29 @@ function love.draw()
             background.startGameOverTheme()
         end
     else
-        continue.resetCountdown()
-        enemyShips.reset()
-        spaceship.load()
-        score.load()
         startScreen.draw()
     end
 end
 
 function love.keypressed(key)
-    if gameStarted then
+    if isGameStarted then
         if key == "space" then
             if #playerShots < 4 then
                 playerShots.shoot(spaceship)
             end
         end
+
+        if isGameOver then
+            if(key == "return") then
+                resetGame()
+                isGameOver = false
+                background.stopGameOverTheme()
+                background.startMusic()
+            end
+        end
     else
         if(key == "return") then
-            print("enter: start game")
-            gameStarted = true
+            isGameStarted = true
             startScreen.stopMusic()
             background.startMusic()
         end
