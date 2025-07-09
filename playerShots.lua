@@ -64,7 +64,7 @@ function playerShots.move(dt, enemyShips)
                 local currentEnemy = enemyShips[j]
                 local distance = helper.distanceBetweenTwoObjects(currentEnemy.x, currentEnemy.y, currentShot.x, currentShot.y)
                 
-                if distance < enemyShips[i].spriteWidth/2 then   
+                if enemyShips[i] ~= nil and distance < enemyShips[i].spriteWidth/2 then   
                     explosions.add(currentEnemy.x, currentEnemy.y)
                     table.remove(enemyShips, j)
                     table.remove(playerShots, i)
