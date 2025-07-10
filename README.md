@@ -2,7 +2,7 @@
 
 # ToDo
 ## Features
-- new enemy introduced after x points. Have two health points on the grey one.
+- polish hit point mecanism. There seemto be timer issues
 - display overheat icon or something
 - add bonus when detroying a ship: 
     - a different weapon

@@ -1,6 +1,5 @@
 local spaceship = {}
 
-local helper = require("helper")
 local explosions = require("explosions")
 local animation = require("animation")
 
@@ -16,7 +15,6 @@ local picHeight
 local spaceshipPic
 local spaceshipSprite
 local spaceshipAnim
-local currentTime
 
 local spriteWidth = 86
 local spriteHeight = 79

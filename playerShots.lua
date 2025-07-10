@@ -86,15 +86,30 @@ function playerShots.update(dt, enemyShipsTable)
             do break end
         else
             for j=1, #enemyShipsTable, 1 do
+                if enemyShipsTable[j].isHit then
+                    enemyShipsTable[j].hitTimer = enemyShipsTable[j].hitTimer + dt
+                    if enemyShipsTable[j].hitTimer > enemyShipsTable[j].hitDuration then
+                        enemyShipsTable[j].isHit = false
+                        enemyShipsTable[j].hitTimer = 0
+                    end
+                end
+                
                 local currentEnemy = enemyShipsTable[j]
                 local distance = helper.distanceBetweenTwoObjects(currentEnemy.x, currentEnemy.y, playerShots[i].x, playerShots[i].y)
 
-                if enemyShipsTable[i] ~= nil and distance < enemyShip.getSpriteWidth(enemyShipsTable[i])/2 then
-                    explosions.add(currentEnemy.x, currentEnemy.y)
-                    table.remove(enemyShipsTable, j)
-                    table.remove(playerShots, i)
-                    score.update(1)
-                    break
+                if not enemyShipsTable[j].isHit and distance < enemyShip.getSpriteWidth(enemyShipsTable[j])/2 then
+                    enemyShipsTable[j].lifes = enemyShipsTable[j].lifes - 1
+                    
+                    if enemyShipsTable[j].lifes == 0 then
+                        explosions.add(currentEnemy.x, currentEnemy.y)
+                        table.remove(enemyShipsTable, j)
+                        table.remove(playerShots, i)
+                        score.update(1)
+                        break
+                    else
+                        enemyShipsTable[j].hurtSound:play()
+                        enemyShipsTable[j].isHit = true
+                    end
                 end
             end
         end
