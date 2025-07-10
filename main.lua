@@ -71,6 +71,8 @@ function love.update(dt)
                 end
             end
         end
+    else
+        startScreen.update(dt)
     end
 end
 
