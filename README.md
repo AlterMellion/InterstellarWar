@@ -2,7 +2,6 @@
 
 # ToDo
 ## Features
-- display overheat icon or something
 - add bonus when detroying a ship: 
     - a different weapon
     - an additional life
