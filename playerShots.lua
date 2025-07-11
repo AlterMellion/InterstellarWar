@@ -15,7 +15,7 @@ local shotAnim
 local spriteWidth = 28
 local spriteHeight = 66
 
-local maxShotsBeforeOverHeat = 5
+local maxShotsBeforeOverHeat = 10
 local currentShots = 0
 local eaponOverHeated = false
 local timeSinceOverHeat = 0
@@ -109,6 +109,8 @@ function playerShots.update(dt, enemyShipsTable)
                     else
                         enemyShipsTable[j].hurtSound:play()
                         enemyShipsTable[j].isHit = true
+                        table.remove(playerShots, i)
+                        break
                     end
                 end
             end

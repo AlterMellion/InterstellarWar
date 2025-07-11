@@ -58,7 +58,7 @@ function enemyShip.init()
     enemyShip.speed = math.random(120, 150)
     enemyShip.currentTime = 0
     enemyShip.hitTimer = 0
-    enemyShip.hitDuration = 0.5
+    enemyShip.hitDuration = 0.1
     enemyShip.isHit = false
     enemyShip.hurtSound = hurtSound
 
