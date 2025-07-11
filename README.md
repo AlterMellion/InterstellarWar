@@ -2,12 +2,16 @@
 
 # ToDo
 ## Features
+- add a boss fight
+    - make it move around at the top
+    - music
+    - make it shoot
+    - 50 hp
 - add bonus when detroying a ship: 
     - a different weapon
     - an additional life
     - increase overheat
     - invicibility
-- add a boss fight: music, sprite, etc. Make it shoot
 - new level after winning: keep the same ships but make them shoot
 
 ## Bugs

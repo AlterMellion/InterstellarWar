@@ -21,10 +21,14 @@ local score = require("score")
 local gameover = require("gameover")
 local continue = require("continue")
 local startScreen = require("startScreen")
+local boss = require("boss")
 
 local isGameOver = false
 local sleepTimer = 0
 local isGameStarted = false
+
+local bossLevel1Threshold = 10
+local isBossLoaded = false
 
 function resetGame()
     continue.resetCountdown()
@@ -51,7 +55,13 @@ end
 function love.update(dt)
     if isGameStarted then
         background.scroll(dt)
-        enemyShips.spawn(dt)
+        if score.getValue() < bossLevel1Threshold then
+            enemyShips.spawn(dt)
+        else
+            if not isBossLoaded then
+                boss.load()
+            end
+        end
         enemyShips.move(dt, spaceship)
         spaceship.move(dt)
         playerShots.update(dt, enemyShips.getTable())
@@ -79,9 +89,18 @@ end
 function love.draw()
     if isGameStarted then
         background.draw()
-        enemyShips.draw()
+        
+        if #enemyShips.getTable() > 0 then
+            enemyShips.draw()
+        elseif score.getValue() >= bossLevel1Threshold then
+            boss.draw()
+        end
+
         playerShots.draw()
-        explosions.draw()
+
+        if #explosions > 0 then
+            explosions.draw()
+        end
         spaceship.draw()
         score.draw()
 
