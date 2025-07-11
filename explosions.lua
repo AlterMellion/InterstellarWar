@@ -18,14 +18,17 @@ function explosions.getAnimation()
     return explosionAnim
 end
 
-function explosions.add(x, y)
+function explosions.add(x, y, scale)
     local explosion = {
         x = x,
         y = y,
         currentTime = 0,
         duration = explosionAnim.duration,
         quads = explosionAnim.quads,
-        spriteSheet = explosionAnim.spriteSheet
+        spriteSheet = explosionAnim.spriteSheet,
+        scale = scale,
+        rotation = math.random(0, 360)
+
     }
     table.insert(explosions, explosion)
     explosions.playSound()
@@ -42,7 +45,7 @@ end
 
 function explosions.draw()
     for i, explosion in ipairs(explosions) do
-        animation.play(explosion, explosion.x, explosion.y, spriteWidth/2, spriteHeight/2)
+        animation.play(explosion, explosion.x, explosion.y, explosion.scale * spriteWidth/2, explosion.scale * spriteHeight/2, explosion.scale, explosion.rotation)
     end
 end
 

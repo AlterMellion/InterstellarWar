@@ -101,12 +101,13 @@ function playerShots.update(dt, enemyShipsTable)
                     enemyShipsTable[j].lifes = enemyShipsTable[j].lifes - 1
                     
                     if enemyShipsTable[j].lifes == 0 then
-                        explosions.add(currentEnemy.x, currentEnemy.y)
+                        explosions.add(currentEnemy.x, currentEnemy.y, 1)
                         table.remove(enemyShipsTable, j)
                         table.remove(playerShots, i)
                         score.update(1)
                         break
                     else
+                        explosions.add(currentEnemy.x, currentEnemy.y, 0.15)
                         enemyShipsTable[j].hurtSound:play()
                         enemyShipsTable[j].isHit = true
                         table.remove(playerShots, i)
