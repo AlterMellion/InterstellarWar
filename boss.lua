@@ -21,7 +21,7 @@ function boss.load()
 end
 
 function boss.draw()
-    animation.play(bossAnim, 0, 0, spriteShip1Width/2, spriteShip1Height/2)
+    animation.play(bossAnim, spriteShip1Width/2, spriteShip1Height/2, spriteShip1Width/2, spriteShip1Height/2)
 end
 
 return boss
