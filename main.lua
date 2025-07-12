@@ -83,6 +83,7 @@ function love.update(dt)
                 boss.update(dt)
             else
                 bossInstance = nil
+                print("here2")
                 isGameComplete = true
             end
         end
@@ -115,6 +116,7 @@ function love.draw()
     if isGameStarted then
         if isGameComplete then
             if endScreen.isLoaded() then
+                print("here")
                 endScreen.draw()
                 ResetGame()
                 if endScreen.creditsEnd() then
@@ -176,6 +178,7 @@ function love.keypressed(key)
             if isGameComplete then
                 isGameStarted = false
                 isGameComplete = false
+                IsGameOver = false
                 endScreen.stopMusic()
                 startScreen.startMusic()
             end
@@ -183,6 +186,8 @@ function love.keypressed(key)
     else
         if(key == "return") then
             isGameStarted = true
+            isGameComplete = false
+            isBossLoaded = false
             startScreen.stopMusic()
             background.startMusic()
         end
