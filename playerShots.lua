@@ -5,6 +5,7 @@ local helper = require("helper")
 local score = require("score")
 local animation = require("animation")
 local enemyShip = require("enemyShip")
+local boss = require("boss")
 
 local basicShotPic
 local shotSpeed = 200
@@ -76,52 +77,72 @@ function playerShots.shoot(spaceship)
     end
 end
 
-function playerShots.update(dt, enemyShipsTable)
+function playerShots.update(dt, enemyShipsTable, bossInstance)
     if currentShots > 0 then
         currentShots = currentShots - (coolDownSpeed * dt)
     end
 
     for i=#playerShots, 1, -1 do
+        -- Shot animation
         playerShots[i].currentTime = playerShots[i].currentTime + dt
         if playerShots[i].currentTime >= playerShots[i].duration then
             playerShots[i].currentTime = playerShots[i].currentTime - playerShots[i].duration
         end
 
+        -- Shot move up
         playerShots[i].y = playerShots[i].y - shotSpeed * dt
 
         if playerShots[i].y < 0 - basicShotPic:getHeight() then
             table.remove(playerShots, i)
             do break end
         else
-            for j=1, #enemyShipsTable, 1 do
-                if enemyShipsTable[j].isHit then
-                    enemyShipsTable[j].hitTimer = enemyShipsTable[j].hitTimer + dt
-                    if enemyShipsTable[j].hitTimer > enemyShipsTable[j].hitDuration then
-                        enemyShipsTable[j].isHit = false
-                        enemyShipsTable[j].hitTimer = 0
-                    end
+            if bossInstance ~= nil then
+                bossInstance.hitTimer = bossInstance.hitTimer + dt
+                if bossInstance.hitTimer > bossInstance.hitDuration then
+                    bossInstance.isHit = false
+                    bossInstance.hitTimer = 0
                 end
-                
-                local currentEnemy = enemyShipsTable[j]
-                local distance = helper.distanceBetweenTwoObjects(currentEnemy.x, currentEnemy.y, playerShots[i].x, playerShots[i].y)
 
-                if not enemyShipsTable[j].isHit and distance < enemyShip.getSpriteWidth(enemyShipsTable[j])/2 then
-                    enemyShipsTable[j].lifes = enemyShipsTable[j].lifes - 1
-                    
-                    if enemyShipsTable[j].lifes == 0 then
-                        explosions.add(currentEnemy.x, currentEnemy.y, 1)
-                        table.remove(enemyShipsTable, j)
-                        table.remove(playerShots, i)
-                        if not IsGameOver then
-                            score.update(1)
+                local distance = helper.distanceBetweenTwoObjects(bossInstance.x, bossInstance.y, playerShots[i].x, playerShots[i].y)
+                
+                if distance < bossInstance.spriteWidth/3 and not bossInstance.isHit then
+                    explosions.add(playerShots[i].x, playerShots[i].y, 0.15)
+                    table.remove(playerShots, i)
+                    boss.playHurtSound()
+                    boss.decreaseLifes()
+                    bossInstance.isHit = true
+                end
+            else
+                for j=1, #enemyShipsTable, 1 do
+                    if enemyShipsTable[j].isHit then
+                        enemyShipsTable[j].hitTimer = enemyShipsTable[j].hitTimer + dt
+                        if enemyShipsTable[j].hitTimer > enemyShipsTable[j].hitDuration then
+                            enemyShipsTable[j].isHit = false
+                            enemyShipsTable[j].hitTimer = 0
                         end
-                        break
-                    else
-                        explosions.add(currentEnemy.x, currentEnemy.y, 0.15)
-                        enemyShipsTable[j].hurtSound:play()
-                        enemyShipsTable[j].isHit = true
-                        table.remove(playerShots, i)
-                        break
+                    end
+                    
+                    local currentEnemy = enemyShipsTable[j]
+                    local distance = helper.distanceBetweenTwoObjects(currentEnemy.x, currentEnemy.y, playerShots[i].x, playerShots[i].y)
+
+                    if not enemyShipsTable[j].isHit and distance < enemyShip.getSpriteWidth(enemyShipsTable[j])/2 then
+                        enemyShipsTable[j].lifes = enemyShipsTable[j].lifes - 1
+                        
+                        if enemyShipsTable[j].lifes == 0 then
+                            explosions.add(currentEnemy.x, currentEnemy.y, 1)
+                            table.remove(enemyShipsTable, j)
+                            table.remove(playerShots, i)
+                            if not IsGameOver then
+                                score.update(1)
+                            end
+                            break
+                        else
+                            explosions.add(currentEnemy.x, currentEnemy.y, 0.15)
+                            enemyShipsTable[j].hurtSound:play()
+                            enemyShipsTable[j].isHit = true
+                            table.remove(playerShots, i)
+                            break
+                        end
                     end
                 end
             end

@@ -29,6 +29,7 @@ local isGameStarted = false
 
 local bossLevel1Threshold = 10
 local isBossLoaded = false
+local bossInstance
 
 function ResetGame()
     continue.resetCountdown()
@@ -55,12 +56,12 @@ end
 function love.update(dt)
     if isGameStarted then
         background.scroll(dt)
-        
+
         if not isBossLoaded then
             if score.getValue() < bossLevel1Threshold then
                 enemyShips.spawn(dt)
             elseif #enemyShips.getTable() == 0 then
-                boss.load()
+                bossInstance = boss.load()
                 background.stopMusic()
                 boss.playTheme(true)
                 isBossLoaded = true
@@ -71,7 +72,7 @@ function love.update(dt)
         
         enemyShips.move(dt, spaceship)
         spaceship.move(dt)
-        playerShots.update(dt, enemyShips.getTable())
+        playerShots.update(dt, enemyShips.getTable(), bossInstance)
         explosions.update(dt)
 
         if IsGameOver then

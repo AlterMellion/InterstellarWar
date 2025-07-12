@@ -4,7 +4,7 @@
 ## Features
 - add a boss fight
     - make it shoot
-    - 50 hp
+    - improve accuracy when shooting at the boss: no colision with the tip of the wings
     - improve boss movement: diagonals, unexpected change
 - add bonus when detroying a ship: 
     - a different weapon
