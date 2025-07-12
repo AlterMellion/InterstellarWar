@@ -117,6 +117,12 @@ function love.draw()
             if endScreen.isLoaded() then
                 endScreen.draw()
                 ResetGame()
+                if endScreen.creditsEnd() then
+                    isGameStarted = false
+                    isGameComplete = false
+                    endScreen.stopMusic()
+                    startScreen.startMusic()
+                end
                 return
             end
         end

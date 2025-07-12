@@ -70,4 +70,12 @@ function endScreen.isLoaded()
     return isLoaded
 end
 
+function endScreen.creditsEnd()
+    if creditsArray[#creditsArray].y + fontHeight < 0 then
+        return true
+    end 
+
+    return false
+end
+
 return endScreen
