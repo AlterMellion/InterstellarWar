@@ -2,15 +2,14 @@
 
 # ToDo
 ## Features
-- add a boss fight
-    - make it shoot
-    - improve accuracy when shooting at the boss: no colision with the tip of the wings
-    - improve boss movement: diagonals, unexpected change
 - add bonus when detroying a ship: 
     - a different weapon
     - an additional life
     - increase overheat
     - invicibility
+- add a boss fight
+    - improve accuracy when shooting at the boss: no colision with the tip of the wings
+    - improve boss movement: diagonals, unexpected change
 - new level after winning: keep the same ships but make them shoot
 - make a json file that lists 
   - each level with the background and music
@@ -19,6 +18,8 @@
   - see if we can make 2 or 3 levels like this
 
 ## Bugs
+- need some serious refactoring
+- during the count down, there are still collision with the spaceship though its not display. Most likely because it's still registered
 - don't increment score when during the game over phase
 - check why the enemy ships stall, sometimes, after a collision,if the playership doesn't move
 - see if there is not a way to simplify the code to play an anim + refactor the names of variables

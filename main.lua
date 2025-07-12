@@ -28,7 +28,6 @@ IsGameOver = false
 local sleepTimer = 0
 local isGameStarted = false
 local isGameComplete = false
-local bossLevel1Threshold = 10
 local isBossLoaded = false
 local bossInstance
 
@@ -70,7 +69,7 @@ function love.update(dt)
         background.scroll(dt)
 
         if not isBossLoaded then
-            if score.getValue() < bossLevel1Threshold then
+            if score.getValue() < boss.scoreThreshold() then
                 enemyShips.spawn(dt)
             elseif #enemyShips.getTable() == 0 and #explosions <= 0 then
                 bossInstance = boss.load()
@@ -83,7 +82,6 @@ function love.update(dt)
                 boss.update(dt)
             else
                 bossInstance = nil
-                print("here2")
                 isGameComplete = true
             end
         end
@@ -103,7 +101,11 @@ function love.update(dt)
                     isGameStarted = false
                     IsGameOver = false
                     background.stopGameOverTheme()
-                    startScreen.startMusic()
+                    if isBossLoaded then
+                        boss.playTheme(true)
+                    else
+                        startScreen.startMusic()
+                    end
                 end
             end
         end
@@ -116,7 +118,6 @@ function love.draw()
     if isGameStarted then
         if isGameComplete then
             if endScreen.isLoaded() then
-                print("here")
                 endScreen.draw()
                 ResetGame()
                 if endScreen.creditsEnd() then
@@ -151,7 +152,11 @@ function love.draw()
             IsGameOver = true
             gameover.draw()
             continue.draw()
-            background.stopMusic()
+            if isBossLoaded then
+                boss.playTheme(false)
+            else
+                background.stopMusic()
+            end
             background.startGameOverTheme()
         end
     else
@@ -173,7 +178,11 @@ function love.keypressed(key)
                 ResetGame()
                 IsGameOver = false
                 background.stopGameOverTheme()
-                background.startMusic()
+                if isBossLoaded then
+                    boss.playTheme(true)
+                else
+                    background.startMusic()
+                end
             end
             if isGameComplete then
                 isGameStarted = false
