@@ -9,6 +9,8 @@ local bossTheme
 
 local spriteBossWidth = 412
 local spriteBossHeight = 389
+local bossMoveDirection
+local isDestinationReached = true
 
 function boss.load()
     bossAnimSprite = animation.new(love.graphics.newImage("pics/BossLevel1.png"), spriteBossWidth, spriteBossHeight, 0.25)
@@ -25,7 +27,6 @@ function boss.load()
 end
 
 function boss.update(dt)
-    print(bossAnim.x.." - "..bossAnim.y)
     bossAnim.currentTime = bossAnim.currentTime + dt
     if bossAnim.currentTime >= bossAnim.duration then
         bossAnim.currentTime = bossAnim.currentTime - bossAnim.duration
@@ -34,8 +35,43 @@ function boss.update(dt)
     if bossAnim.y < spriteBossHeight/2 then
         bossAnim.y = bossAnim.y + 100 * dt
     else
-        bossAnim.y = bossAnim.y + math.random(-1, 1) * dt 
-        bossAnim.x = bossAnim.x + math.random(-1, 1) * dt
+        if isDestinationReached then
+            bossMoveDirection = math.floor(math.random(1, 4))
+        end
+
+        if bossMoveDirection == 1 then
+            bossAnim.y = bossAnim.y + 50 * dt
+
+            if bossAnim.y >= spriteBossHeight/2 + 50 then
+                isDestinationReached = true
+            else
+                isDestinationReached = false
+            end
+        elseif bossMoveDirection == 2 then
+            bossAnim.y = bossAnim.y - 50 * dt
+
+            if bossAnim.y <= 0 + spriteBossHeight/2 then
+                isDestinationReached = true
+            else
+                isDestinationReached = false
+            end
+        elseif bossMoveDirection == 3 then
+            bossAnim.x = bossAnim.x + 50 * dt
+
+            if bossAnim.x >= ScreenWidth - spriteBossWidth/2 then
+                isDestinationReached = true
+            else
+                isDestinationReached = false
+            end
+        else
+            bossAnim.x = bossAnim.x - 50 * dt
+
+            if bossAnim.x <= 0 + spriteBossWidth/2 then
+                isDestinationReached = true
+            else
+                isDestinationReached = false
+            end
+        end
     end
 end
 

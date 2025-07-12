@@ -3,11 +3,9 @@
 # ToDo
 ## Features
 - add a boss fight
-    - make the boss appear slowly
-    - make it move around at the top
-    - music
     - make it shoot
     - 50 hp
+    - improve boss movement: diagonals, unexpected change
 - add bonus when detroying a ship: 
     - a different weapon
     - an additional life
