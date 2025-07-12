@@ -67,7 +67,11 @@ function love.update(dt)
                 isBossLoaded = true
             end
         else
-            boss.update(dt)
+            if not boss.isDestroyed() then
+                boss.update(dt)
+            else
+                bossInstance = nil
+            end
         end
         
         enemyShips.move(dt, spaceship)
@@ -101,7 +105,9 @@ function love.draw()
         if #enemyShips.getTable() > 0 then
             enemyShips.draw()
         elseif isBossLoaded then
-            boss.draw()
+            if not boss.isDestroyed() then
+                boss.draw()
+            end
         end
 
         if #playerShots > 0 then

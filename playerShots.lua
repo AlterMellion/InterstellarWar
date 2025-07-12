@@ -109,7 +109,7 @@ function playerShots.update(dt, enemyShipsTable, bossInstance)
                     explosions.add(playerShots[i].x, playerShots[i].y, 0.15)
                     table.remove(playerShots, i)
                     boss.playHurtSound()
-                    boss.decreaseLifes()
+                    boss.decreaseLifes(dt)
                     bossInstance.isHit = true
                 end
             else

@@ -2,6 +2,7 @@ local boss = {}
 
 require("math")
 local animation = require("animation")
+local explosions = require("explosions")
 
 local bossAnimSprite
 local bossAnim
@@ -11,7 +12,7 @@ local spriteBossWidth = 412
 local spriteBossHeight = 389
 local bossMoveDirection
 local isDestinationReached = true
-
+local isBossDestroyed = false
 
 local lifes = 50
 local isHit = false
@@ -30,7 +31,8 @@ function boss.load()
         currentTime = 0,
         hitDuration = hitDuration,
         isHit = isHit,
-        hitTimer = 0
+        hitTimer = 0,
+        explodingDuration = 3
     }
     bossTheme = love.audio.newSource("audio/ufo-battle-355493.mp3", "static")
 
@@ -108,17 +110,26 @@ function boss.playHurtSound()
     hurtSound:play()
 end
 
-function boss.decreaseLifes()
+function boss.decreaseLifes(dt)
     if lifes > 0 then
         lifes = lifes - 1
-        print("Boss damaged:"..lifes)
     else
-        boss.destroy()
+        if not isBossDestroyed then
+            bossAnim.currentTime = bossAnim.currentTime + dt
+            if bossAnim.currentTime <= bossAnim.explodingDuration then            
+                for i=1, 10 do
+                    explosions.add(bossAnim.x + math.random(0, spriteBossWidth), bossAnim.y + math.random(0, spriteBossHeight), math.random(0.5, 1))
+                end
+                boss.decreaseLifes(dt)
+            else
+                isBossDestroyed = true
+            end
+        end
     end
 end
 
-function boss.destroy()
-    print("Boss destroyed")
+function boss.isDestroyed()
+    return isBossDestroyed
 end
 
 return boss
