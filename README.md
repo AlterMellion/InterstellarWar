@@ -22,4 +22,4 @@
 ## Bugs
 - don't increment score when during the game over phase
 - check why the enemy ships stall, sometimes, after a collision,if the playership doesn't move
-- see if there is not a way to simplify the code to play an anim
+- see if there is not a way to simplify the code to play an anim + refactor the names of variables

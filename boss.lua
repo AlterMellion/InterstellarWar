@@ -64,7 +64,9 @@ function boss.update(dt)
             if explosionCurrentTime < 3 then
                 boss.explode()
             else
-                isBossDestroyed = true
+                if #explosions <= 0 then 
+                    isBossDestroyed = true
+                end
             end
         end
     end

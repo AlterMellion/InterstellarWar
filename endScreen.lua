@@ -28,7 +28,6 @@ function endScreen.load()
             y = ScreenHeight + (fontHeight * i) + 10,
             text = line
         }
-        print("ScreenHeight:"..ScreenHeight.." - "..line.y)
        table.insert(creditsArray, line)
     end
 end
