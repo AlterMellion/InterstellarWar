@@ -155,7 +155,9 @@ end
 function love.keypressed(key)
     if isGameStarted then
         if key == "space" then
-            playerShots.shoot(spaceship)
+            if not isGameComplete then
+                playerShots.shoot(spaceship)
+            end
         end
 
         if(key == "return") then
