@@ -132,7 +132,7 @@ function love.draw()
         if #enemyShips.getTable() > 0 then
             enemyShips.draw()
         elseif isBossLoaded then
-            if boss.lifesCount() > 0 then
+            if boss.lifesCount() > 0 or #boss.shots() > 0 then
                 boss.draw()
             end
         end

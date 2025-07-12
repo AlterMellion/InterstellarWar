@@ -65,29 +65,6 @@ function boss.load()
 end
 
 function boss.update(dt)
-    lastShots = lastShots + dt
-    if lastShots > coolDown then
-        boss.shoot()
-        lastShots = 0
-        coolDown = math.random(1, 2.5)
-    end
-
-    for i=#shots, 1, -1 do
-        shots[i].currentTime = shots[i].currentTime + dt
-        if shots[i].currentTime >= shots[i].duration then
-            shots[i].currentTime = shots[i].currentTime - shots[i].duration
-        end
-        print(shots[i].y)
-
-        shots[i].y = shots[i].y + 100 * dt
-
-        if shots[i].y < 0 - spriteShotsHeight then
-            print("remove shot "..i)
-            table.remove(shots, i)
-            do break end
-        end
-    end
-
     bossAnim.currentTime = bossAnim.currentTime + dt
     if bossAnim.currentTime >= bossAnim.duration then
         bossAnim.currentTime = bossAnim.currentTime - bossAnim.duration
@@ -96,6 +73,26 @@ function boss.update(dt)
     if bossAnim.y < spriteBossHeight/2 then
         bossAnim.y = bossAnim.y + 100 * dt
     else
+        lastShots = lastShots + dt
+        if lastShots > coolDown and lifes > 0 then
+            boss.shoot()
+            lastShots = 0
+            coolDown = math.random(1, 2.5)
+        end
+
+        for i=#shots, 1, -1 do
+            shots[i].currentTime = shots[i].currentTime + dt
+            if shots[i].currentTime >= shots[i].duration then
+                shots[i].currentTime = shots[i].currentTime - shots[i].duration
+            end
+
+            shots[i].y = shots[i].y + 100 * dt
+
+            if shots[i].y < 0 - spriteShotsHeight then
+                table.remove(shots, i)
+                do break end
+            end
+        end
         boss.move(dt)
     end
 
@@ -119,8 +116,8 @@ end
 function boss.shoot()
     for i=1, 3 do
         local shot = {
-            x = canonPositions[i].x - (spriteBossWidth/2),
-            y = canonPositions[i].y - (spriteBossHeight/2),
+            x = bossAnim.x + (canonPositions[i].x - (spriteBossWidth/2)),
+            y = bossAnim.y + (canonPositions[i].y - (spriteBossHeight/2)),
             currentTime = 0,
             duration = bossAnim.shotsSprite.duration,
             quads = bossAnim.shotsSprite.quads,
@@ -132,10 +129,12 @@ function boss.shoot()
 end
 
 function boss.draw()
-    animation.play(bossAnim, bossAnim.x, bossAnim.y, spriteBossWidth/2, spriteBossHeight/2)
+    if lifes > 0 then
+        animation.play(bossAnim, bossAnim.x, bossAnim.y, spriteBossWidth/2, spriteBossHeight/2)
+    end
 
     for i, shot in ipairs(shots) do
-        animation.play(shot, bossAnim.x + shot.x, bossAnim.y + shot.y, spriteShotsWidth/2, spriteShotsHeight/2)
+        animation.play(shot, shot.x, shot.y, spriteShotsWidth/2, spriteShotsHeight/2)
     end
 end
 
@@ -209,4 +208,7 @@ function boss.isDestroyed()
     return isBossDestroyed
 end
 
+function boss.shots()
+    return shots
+end
 return boss
