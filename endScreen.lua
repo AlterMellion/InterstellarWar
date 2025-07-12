@@ -1,8 +1,9 @@
 local endScreen = {}
 
 local music
-local pressEnterMsg = "VICTORY!"
+local victoryMessage = "VICTORY!"
 local isLoaded = false
+local font
 
 function endScreen.load()
     endScreen = love.graphics.newImage("pics/endGame.png")
@@ -17,11 +18,14 @@ function endScreen.draw()
 
     --outlines text
     love.graphics.setColor(0,0,0)
-    love.graphics.printf(pressEnterMsg, 0, (ScreenHeight / 2) - 2, ScreenWidth - 2, "center")
-    love.graphics.printf(pressEnterMsg, 0, (ScreenHeight / 2) + 2, ScreenWidth + 2, "center")
+    love.graphics.printf(victoryMessage, 0, (ScreenHeight/2) - 2, ScreenWidth - 2, "center")
+    love.graphics.printf(victoryMessage, 0, (ScreenHeight/2) + 2, ScreenWidth + 2, "center")
 
     love.graphics.setColor(1,1,1)
-    love.graphics.printf(pressEnterMsg, 0, ScreenHeight / 2, ScreenWidth, "center")
+    love.graphics.printf(victoryMessage, 0, ScreenHeight/2, ScreenWidth, "center")
+
+    local message = "Press Enter to go back to the start screen"
+    love.graphics.printf(message, (ScreenWidth/2)*0.4, ScreenHeight - 50, ScreenWidth - 2, "center", 0, 0.4, 0.4)
 end
 
 function endScreen.startMusic()

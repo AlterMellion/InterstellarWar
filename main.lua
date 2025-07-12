@@ -158,12 +158,18 @@ function love.keypressed(key)
             playerShots.shoot(spaceship)
         end
 
-        if IsGameOver then
-            if(key == "return") then
+        if(key == "return") then
+            if IsGameOver then
                 ResetGame()
                 IsGameOver = false
                 background.stopGameOverTheme()
                 background.startMusic()
+            end
+            if isGameComplete then
+                isGameStarted = false
+                isGameComplete = false
+                endScreen.stopMusic()
+                startScreen.startMusic()
             end
         end
     else
