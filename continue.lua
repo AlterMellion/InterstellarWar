@@ -17,8 +17,8 @@ end
 
 function continue.draw()
     if countdownNumber >= 0 then
-        love.graphics.printf(continueMessage, 0, screenHeight / 2 - font:getHeight() / 2 + 50, screenWidth, "center")
-        love.graphics.printf(countdownNumber, 0, screenHeight / 2 - font:getHeight() / 2 + 100, screenWidth, "center")
+        love.graphics.printf(continueMessage, 0, ScreenHeight / 2 - font:getHeight() / 2 + 50, ScreenWidth, "center")
+        love.graphics.printf(countdownNumber, 0, ScreenHeight / 2 - font:getHeight() / 2 + 100, ScreenWidth, "center")
     end
 end
 

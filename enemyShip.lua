@@ -34,7 +34,7 @@ function enemyShip.init()
     local enemyShip
     if math.floor(math.random(1, 2)) == 1 then
         enemyShip = {
-            x = math.random(spriteShip1Width, screenWidth - spriteShip1Width),
+            x = math.random(spriteShip1Width, ScreenWidth - spriteShip1Width),
             y = 0 - spriteShip1Height,
             duration = enemyAnim1.duration,
             quads = enemyAnim1.quads,
@@ -45,7 +45,7 @@ function enemyShip.init()
         }
     else
         enemyShip = {
-            x = math.random(spriteShip2Width, screenWidth - spriteShip2Width),
+            x = math.random(spriteShip2Width, ScreenWidth - spriteShip2Width),
             y = 0 - spriteShip2Height,
             duration = enemyAnim2.duration,
             quads = enemyAnim2.quads,

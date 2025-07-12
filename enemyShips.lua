@@ -57,7 +57,7 @@ function enemyShips.move(dt, spaceship)
         end
 
         enemyShipsTable[i].y = enemyShipsTable[i].y + (enemyShipsTable[i].speed + speedBoost) * dt
-        if enemyShipsTable[i].y > screenHeight + spriteHeight then
+        if enemyShipsTable[i].y > ScreenHeight + spriteHeight then
             table.remove(enemyShipsTable, i)
         else
             local distance = helper.distanceBetweenTwoObjects(enemyShipsTable[i].x, enemyShipsTable[i].y, spaceship.x, spaceship.y)

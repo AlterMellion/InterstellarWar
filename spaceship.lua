@@ -31,8 +31,8 @@ function spaceship.load()
 
     lifes = 3
     spaceship.speed = 200
-    spaceship.x = screenWidth/2
-    spaceship.y = screenHeight - spriteHeight/2
+    spaceship.x = ScreenWidth/2
+    spaceship.y = ScreenHeight - spriteHeight/2
 
     hurtSound = love.audio.newSource("audio/hitHurt.wav", "static")
 end
@@ -47,12 +47,12 @@ function spaceship.draw()
     -- Display remaining lifes
     for i=1, lifes do
         local scale = 0.40
-        local x = screenWidth - (picWidth * i * scale)
+        local x = ScreenWidth - (picWidth * i * scale)
         love.graphics.draw(spaceshipPic, x, picHeight * scale, 0, scale, scale,
             picWidth/2,
             picHeight/2
         )
-        local x = screenWidth - (spriteWidth * i * scale)
+        local x = ScreenWidth - (spriteWidth * i * scale)
     end
 end
 
@@ -78,8 +78,8 @@ function spaceship.move(dt)
     if love.keyboard.isDown("right") then
         spaceship.x = spaceship.x + spaceship.speed * dt
 
-        if (spaceship.x + spriteWidth/2) >= screenWidth then
-            spaceship.x = screenWidth - spriteWidth/2
+        if (spaceship.x + spriteWidth/2) >= ScreenWidth then
+            spaceship.x = ScreenWidth - spriteWidth/2
         end
     end
 
@@ -94,8 +94,8 @@ function spaceship.move(dt)
     if love.keyboard.isDown("down") then
         spaceship.y = spaceship.y + spaceship.speed * dt
 
-        if spaceship.y + spriteHeight /2 > screenHeight then
-            spaceship.y = screenHeight - spriteHeight/2
+        if spaceship.y + spriteHeight /2 > ScreenHeight then
+            spaceship.y = ScreenHeight - spriteHeight/2
         end
     end
 end

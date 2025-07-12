@@ -8,8 +8,8 @@ io.stdout:setvbuf("no")
 
 love.window.setMode(600, 800)
 
-screenHeight = love.graphics.getHeight()
-screenWidth = love.graphics.getWidth()
+ScreenHeight = love.graphics.getHeight()
+ScreenWidth = love.graphics.getWidth()
 
 local spaceship = require("spaceship")
 local playerShots = require("playerShots")
@@ -23,14 +23,14 @@ local continue = require("continue")
 local startScreen = require("startScreen")
 local boss = require("boss")
 
-local isGameOver = false
+IsGameOver = false
 local sleepTimer = 0
 local isGameStarted = false
 
 local bossLevel1Threshold = 10
 local isBossLoaded = false
 
-function resetGame()
+function ResetGame()
     continue.resetCountdown()
     enemyShips.reset()
     spaceship.load()
@@ -67,7 +67,7 @@ function love.update(dt)
         playerShots.update(dt, enemyShips.getTable())
         explosions.update(dt)
 
-        if isGameOver then
+        if IsGameOver then
             sleepTimer = sleepTimer + dt
             if sleepTimer > 1 then
                 continue.updateCountdown()
@@ -75,7 +75,7 @@ function love.update(dt)
 
                 if continue.countdownNumber() < 1 then
                     isGameStarted = false
-                    isGameOver = false
+                    IsGameOver = false
                     background.stopGameOverTheme()
                     startScreen.startMusic()
                 end
@@ -104,8 +104,8 @@ function love.draw()
         spaceship.draw()
         score.draw()
 
-        if spaceship.lifes() == 0 or isGameOver then
-            isGameOver = true
+        if spaceship.lifes() == 0 or IsGameOver then
+            IsGameOver = true
             gameover.draw()
             continue.draw()
             background.stopMusic()
@@ -113,7 +113,7 @@ function love.draw()
         end
     else
         startScreen.draw()
-        resetGame()
+        ResetGame()
     end
 end
 
@@ -123,10 +123,10 @@ function love.keypressed(key)
             playerShots.shoot(spaceship)
         end
 
-        if isGameOver then
+        if IsGameOver then
             if(key == "return") then
-                resetGame()
-                isGameOver = false
+                ResetGame()
+                IsGameOver = false
                 background.stopGameOverTheme()
                 background.startMusic()
             end

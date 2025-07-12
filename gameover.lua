@@ -10,7 +10,7 @@ function gameover.load()
 end
 
 function gameover.draw()
-    love.graphics.printf(message, 0, screenHeight / 2 - font:getHeight() / 2, screenWidth, "center")
+    love.graphics.printf(message, 0, ScreenHeight / 2 - font:getHeight() / 2, ScreenWidth, "center")
 end
 
 return gameover

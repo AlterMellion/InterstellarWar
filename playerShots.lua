@@ -45,7 +45,7 @@ function playerShots.draw()
         print(currentShots)
         weaponState = 3
     end
-    love.graphics.draw(weaponIcon.spriteSheet, weaponIcon.quads[weaponState], screenWidth - (195 * 0.5) - 20, 50, 0, 0.5, 0.5)
+    love.graphics.draw(weaponIcon.spriteSheet, weaponIcon.quads[weaponState], ScreenWidth - (195 * 0.5) - 20, 50, 0, 0.5, 0.5)
 end
 
 function playerShots.shoot(spaceship)
@@ -113,7 +113,9 @@ function playerShots.update(dt, enemyShipsTable)
                         explosions.add(currentEnemy.x, currentEnemy.y, 1)
                         table.remove(enemyShipsTable, j)
                         table.remove(playerShots, i)
-                        score.update(1)
+                        if not IsGameOver then
+                            score.update(1)
+                        end
                         break
                     else
                         explosions.add(currentEnemy.x, currentEnemy.y, 0.15)

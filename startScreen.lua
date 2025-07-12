@@ -19,11 +19,11 @@ function startScreen.draw()
     if hideText then
         --outlines text
         love.graphics.setColor(0,0,0)
-        love.graphics.printf(pressEnterMsg, 0, (screenHeight / 2) - 2, screenWidth - 2, "center")
-        love.graphics.printf(pressEnterMsg, 0, (screenHeight / 2) + 2, screenWidth + 2, "center")
+        love.graphics.printf(pressEnterMsg, 0, (ScreenHeight / 2) - 2, ScreenWidth - 2, "center")
+        love.graphics.printf(pressEnterMsg, 0, (ScreenHeight / 2) + 2, ScreenWidth + 2, "center")
 
         love.graphics.setColor(1,1,1)
-        love.graphics.printf(pressEnterMsg, 0, screenHeight / 2, screenWidth, "center")
+        love.graphics.printf(pressEnterMsg, 0, ScreenHeight / 2, ScreenWidth, "center")
     end
 end
 
