@@ -137,9 +137,7 @@ function love.draw()
             end
         end
 
-        if #playerShots > 0 then
-            playerShots.draw()
-        end
+        playerShots.draw()
 
         if #explosions > 0 then
             explosions.draw()
