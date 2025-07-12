@@ -112,9 +112,9 @@ end
 function love.draw()
     if isGameComplete then
         if endScreen.isLoaded() then
-        endScreen.draw()
+            endScreen.draw()
+            ResetGame()
         end
-        ResetGame()
         return
     end
 
@@ -124,7 +124,7 @@ function love.draw()
         if #enemyShips.getTable() > 0 then
             enemyShips.draw()
         elseif isBossLoaded then
-            if not boss.isDestroyed() then
+            if boss.lifesCount() > 0 then
                 boss.draw()
             end
         end

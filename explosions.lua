@@ -27,11 +27,11 @@ function explosions.add(x, y, scale)
         quads = explosionAnim.quads,
         spriteSheet = explosionAnim.spriteSheet,
         scale = scale,
-        rotation = math.random(0, 360)
+        rotation = math.random(0, 360),
+        soundPlayed = false
 
     }
     table.insert(explosions, explosion)
-    explosions.playSound()
 end
 
 function explosions.update(dt)
@@ -39,6 +39,9 @@ function explosions.update(dt)
         explosions[i].currentTime = explosions[i].currentTime + dt
         if explosions[i].currentTime >= explosions[i].duration then
             table.remove(explosions, i)
+        elseif not explosions[i].soundPlayed then
+            sound:play()
+            explosions[i].soundPlayed = true
         end
     end
 end
@@ -47,11 +50,6 @@ function explosions.draw()
     for i, explosion in ipairs(explosions) do
         animation.play(explosion, explosion.x, explosion.y, explosion.scale * spriteWidth/2, explosion.scale * spriteHeight/2, explosion.scale, explosion.rotation)
     end
-end
-
-function explosions.playSound()
-    sound:stop()
-    sound:play()
 end
 
 return explosions

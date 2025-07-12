@@ -13,6 +13,8 @@ local spriteBossHeight = 389
 local bossMoveDirection
 local isDestinationReached = true
 local isBossDestroyed = false
+local isBossExploding = true
+local explosionCurrentTime = 0
 
 local lifes = 5
 local isHit = false
@@ -51,6 +53,20 @@ function boss.update(dt)
         bossAnim.y = bossAnim.y + 100 * dt
     else
         boss.move(dt)
+    end
+
+    if lifes <= 0 then
+        if not isBossExploding then
+            isBossExploding = true
+            explosionCurrentTime = 0
+        else
+            explosionCurrentTime = explosionCurrentTime + dt
+            if explosionCurrentTime < 3 then
+                boss.explode()
+            else
+                isBossDestroyed = true
+            end
+        end
     end
 end
 
@@ -110,21 +126,18 @@ function boss.playHurtSound()
     hurtSound:play()
 end
 
+function boss.lifesCount()
+    return lifes
+end
+
 function boss.decreaseLifes(dt)
     if lifes > 0 then
         lifes = lifes - 1
-    else
-        if not isBossDestroyed then
-            bossAnim.currentTime = bossAnim.currentTime + dt
-            if bossAnim.currentTime <= bossAnim.explodingDuration then            
-                explosions.add(bossAnim.x + math.random(0, spriteBossWidth), bossAnim.y + math.random(0, spriteBossHeight), math.random(0.5, 1))
-
-                boss.decreaseLifes(dt)
-            else
-                isBossDestroyed = true
-            end
-        end
     end
+end
+
+function boss.explode()
+    explosions.add(bossAnim.x + math.random(0, spriteBossWidth/2), bossAnim.y + math.random(0, spriteBossHeight/2), math.random(0.5, 1))
 end
 
 function boss.isDestroyed()

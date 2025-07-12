@@ -23,9 +23,6 @@ function endScreen.draw()
 
     love.graphics.setColor(1,1,1)
     love.graphics.printf(victoryMessage, 0, ScreenHeight/2, ScreenWidth, "center")
-
-    local message = "Press Enter to go back to the start screen"
-    love.graphics.printf(message, (ScreenWidth/2)*0.4, ScreenHeight - 50, ScreenWidth - 2, "center", 0, 0.4, 0.4)
 end
 
 function endScreen.startMusic()
