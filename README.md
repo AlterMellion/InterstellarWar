@@ -2,7 +2,12 @@
 
 # ToDo
 ## Features
+- end screen:
+  - add credits
+  - go back to start menu
+  - improve transition: there is a black screen
 - add a boss fight
+    - improve loading
     - make it shoot
     - improve accuracy when shooting at the boss: no colision with the tip of the wings
     - improve boss movement: diagonals, unexpected change

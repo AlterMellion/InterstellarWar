@@ -14,7 +14,7 @@ local bossMoveDirection
 local isDestinationReached = true
 local isBossDestroyed = false
 
-local lifes = 50
+local lifes = 5
 local isHit = false
 local hitDuration = 0.1
 local hurtSound
@@ -32,7 +32,7 @@ function boss.load()
         hitDuration = hitDuration,
         isHit = isHit,
         hitTimer = 0,
-        explodingDuration = 3
+        explodingDuration = 5
     }
     bossTheme = love.audio.newSource("audio/ufo-battle-355493.mp3", "static")
 
@@ -117,9 +117,8 @@ function boss.decreaseLifes(dt)
         if not isBossDestroyed then
             bossAnim.currentTime = bossAnim.currentTime + dt
             if bossAnim.currentTime <= bossAnim.explodingDuration then            
-                for i=1, 10 do
-                    explosions.add(bossAnim.x + math.random(0, spriteBossWidth), bossAnim.y + math.random(0, spriteBossHeight), math.random(0.5, 1))
-                end
+                explosions.add(bossAnim.x + math.random(0, spriteBossWidth), bossAnim.y + math.random(0, spriteBossHeight), math.random(0.5, 1))
+
                 boss.decreaseLifes(dt)
             else
                 isBossDestroyed = true

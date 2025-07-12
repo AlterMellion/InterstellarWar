@@ -21,12 +21,13 @@ local score = require("score")
 local gameover = require("gameover")
 local continue = require("continue")
 local startScreen = require("startScreen")
+local endScreen = require("endScreen")
 local boss = require("boss")
 
 IsGameOver = false
 local sleepTimer = 0
 local isGameStarted = false
-
+local isGameComplete = false
 local bossLevel1Threshold = 10
 local isBossLoaded = false
 local bossInstance
@@ -54,6 +55,15 @@ function love.load()
 end
 
 function love.update(dt)
+    if isGameComplete then
+        if not endScreen.isLoaded() then
+            endScreen.load()
+            boss.playTheme(false)
+            endScreen.startMusic()
+        end
+        return
+    end
+
     if isGameStarted then
         background.scroll(dt)
 
@@ -71,6 +81,7 @@ function love.update(dt)
                 boss.update(dt)
             else
                 bossInstance = nil
+                isGameComplete = true
             end
         end
         
@@ -99,6 +110,14 @@ function love.update(dt)
 end
 
 function love.draw()
+    if isGameComplete then
+        if endScreen.isLoaded() then
+        endScreen.draw()
+        end
+        ResetGame()
+        return
+    end
+
     if isGameStarted then
         background.draw()
         
