@@ -4,8 +4,6 @@
 ## Features
 - end screen:
   - add credits
-  - go back to start menu
-  - improve transition: there is a black screen
 - add a boss fight
     - improve loading
     - make it shoot

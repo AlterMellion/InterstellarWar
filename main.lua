@@ -110,15 +110,15 @@ function love.update(dt)
 end
 
 function love.draw()
-    if isGameComplete then
-        if endScreen.isLoaded() then
-            endScreen.draw()
-            ResetGame()
-        end
-        return
-    end
-
     if isGameStarted then
+        if isGameComplete then
+            if endScreen.isLoaded() then
+                endScreen.draw()
+                ResetGame()
+                return
+            end
+        end
+
         background.draw()
         
         if #enemyShips.getTable() > 0 then
