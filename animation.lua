@@ -4,7 +4,9 @@ function animation.play(animation, x, y, ox, oy, scale, rotation)
     scale = scale or 1
     rotation = rotation or 0
     local spriteNum = math.floor(animation.currentTime / animation.duration * #animation.quads) + 1
-    love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], x, y, math.rad(rotation), scale, scale, ox, oy)
+    if animation.quads[spriteNum] ~= nil then
+        love.graphics.draw(animation.spriteSheet, animation.quads[spriteNum], x, y, math.rad(rotation), scale, scale, ox, oy)
+    end
 end
 
 function animation.new(image, width, height, duration)

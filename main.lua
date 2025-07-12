@@ -55,13 +55,20 @@ end
 function love.update(dt)
     if isGameStarted then
         background.scroll(dt)
-        if score.getValue() < bossLevel1Threshold then
-            enemyShips.spawn(dt)
-        else
-            if not isBossLoaded then
+        
+        if not isBossLoaded then
+            if score.getValue() < bossLevel1Threshold then
+                enemyShips.spawn(dt)
+            elseif #enemyShips.getTable() == 0 then
                 boss.load()
+                background.stopMusic()
+                boss.playTheme(true)
+                isBossLoaded = true
             end
+        else
+            boss.update(dt)
         end
+        
         enemyShips.move(dt, spaceship)
         spaceship.move(dt)
         playerShots.update(dt, enemyShips.getTable())
@@ -92,11 +99,13 @@ function love.draw()
         
         if #enemyShips.getTable() > 0 then
             enemyShips.draw()
-        elseif score.getValue() >= bossLevel1Threshold then
+        elseif isBossLoaded then
             boss.draw()
         end
 
-        playerShots.draw()
+        if #playerShots > 0 then
+            playerShots.draw()
+        end
 
         if #explosions > 0 then
             explosions.draw()

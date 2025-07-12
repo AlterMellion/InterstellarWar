@@ -42,7 +42,6 @@ function playerShots.draw()
     elseif currentShots >= maxShotsBeforeOverHeat * 0.70 and currentShots < maxShotsBeforeOverHeat * 0.90 then
         weaponState = 2
     elseif (currentShots >= maxShotsBeforeOverHeat * 0.90 and currentShots <= maxShotsBeforeOverHeat) or weaponOverHeated then
-        print(currentShots)
         weaponState = 3
     end
     love.graphics.draw(weaponIcon.spriteSheet, weaponIcon.quads[weaponState], ScreenWidth - (195 * 0.5) - 20, 50, 0, 0.5, 0.5)
