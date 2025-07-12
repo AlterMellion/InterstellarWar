@@ -60,6 +60,8 @@ function love.update(dt)
             endScreen.load()
             boss.playTheme(false)
             endScreen.startMusic()
+        else
+            endScreen.update(dt)
         end
         return
     end

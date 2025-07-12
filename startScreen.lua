@@ -1,5 +1,7 @@
 local startScreen = {}
 
+local helper = require("helper")
+
 local music
 local pressEnterMsg = "PRESS ENTER"
 local hideText = false
@@ -17,13 +19,7 @@ function startScreen.draw()
     love.graphics.draw(startScreen, 0, 0)
 
     if hideText then
-        --outlines text
-        love.graphics.setColor(0,0,0)
-        love.graphics.printf(pressEnterMsg, 0, (ScreenHeight / 2) - 2, ScreenWidth - 2, "center")
-        love.graphics.printf(pressEnterMsg, 0, (ScreenHeight / 2) + 2, ScreenWidth + 2, "center")
-
-        love.graphics.setColor(1,1,1)
-        love.graphics.printf(pressEnterMsg, 0, ScreenHeight / 2, ScreenWidth, "center")
+        helper.outlineText(pressEnterMsg, 0, (ScreenHeight / 2))
     end
 end
 

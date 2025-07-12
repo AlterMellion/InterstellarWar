@@ -3,7 +3,7 @@
 # ToDo
 ## Features
 - end screen:
-  - add credits
+  - after the credits, go back to start menu
 - add a boss fight
     - improve loading
     - make it shoot

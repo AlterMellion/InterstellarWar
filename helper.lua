@@ -20,4 +20,27 @@ function helper.distanceBetweenTwoObjects(x1, y1, x2, y2)
     return distance
 end
 
+function helper.SplitStringIntoArray(inputstr, sep)
+   if sep == nil then
+      sep = '\n'
+   end
+
+   local t={} 
+   for str in string.gmatch(inputstr, '([^'..sep..']+)') 
+   do
+      table.insert(t, str)
+   end
+
+   return t
+end
+
+function helper.outlineText(text, x, y)
+    love.graphics.setColor(0,0,0)
+    love.graphics.printf(text, x, y - 2, ScreenWidth - 2, "center")
+    love.graphics.printf(text, x, y + 2, ScreenWidth + 2, "center")
+
+    love.graphics.setColor(1,1,1)
+    love.graphics.printf(text, x, y, ScreenWidth, "center")
+end
+
 return helper
