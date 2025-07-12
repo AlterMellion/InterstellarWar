@@ -11,7 +11,7 @@ local bossTheme
 local spriteBossWidth = 412
 local spriteBossHeight = 389
 local bossMoveDirection
-local isDestinationReached = true
+local isDestinationReached = false
 local isBossDestroyed = false
 local isBossExploding = true
 local explosionCurrentTime = 0
@@ -21,7 +21,21 @@ local isHit = false
 local hitDuration = 0.1
 local hurtSound
 
+
+local spriteShotsWidth = 28
+local spriteShotsHeight = 66
+local shots = {}
+local lastShots = 0
+local coolDown = 1
+local canonPositions = {
+    {x = 114, y = 313}, --left canon
+    {x = 206, y = 388}, -- middle canon 
+    {x = 295, y = 313}  -- right canon
+}
+
 function boss.load()
+    local bossShotsSprite = animation.new(love.graphics.newImage("pics/bossShotAnim.png"), spriteShotsWidth, spriteShotsHeight, 0.25)
+
     bossAnimSprite = animation.new(love.graphics.newImage("pics/BossLevel1.png"), spriteBossWidth, spriteBossHeight, 0.25)
     bossAnim = {
         x = ScreenWidth/2,
@@ -34,7 +48,14 @@ function boss.load()
         hitDuration = hitDuration,
         isHit = isHit,
         hitTimer = 0,
-        explodingDuration = 5
+        explodingDuration = 3,
+        shotsSprite = {
+            duration = bossShotsSprite.duration,
+            quads = bossShotsSprite.quads,
+            spriteSheet = bossShotsSprite.spriteSheet,
+            spriteWidth = spriteShotsWidth,
+            currentTime = 0
+        }
     }
     bossTheme = love.audio.newSource("audio/ufo-battle-355493.mp3", "static")
 
@@ -44,6 +65,29 @@ function boss.load()
 end
 
 function boss.update(dt)
+    lastShots = lastShots + dt
+    if lastShots > coolDown then
+        boss.shoot()
+        lastShots = 0
+        coolDown = math.random(1, 2.5)
+    end
+
+    for i=#shots, 1, -1 do
+        shots[i].currentTime = shots[i].currentTime + dt
+        if shots[i].currentTime >= shots[i].duration then
+            shots[i].currentTime = shots[i].currentTime - shots[i].duration
+        end
+        print(shots[i].y)
+
+        shots[i].y = shots[i].y + 100 * dt
+
+        if shots[i].y < 0 - spriteShotsHeight then
+            print("remove shot "..i)
+            table.remove(shots, i)
+            do break end
+        end
+    end
+
     bossAnim.currentTime = bossAnim.currentTime + dt
     if bossAnim.currentTime >= bossAnim.duration then
         bossAnim.currentTime = bossAnim.currentTime - bossAnim.duration
@@ -72,8 +116,27 @@ function boss.update(dt)
     end
 end
 
+function boss.shoot()
+    for i=1, 3 do
+        local shot = {
+            x = canonPositions[i].x - (spriteBossWidth/2),
+            y = canonPositions[i].y - (spriteBossHeight/2),
+            currentTime = 0,
+            duration = bossAnim.shotsSprite.duration,
+            quads = bossAnim.shotsSprite.quads,
+            spriteSheet = bossAnim.shotsSprite.spriteSheet,
+            spriteWidth = spriteShotsWidth,
+        }
+        table.insert(shots, shot)
+    end
+end
+
 function boss.draw()
     animation.play(bossAnim, bossAnim.x, bossAnim.y, spriteBossWidth/2, spriteBossHeight/2)
+
+    for i, shot in ipairs(shots) do
+        animation.play(shot, bossAnim.x + shot.x, bossAnim.y + shot.y, spriteShotsWidth/2, spriteShotsHeight/2)
+    end
 end
 
 function boss.playTheme(play)
