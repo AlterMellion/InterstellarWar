@@ -120,4 +120,12 @@ function spaceship.updateLifes(value)
     end
 end
 
+function spaceship.getPosition()
+    local positions = {
+        x = spaceship.x,
+        y = spaceship.y,
+        width = spriteWidth
+    }
+    return positions
+end
 return spaceship

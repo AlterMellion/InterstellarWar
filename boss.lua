@@ -3,6 +3,8 @@ local boss = {}
 require("math")
 local animation = require("animation")
 local explosions = require("explosions")
+local spaceship = require("spaceship")
+local helper = require("helper")
 
 local bossAnimSprite
 local bossAnim
@@ -91,6 +93,14 @@ function boss.update(dt)
             if shots[i].y < 0 - spriteShotsHeight then
                 table.remove(shots, i)
                 do break end
+            else
+                local spaceshipPos = spaceship.getPosition()
+                local distance = helper.distanceBetweenTwoObjects(spaceshipPos.x, spaceshipPos.y, shots[i].x, shots[i].y)
+                if distance < spaceshipPos.width/2 then
+                    explosions.add(shots[i].x, shots[i].y, 0.15)
+                    table.remove(shots, i)
+                    spaceship.updateLifes(-1)
+                end
             end
         end
         boss.move(dt)
