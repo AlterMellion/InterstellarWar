@@ -7,8 +7,8 @@ local bossAnimSprite
 local bossAnim
 local bossTheme
 
-local spriteBossWidth = 415
-local spriteBossHeight = 391
+local spriteBossWidth = 412
+local spriteBossHeight = 389
 
 function boss.load()
     bossAnimSprite = animation.new(love.graphics.newImage("pics/BossLevel1.png"), spriteBossWidth, spriteBossHeight, 0.25)
