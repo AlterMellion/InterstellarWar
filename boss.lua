@@ -35,11 +35,7 @@ local spriteShotsHeight
 local shots = {}
 local lastShots = 0
 local coolDown = 1
-local canonPositions = {
-    {x = 114, y = 313}, --left canon
-    {x = 206, y = 388}, -- middle canon 
-    {x = 295, y = 313}  -- right canon
-}
+local canonPositions = {}
 
 function boss.loadConfig(level)
     local configJson = love.filesystem.read( "config.json" )
@@ -57,6 +53,11 @@ function boss.loadConfig(level)
     shotAnimSprite = decodedConfig[level]["boss"]["weapons"][1]["basic"]["animationSpeed"]
 
     bossThemeName = decodedConfig[level]["boss"]["theme"]
+
+    local canonPositionArray = decodedConfig[level]["boss"]["weapons"][1]["basic"]["canonPositions"]
+    for i = 1, #canonPositionArray do
+        table.insert(canonPositions, {x = canonPositionArray[i]["x"], y = canonPositionArray[i]["y"]})
+    end
     
 end
 
