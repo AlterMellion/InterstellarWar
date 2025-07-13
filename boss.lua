@@ -11,8 +11,6 @@ local bossAnimSprite
 local bossAnim
 local bossTheme
 
-
-local numberOfSprites = 3
 local spriteBossWidth
 local spriteBossHeight
 local bossMoveDirection
@@ -20,13 +18,18 @@ local isDestinationReached = false
 local isBossDestroyed = false
 local isBossExploding = true
 local explosionCurrentTime = 0
-local scoreThreshold = 5
-
-local lifes = 5
+local scoreThreshold
+local numberOfBossSprites
+local numberOfShotsSprites
+local lifes
 local isHit = false
 local hitDuration = 0.1
+local bossPicName
+local bossAnimationSpeed
+local bossThemeName
 
-
+local shotPicName
+local shotAnimSprite
 local spriteShotsWidth
 local spriteShotsHeight
 local shots = {}
@@ -38,19 +41,35 @@ local canonPositions = {
     {x = 295, y = 313}  -- right canon
 }
 
-function boss.load(level)
+function boss.loadConfig(level)
     local configJson = love.filesystem.read( "config.json" )
-    local decodedCOnfog = json.decode(configJson)
+    local decodedConfig = json.decode(configJson)
 
-    local shotPic = love.graphics.newImage("pics/bossShotAnim.png")
-    spriteShotsWidth = shotPic:getWidth()/numberOfSprites
+    lifes = decodedConfig[level]["boss"]["lifes"]
+    scoreThreshold = decodedConfig[level]["boss"]["scoreThreshold"]
+
+    bossPicName = decodedConfig[level]["boss"]["sprite"]["pic"]
+    numberOfBossSprites = decodedConfig[level]["boss"]["sprite"]["numberOfSprites"]
+    bossAnimationSpeed = decodedConfig[level]["boss"]["sprite"]["animationSpeed"]
+
+    shotPicName = decodedConfig[level]["boss"]["weapons"][1]["basic"]["pic"]
+    numberOfShotsSprites = decodedConfig[level]["boss"]["weapons"][1]["basic"]["numberOfSprites"]
+    shotAnimSprite = decodedConfig[level]["boss"]["weapons"][1]["basic"]["animationSpeed"]
+
+    bossThemeName = decodedConfig[level]["boss"]["theme"]
+    
+end
+
+function boss.load()
+    local shotPic = love.graphics.newImage(shotPicName)
+    spriteShotsWidth = shotPic:getWidth()/numberOfShotsSprites
     spriteShotsHeight = shotPic:getHeight()
-    local bossShotsSprite = animation.new(shotPic, spriteShotsWidth, spriteShotsHeight, 0.25)
+    local bossShotsSprite = animation.new(shotPic, spriteShotsWidth, spriteShotsHeight, shotAnimSprite)
 
-    local bossPic = love.graphics.newImage("pics/BossLevel1.png")
-    spriteBossWidth = bossPic:getWidth()/numberOfSprites
+    local bossPic = love.graphics.newImage(bossPicName)
+    spriteBossWidth = bossPic:getWidth()/numberOfBossSprites
     spriteBossHeight = bossPic:getHeight()
-    bossAnimSprite = animation.new(bossPic, spriteBossWidth, spriteBossHeight, 0.25)
+    bossAnimSprite = animation.new(bossPic, spriteBossWidth, spriteBossHeight, bossAnimationSpeed)
     bossAnim = {
         x = ScreenWidth/2,
         y = 0 - spriteBossHeight,
@@ -71,7 +90,7 @@ function boss.load(level)
             currentTime = 0
         }
     }
-    bossTheme = love.audio.newSource("audio/ufo-battle-355493.mp3", "static")
+    bossTheme = love.audio.newSource(bossThemeName, "static")
     
     return bossAnim
 end

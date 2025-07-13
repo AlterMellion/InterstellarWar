@@ -55,6 +55,7 @@ function love.load()
     gameover.load()
     continue.load()
     startScreen.load()
+    boss.loadConfig("level1")
 end
 
 function love.update(dt)
@@ -76,7 +77,7 @@ function love.update(dt)
             if score.getValue() < boss.scoreThreshold() then
                 enemyShips.spawn(dt)
             elseif #enemyShips.getTable() == 0 and #explosions <= 0 then
-                bossInstance = boss.load(level)
+                bossInstance = boss.load()
                 background.stopMusic()
                 boss.playTheme(true)
                 isBossLoaded = true
