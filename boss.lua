@@ -17,9 +17,9 @@ local isDestinationReached = false
 local isBossDestroyed = false
 local isBossExploding = true
 local explosionCurrentTime = 0
-local scoreThreshold = 5
+local scoreThreshold = 200
 
-local lifes = 5
+local lifes = 100
 local isHit = false
 local hitDuration = 0.1
 
