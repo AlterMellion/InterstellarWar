@@ -89,7 +89,7 @@ function love.update(dt)
         end
         
         enemyShips.move(dt)
-        spaceship.move(dt)
+        spaceship.update(dt)
         playerShots.update(dt, enemyShips.getTable(), bossInstance)
         explosions.update(dt)
 

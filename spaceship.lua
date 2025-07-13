@@ -4,20 +4,22 @@ local explosions = require("explosions")
 local animation = require("animation")
 local audio = require("audio")
 
-local lifes
+local lifes = 3
 local hitTimer = 0
 local isHit = false
-local hitDuration= 2
+local hitDuration = 2
 
+local speed = 200
+
+local spaceshipPic
 local picWidth
 local picHeight
-local spaceshipPic
+
 local spaceshipSprite
+local numberOfSprites = 3
+local spriteWidth
+local spriteHeight
 local spaceshipAnim
-
-local spriteWidth = 86
-local spriteHeight = 79
-
 
 function spaceship.load()
     spaceshipPic = love.graphics.newImage("pics/spaceship.png")
@@ -25,23 +27,25 @@ function spaceship.load()
     picHeight = spaceshipPic:getHeight()
 
     spaceshipSprite = love.graphics.newImage("pics/spaceshipAnim.png")
+    spriteHeight = spaceshipSprite:getHeight()
+    spriteWidth = spaceshipSprite:getWidth()/numberOfSprites
     spaceshipAnim = animation.new(spaceshipSprite, spriteWidth, spriteHeight, 0.25)
     spaceshipAnim.currentTime = 0
 
-    lifes = 3
-    spaceship.speed = 200
     spaceship.x = ScreenWidth/2
     spaceship.y = ScreenHeight - spriteHeight/2
+    spaceship.speed = speed
 end
 
 function spaceship.draw()
+    -- Blink when being hit
     if lifes > 0 then
         if not isHit or (isHit and math.floor(love.timer.getTime() * 100) % 2 == 0) then
             animation.play(spaceshipAnim, spaceship.x, spaceship.y, spriteWidth/2, spriteHeight/2)
         end
     end
 
-    -- Display remaining lifes
+    -- Display remaining lifes in the top right corner of the screen
     for i=1, lifes do
         local scale = 0.40
         local x = ScreenWidth - (picWidth * i * scale)
@@ -53,14 +57,19 @@ function spaceship.draw()
     end
 end
 
-function spaceship.move(dt)
+function spaceship.update(dt)
     animation.update(spaceshipAnim, dt)
 
+    -- Recovery time during which the player can't be damaged again
     hitTimer = hitTimer + dt
     if hitTimer > hitDuration then
         isHit = false
     end
 
+    spaceship.move(dt)
+end
+
+function spaceship.move(dt)  
     if love.keyboard.isDown("left") then
         spaceship.x = spaceship.x - spaceship.speed * dt
         
