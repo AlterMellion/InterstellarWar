@@ -6,8 +6,11 @@ local music
 local victoryMessage = "VICTORY!"
 local victoryMsgPosY = ScreenHeight/2
 local isLoaded = false
+
 local creditsArray = {}
+local displayCreditsArray= {}
 local startRollingCredits = 2
+local timeBetweenLines = 1
 local currentTime = 0
 local fontHeight
 
@@ -25,10 +28,28 @@ function endScreen.load()
     local creditsContentArray = helper.SplitStringIntoArray(creditsContent)
     for i, line in ipairs(creditsContentArray) do
         local line = {
-            y = ScreenHeight + (fontHeight * i) + 10,
+            y = ScreenHeight + fontHeight,
             text = line
         }
        table.insert(creditsArray, line)
+    end
+end
+
+function endScreen.update(dt)
+    currentTime = currentTime + dt
+    if victoryMsgPosY + fontHeight < 0 then
+        if currentTime >= timeBetweenLines then
+            table.insert(displayCreditsArray, creditsArray[1])
+            table.remove(creditsArray, 1)
+            currentTime = 0
+        end
+        for i, line in ipairs(displayCreditsArray) do
+            line.y = line.y - 1
+        end
+    else
+        if currentTime >= startRollingCredits then
+            victoryMsgPosY = victoryMsgPosY - 1
+        end
     end
 end
 
@@ -36,24 +57,11 @@ function endScreen.draw()
     love.graphics.draw(endScreen, 0, 0)
 
     if victoryMsgPosY + fontHeight < 0 then
-        for i, line in ipairs(creditsArray) do
+        for i, line in ipairs(displayCreditsArray) do
             helper.outlineText(line.text, 0, line.y)
         end
     else
         helper.outlineText(victoryMessage, 0, victoryMsgPosY)
-    end
-end
-
-function endScreen.update(dt)
-    if victoryMsgPosY + fontHeight < 0 then
-        for i, line in ipairs(creditsArray) do
-            line.y = line.y - 1
-        end
-    else
-        currentTime = currentTime + dt
-        if currentTime >= startRollingCredits then
-            victoryMsgPosY = victoryMsgPosY - 1
-        end
     end
 end
 
@@ -70,7 +78,11 @@ function endScreen.isLoaded()
 end
 
 function endScreen.creditsEnd()
-    if creditsArray[#creditsArray].y + fontHeight < 0 then
+    if #displayCreditsArray == 0 then
+        return false
+    end
+
+    if displayCreditsArray[#displayCreditsArray].y + fontHeight < 0 then
         return true
     end
 
