@@ -1,6 +1,7 @@
 local boss = {}
 
 require("math")
+local json = require("json")
 local animation = require("animation")
 local explosions = require("explosions")
 local spaceship = require("spaceship")
@@ -37,7 +38,10 @@ local canonPositions = {
     {x = 295, y = 313}  -- right canon
 }
 
-function boss.load()
+function boss.load(level)
+    local configJson = love.filesystem.read( "config.json" )
+    local decodedCOnfog = json.decode(configJson)
+
     local shotPic = love.graphics.newImage("pics/bossShotAnim.png")
     spriteShotsWidth = shotPic:getWidth()/numberOfSprites
     spriteShotsHeight = shotPic:getHeight()

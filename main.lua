@@ -32,6 +32,8 @@ local isGameComplete = false
 local isBossLoaded = false
 local bossInstance
 
+local level = 1
+
 function ResetGame()
     continue.resetCountdown()
     enemyShips.reset()
@@ -74,7 +76,7 @@ function love.update(dt)
             if score.getValue() < boss.scoreThreshold() then
                 enemyShips.spawn(dt)
             elseif #enemyShips.getTable() == 0 and #explosions <= 0 then
-                bossInstance = boss.load()
+                bossInstance = boss.load(level)
                 background.stopMusic()
                 boss.playTheme(true)
                 isBossLoaded = true
