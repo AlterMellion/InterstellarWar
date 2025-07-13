@@ -10,22 +10,24 @@ local bossAnimSprite
 local bossAnim
 local bossTheme
 
-local spriteBossWidth = 412
-local spriteBossHeight = 389
+
+local numberOfSprites = 3
+local spriteBossWidth
+local spriteBossHeight
 local bossMoveDirection
 local isDestinationReached = false
 local isBossDestroyed = false
 local isBossExploding = true
 local explosionCurrentTime = 0
-local scoreThreshold = 200
+local scoreThreshold = 5
 
-local lifes = 100
+local lifes = 5
 local isHit = false
 local hitDuration = 0.1
 
 
-local spriteShotsWidth = 28
-local spriteShotsHeight = 66
+local spriteShotsWidth
+local spriteShotsHeight
 local shots = {}
 local lastShots = 0
 local coolDown = 1
@@ -36,9 +38,15 @@ local canonPositions = {
 }
 
 function boss.load()
-    local bossShotsSprite = animation.new(love.graphics.newImage("pics/bossShotAnim.png"), spriteShotsWidth, spriteShotsHeight, 0.25)
+    local shotPic = love.graphics.newImage("pics/bossShotAnim.png")
+    spriteShotsWidth = shotPic:getWidth()/numberOfSprites
+    spriteShotsHeight = shotPic:getHeight()
+    local bossShotsSprite = animation.new(shotPic, spriteShotsWidth, spriteShotsHeight, 0.25)
 
-    bossAnimSprite = animation.new(love.graphics.newImage("pics/BossLevel1.png"), spriteBossWidth, spriteBossHeight, 0.25)
+    local bossPic = love.graphics.newImage("pics/BossLevel1.png")
+    spriteBossWidth = bossPic:getWidth()/numberOfSprites
+    spriteBossHeight = bossPic:getHeight()
+    bossAnimSprite = animation.new(bossPic, spriteBossWidth, spriteBossHeight, 0.25)
     bossAnim = {
         x = ScreenWidth/2,
         y = 0 - spriteBossHeight,

@@ -6,20 +6,25 @@ local animation = require("animation")
 local enemyPic1
 local enemyAnim1
 
-local spriteShip1Width = 60
-local spriteShip1Height = 70
+local numberOfSprites = 3
+local spriteShip1Width
+local spriteShip1Height
 
 local enemyPic2
 local enemyAnim2
 
-local spriteShip2Width = 92
-local spriteShip2Height = 67
+local spriteShip2Width
+local spriteShip2Height
 
 function enemyShip.load()
     enemyPic1 = love.graphics.newImage("pics/enemyShipAnim1.png")
+    spriteShip1Width = enemyPic1:getWidth()/numberOfSprites
+    spriteShip1Height = enemyPic1:getHeight()
     enemyAnim1 = animation.new(enemyPic1, spriteShip1Width, spriteShip1Height, 0.25)
 
     enemyPic2 = love.graphics.newImage("pics/enemyShipAnim2.png")
+    spriteShip2Width = enemyPic2:getWidth()/numberOfSprites
+    spriteShip2Height = enemyPic2:getHeight()
     enemyAnim2 = animation.new(enemyPic2, spriteShip2Width, spriteShip2Height, 0.25)
 end
 

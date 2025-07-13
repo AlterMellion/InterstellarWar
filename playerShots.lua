@@ -14,8 +14,9 @@ local shotSound
 local overheatSound
 
 local shotAnim
-local spriteWidth = 28
-local spriteHeight = 66
+local numberOfSprites = 3
+local spriteWidth
+local spriteHeight
 
 local maxShotsBeforeOverHeat = 10
 local currentShots = 0
@@ -26,6 +27,8 @@ local weaponState
 
 function playerShots.load()
     basicShotPic = love.graphics.newImage("pics/basicShotAnim.png")
+    spriteWidth = basicShotPic:getWidth()/numberOfSprites
+    spriteHeight = basicShotPic:getHeight()
     shotAnim = animation.new(basicShotPic, spriteWidth, spriteHeight, 0.25)
 
     shotSound = love.audio.newSource("audio/laserShoot.wav", "static")

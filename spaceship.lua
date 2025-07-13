@@ -27,8 +27,8 @@ function spaceship.load()
     picHeight = spaceshipPic:getHeight()
 
     spaceshipSprite = love.graphics.newImage("pics/spaceshipAnim.png")
-    spriteHeight = spaceshipSprite:getHeight()
     spriteWidth = spaceshipSprite:getWidth()/numberOfSprites
+    spriteHeight = spaceshipSprite:getHeight()
     spaceshipAnim = animation.new(spaceshipSprite, spriteWidth, spriteHeight, 0.25)
     spaceshipAnim.currentTime = 0
 
