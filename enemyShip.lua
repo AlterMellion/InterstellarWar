@@ -15,16 +15,12 @@ local enemyAnim2
 local spriteShip2Width = 92
 local spriteShip2Height = 67
 
-local hurtSound
-
 function enemyShip.load()
     enemyPic1 = love.graphics.newImage("pics/enemyShipAnim1.png")
     enemyAnim1 = animation.new(enemyPic1, spriteShip1Width, spriteShip1Height, 0.25)
 
     enemyPic2 = love.graphics.newImage("pics/enemyShipAnim2.png")
     enemyAnim2 = animation.new(enemyPic2, spriteShip2Width, spriteShip2Height, 0.25)
-
-    hurtSound = love.audio.newSource("audio/hitHurt.wav", "static")
 end
 
 function enemyShip.init()
@@ -60,7 +56,6 @@ function enemyShip.init()
     enemyShip.hitTimer = 0
     enemyShip.hitDuration = 0.1
     enemyShip.isHit = false
-    enemyShip.hurtSound = hurtSound
 
     return enemyShip
 end

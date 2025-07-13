@@ -2,13 +2,12 @@ local spaceship = {}
 
 local explosions = require("explosions")
 local animation = require("animation")
+local audio = require("audio")
 
 local lifes
 local hitTimer = 0
 local isHit = false
 local hitDuration= 2
-
-local hurtSound
 
 local picWidth
 local picHeight
@@ -33,8 +32,6 @@ function spaceship.load()
     spaceship.speed = 200
     spaceship.x = ScreenWidth/2
     spaceship.y = ScreenHeight - spriteHeight/2
-
-    hurtSound = love.audio.newSource("audio/hitHurt.wav", "static")
 end
 
 function spaceship.draw()
@@ -109,7 +106,7 @@ function spaceship.updateLifes(value)
             explosions.add(spaceship.x, spaceship.y, 1)
         else
             if value == -1 then
-                hurtSound:play()
+                audio.playHurtSound()
                 isHit = true
                 hitTimer = 0
             end

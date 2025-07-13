@@ -22,7 +22,6 @@ local scoreThreshold = 200
 local lifes = 100
 local isHit = false
 local hitDuration = 0.1
-local hurtSound
 
 
 local spriteShotsWidth = 28
@@ -61,8 +60,6 @@ function boss.load()
         }
     }
     bossTheme = love.audio.newSource("audio/ufo-battle-355493.mp3", "static")
-
-    hurtSound = love.audio.newSource("audio/hitHurt.wav", "static")
     
     return bossAnim
 end
@@ -189,10 +186,6 @@ function boss.move(dt)
             isDestinationReached = false
         end
     end
-end
-
-function boss.playHurtSound()
-    hurtSound:play()
 end
 
 function boss.lifesCount()

@@ -6,6 +6,7 @@ local score = require("score")
 local animation = require("animation")
 local enemyShip = require("enemyShip")
 local boss = require("boss")
+local audio = require("audio")
 
 local basicShotPic
 local shotSpeed = 200
@@ -105,7 +106,7 @@ function playerShots.update(dt, enemyShipsTable, bossInstance)
                 if distance < bossInstance.spriteWidth/3 and not bossInstance.isHit then
                     explosions.add(playerShots[i].x, playerShots[i].y, 0.15)
                     table.remove(playerShots, i)
-                    boss.playHurtSound()
+                    audio.playHurtSound()
                     boss.decreaseLifes(dt)
                     bossInstance.isHit = true
                 end
@@ -135,7 +136,7 @@ function playerShots.update(dt, enemyShipsTable, bossInstance)
                             break
                         else
                             explosions.add(currentEnemy.x, currentEnemy.y, 0.15)
-                            enemyShipsTable[j].hurtSound:play()
+                            audio.playHurtSound()
                             enemyShipsTable[j].isHit = true
                             table.remove(playerShots, i)
                             break

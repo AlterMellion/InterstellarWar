@@ -23,6 +23,7 @@ local continue = require("continue")
 local startScreen = require("startScreen")
 local endScreen = require("endScreen")
 local boss = require("boss")
+local audio = require("audio")
 
 IsGameOver = false
 local sleepTimer = 0
@@ -41,6 +42,7 @@ end
 function love.load()
     love.window.setTitle("Interstellar War")
 
+    audio.load()
     background.load()
     explosions.load()
     playerShots.load()
