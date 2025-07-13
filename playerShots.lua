@@ -84,10 +84,7 @@ function playerShots.update(dt, enemyShipsTable, bossInstance)
 
     for i=#playerShots, 1, -1 do
         -- Shot animation
-        playerShots[i].currentTime = playerShots[i].currentTime + dt
-        if playerShots[i].currentTime >= playerShots[i].duration then
-            playerShots[i].currentTime = playerShots[i].currentTime - playerShots[i].duration
-        end
+        animation.update(playerShots[i], dt)
 
         -- Shot move up
         playerShots[i].y = playerShots[i].y - shotSpeed * dt

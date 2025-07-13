@@ -25,4 +25,11 @@ function animation.new(image, width, height, duration)
     return animation
 end
 
+function animation.update(animation, dt)
+    animation.currentTime = animation.currentTime + dt
+    if animation.currentTime >= animation.duration then
+        animation.currentTime = animation.currentTime - animation.duration
+    end
+end
+
 return animation

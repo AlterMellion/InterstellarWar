@@ -68,10 +68,7 @@ function boss.load()
 end
 
 function boss.update(dt)
-    bossAnim.currentTime = bossAnim.currentTime + dt
-    if bossAnim.currentTime >= bossAnim.duration then
-        bossAnim.currentTime = bossAnim.currentTime - bossAnim.duration
-    end
+    animation.update(bossAnim, dt)
 
     if bossAnim.y < spriteBossHeight/2 then
         bossAnim.y = bossAnim.y + 100 * dt
@@ -84,10 +81,7 @@ function boss.update(dt)
         end
 
         for i=#shots, 1, -1 do
-            shots[i].currentTime = shots[i].currentTime + dt
-            if shots[i].currentTime >= shots[i].duration then
-                shots[i].currentTime = shots[i].currentTime - shots[i].duration
-            end
+            animation.update(shots[i], dt)
 
             shots[i].y = shots[i].y + 100 * dt
 

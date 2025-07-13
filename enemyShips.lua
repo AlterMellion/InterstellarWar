@@ -51,10 +51,7 @@ function enemyShips.move(dt, spaceship)
     end
 
     for i=#enemyShipsTable, 1, -1 do
-        enemyShipsTable[i].currentTime = enemyShipsTable[i].currentTime + dt
-        if enemyShipsTable[i].currentTime >= enemyShipsTable[i].duration then
-            enemyShipsTable[i].currentTime = enemyShipsTable[i].currentTime - enemyShipsTable[i].duration
-        end
+        animation.update(enemyShipsTable[i], dt)
 
         enemyShipsTable[i].y = enemyShipsTable[i].y + (enemyShipsTable[i].speed + speedBoost) * dt
         if enemyShipsTable[i].y > ScreenHeight + spriteHeight then

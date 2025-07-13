@@ -57,10 +57,7 @@ function spaceship.draw()
 end
 
 function spaceship.move(dt)
-    spaceshipAnim.currentTime = spaceshipAnim.currentTime + dt
-    if spaceshipAnim.currentTime >= spaceshipAnim.duration then
-        spaceshipAnim.currentTime = spaceshipAnim.currentTime - spaceshipAnim.duration
-    end
+    animation.update(spaceshipAnim, dt)
 
     hitTimer = hitTimer + dt
     if hitTimer > hitDuration then
