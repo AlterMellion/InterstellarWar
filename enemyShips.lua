@@ -5,6 +5,7 @@ local helper = require("helper")
 local animation = require("animation")
 local score = require("score")
 local enemyShip = require("enemyShip")
+local spaceship = require("spaceship")
 
 local maxEnemiesOnScreen = 3
 local enemyTimer = 0
@@ -29,7 +30,7 @@ function enemyShips.spawn(dt)
     end
 end
 
-function enemyShips.move(dt, spaceship)
+function enemyShips.move(dt)
     local currentScore = score.getValue()
     if increaseDifficulty and currentScore > 0 and currentScore % 10 == 0 then
         local result = math.random(1, 3)
