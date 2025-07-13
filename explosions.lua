@@ -4,14 +4,16 @@ local animation = require("animation")
 local explosionAnim
 local sound
 
-local numberOfSprites = 10
+local numberOfSprites = 5
+local numberOfLines = 2
 local spriteWidth
 local spriteHeight
 
 function explosions.load()
     local explosionSprites = love.graphics.newImage("pics/explosion.png")
     spriteWidth = explosionSprites:getWidth()/numberOfSprites
-    spriteHeight = explosionSprites:getHeight()
+    spriteHeight = explosionSprites:getHeight()/numberOfLines
+    print(spriteWidth.."-"..spriteHeight)
     explosionAnim = animation.new(explosionSprites, spriteWidth, spriteHeight, 1)
 
     sound = love.audio.newSource("audio/explosion.wav", "static")
