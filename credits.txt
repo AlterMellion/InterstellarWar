@@ -18,6 +18,8 @@ Sound Direction
 
 Alter Mellion
 
+
+
 Sound FX
 
 sfxr.me
@@ -53,14 +55,18 @@ Alter Mellion
 
 Artists
 
-vectorstock.com
+freepik.com
+nicepng.com
 pngwing.com
 pngegg.com
-nicepng.com
+vectorstock.com
 
+97kasunifernando
+Mega man sprite
 Sherishe
 Sprite GameMaker
-
+Thunder246 
+Veronika Oliinyk 
 
 
 Animation
