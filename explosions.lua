@@ -13,7 +13,6 @@ function explosions.load()
     local explosionSprites = love.graphics.newImage("pics/explosion.png")
     spriteWidth = explosionSprites:getWidth()/numberOfSprites
     spriteHeight = explosionSprites:getHeight()/numberOfLines
-    print(spriteWidth.."-"..spriteHeight)
     explosionAnim = animation.new(explosionSprites, spriteWidth, spriteHeight, 1)
 
     sound = love.audio.newSource("audio/explosion.wav", "static")

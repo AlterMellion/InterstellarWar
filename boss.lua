@@ -1,6 +1,7 @@
 local boss = {}
 
 require("math")
+local json = require("json")
 local animation = require("animation")
 local explosions = require("explosions")
 local spaceship = require("spaceship")
@@ -10,8 +11,6 @@ local bossAnimSprite
 local bossAnim
 local bossTheme
 
-
-local numberOfSprites = 3
 local spriteBossWidth
 local spriteBossHeight
 local bossMoveDirection
@@ -19,34 +18,59 @@ local isDestinationReached = false
 local isBossDestroyed = false
 local isBossExploding = true
 local explosionCurrentTime = 0
-local scoreThreshold = 5
-
-local lifes = 5
+local scoreThreshold
+local numberOfBossSprites
+local numberOfShotsSprites
+local lifes
 local isHit = false
 local hitDuration = 0.1
+local bossPicName
+local bossAnimationSpeed
+local bossThemeName
 
-
+local shotPicName
+local shotAnimSprite
 local spriteShotsWidth
 local spriteShotsHeight
 local shots = {}
 local lastShots = 0
 local coolDown = 1
-local canonPositions = {
-    {x = 114, y = 313}, --left canon
-    {x = 206, y = 388}, -- middle canon 
-    {x = 295, y = 313}  -- right canon
-}
+local canonPositions = {}
+
+function boss.loadConfig(level)
+    local configJson = love.filesystem.read( "config.json" )
+    local decodedConfig = json.decode(configJson)
+
+    lifes = decodedConfig[level]["boss"]["lifes"]
+    scoreThreshold = decodedConfig[level]["boss"]["scoreThreshold"]
+
+    bossPicName = decodedConfig[level]["boss"]["sprite"]["pic"]
+    numberOfBossSprites = decodedConfig[level]["boss"]["sprite"]["numberOfSprites"]
+    bossAnimationSpeed = decodedConfig[level]["boss"]["sprite"]["animationSpeed"]
+
+    shotPicName = decodedConfig[level]["boss"]["weapons"][1]["basic"]["pic"]
+    numberOfShotsSprites = decodedConfig[level]["boss"]["weapons"][1]["basic"]["numberOfSprites"]
+    shotAnimSprite = decodedConfig[level]["boss"]["weapons"][1]["basic"]["animationSpeed"]
+
+    bossThemeName = decodedConfig[level]["boss"]["theme"]
+
+    local canonPositionArray = decodedConfig[level]["boss"]["weapons"][1]["basic"]["canonPositions"]
+    for i = 1, #canonPositionArray do
+        table.insert(canonPositions, {x = canonPositionArray[i]["x"], y = canonPositionArray[i]["y"]})
+    end
+    
+end
 
 function boss.load()
-    local shotPic = love.graphics.newImage("pics/bossShotAnim.png")
-    spriteShotsWidth = shotPic:getWidth()/numberOfSprites
+    local shotPic = love.graphics.newImage(shotPicName)
+    spriteShotsWidth = shotPic:getWidth()/numberOfShotsSprites
     spriteShotsHeight = shotPic:getHeight()
-    local bossShotsSprite = animation.new(shotPic, spriteShotsWidth, spriteShotsHeight, 0.25)
+    local bossShotsSprite = animation.new(shotPic, spriteShotsWidth, spriteShotsHeight, shotAnimSprite)
 
-    local bossPic = love.graphics.newImage("pics/BossLevel1.png")
-    spriteBossWidth = bossPic:getWidth()/numberOfSprites
+    local bossPic = love.graphics.newImage(bossPicName)
+    spriteBossWidth = bossPic:getWidth()/numberOfBossSprites
     spriteBossHeight = bossPic:getHeight()
-    bossAnimSprite = animation.new(bossPic, spriteBossWidth, spriteBossHeight, 0.25)
+    bossAnimSprite = animation.new(bossPic, spriteBossWidth, spriteBossHeight, bossAnimationSpeed)
     bossAnim = {
         x = ScreenWidth/2,
         y = 0 - spriteBossHeight,
@@ -67,7 +91,7 @@ function boss.load()
             currentTime = 0
         }
     }
-    bossTheme = love.audio.newSource("audio/ufo-battle-355493.mp3", "static")
+    bossTheme = love.audio.newSource(bossThemeName, "static")
     
     return bossAnim
 end

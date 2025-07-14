@@ -32,6 +32,8 @@ local isGameComplete = false
 local isBossLoaded = false
 local bossInstance
 
+local level = 1
+
 function ResetGame()
     continue.resetCountdown()
     enemyShips.reset()
@@ -53,6 +55,7 @@ function love.load()
     gameover.load()
     continue.load()
     startScreen.load()
+    boss.loadConfig("level1")
 end
 
 function love.update(dt)

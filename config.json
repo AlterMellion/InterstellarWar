@@ -1,0 +1,34 @@
+{
+    "level1":
+    {
+        "boss":
+        {
+            "lifes": 5,
+            "scoreThreshold": 5,
+            "sprite":
+            {
+                "pic": "pics/BossLevel1.png",
+                "numberOfSprites": 3,
+                "animationSpeed": 0.25
+            },
+            "theme": "audio/ufo-battle-355493.mp3",
+            "weapons":
+            [
+                {
+                    "basic":
+                    {
+                        "pic": "pics/bossShotAnim.png",
+                        "numberOfSprites": 3,
+                        "animationSpeed": 0.25,
+                        "canonPositions" : 
+                        [
+                            {"x": 114, "y": 313},
+                            {"x": 206, "y": 388}, 
+                            {"x": 295, "y": 313}
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+}
