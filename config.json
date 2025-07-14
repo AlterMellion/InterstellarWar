@@ -7,7 +7,6 @@
             "scoreThreshold": 5,
             "sprite":
             {
-                "pic": "pics/BossLevel1.png",
                 "numberOfSprites": 3,
                 "animationSpeed": 0.25
             },
@@ -17,7 +16,6 @@
                 {
                     "basic":
                     {
-                        "pic": "pics/bossShotAnim.png",
                         "numberOfSprites": 3,
                         "animationSpeed": 0.25,
                         "canonPositions" : 
