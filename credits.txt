@@ -17,27 +17,49 @@ Alter Mellion
 Sound Direction
 
 Alter Mellion
-with the help of
+
+Sound FX
+
 sfxr.me
+
+
+
+Music
+
 pixabay.com
+
+16 bits musica
+by Tuto Free
+
+Hyperion Hypercube
+by Psychronic
+
+Legends
+by Lightyeartraxx
+
+Quizz Countdown
+by PaoloArgento
+
+UFO Battle
+by Psychronic
 
 
 
 Art Direction
 
 Alter Mellion
-with the help of
+
+
+
+Artists
+
 vectorstock.com
 pngwing.com
 pngegg.com
 nicepng.com
-Gimp
 
-
-
-QA Test
-
-Alter Mellion
+Sherishe
+Sprite GameMaker
 
 
 
@@ -45,6 +67,12 @@ Animation
 
 Alter Mellion
 Gimp
+
+
+
+QA Test
+
+Alter Mellion
 
 
 
