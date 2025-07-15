@@ -1,11 +1,11 @@
 local boss = {}
 
 require("math")
-local json = require("json")
 local animation = require("animation")
 local explosions = require("explosions")
 local spaceship = require("spaceship")
 local helper = require("helper")
+local config = require("config")
 
 local bossAnimSprite
 local bossAnim
@@ -38,9 +38,8 @@ local coolDown = 1
 local canonPositions = {}
 
 function boss.loadConfig(level)
-    local configJson = love.filesystem.read( "config.json" )
-    local decodedConfig = json.decode(configJson)
-
+    local decodedConfig = config.get()
+    
     lifes = decodedConfig[level]["boss"]["lifes"]
     scoreThreshold = decodedConfig[level]["boss"]["scoreThreshold"]
 

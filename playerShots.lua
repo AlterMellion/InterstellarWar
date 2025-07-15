@@ -126,7 +126,7 @@ function playerShots.update(dt, enemyShipsTable, bossInstance)
                     local currentEnemy = enemyShipsTable[j]
                     local distance = helper.distanceBetweenTwoObjects(currentEnemy.x, currentEnemy.y, playerShots[i].x, playerShots[i].y)
 
-                    if not enemyShipsTable[j].isHit and distance < enemyShip.getSpriteWidth(enemyShipsTable[j])/2 then
+                    if not enemyShipsTable[j].isHit and distance < enemyShipsTable[j].spriteWidth/2 then
                         enemyShipsTable[j].lifes = enemyShipsTable[j].lifes - 1
                         
                         if enemyShipsTable[j].lifes == 0 then

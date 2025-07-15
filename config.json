@@ -27,7 +27,22 @@
                     }
                 }
             ]
-        }
+        },
+        "enemies":
+        [
+            {
+                "type": 1,
+                "lifes": 1,
+                "numberOfSprites": 3,
+                "animationSpeed": 0.25
+            },
+            {
+                "type": 2,
+                "lifes": 2,
+                "numberOfSprites": 3,
+                "animationSpeed": 0.25
+            }
+        ]
     },
     "level2":
     {

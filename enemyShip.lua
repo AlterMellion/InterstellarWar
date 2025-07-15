@@ -2,30 +2,35 @@ local enemyShip = {}
 
 require("math")
 local animation = require("animation")
+local config = require("config")
 
-local enemyPic1
-local enemyAnim1
+local enemyTypes = {}
 
-local numberOfSprites = 3
-local spriteShip1Width
-local spriteShip1Height
+function enemyShip.load(level)
+    local decodedConfig = config.get()
 
-local enemyPic2
-local enemyAnim2
+    for i=1, #decodedConfig[level]["enemies"] do   
+        local numberOfSprites = decodedConfig[level]["enemies"][i]["numberOfSprites"]
+        local animationSpeed = decodedConfig[level]["enemies"][i]["animationSpeed"]
+        local lifes = decodedConfig[level]["enemies"][i]["lifes"]
 
-local spriteShip2Width
-local spriteShip2Height
+        local enemyPic = love.graphics.newImage("levelsassets/"..level.."/enemies/"..i.."/enemyShipAnim.png")
+        local spriteShipWidth = enemyPic:getWidth()/numberOfSprites
+        local spriteShipHeight = enemyPic:getHeight()
+        local enemyAnim = animation.new(enemyPic, spriteShipWidth, spriteShipHeight, animationSpeed)
 
-function enemyShip.load()
-    enemyPic1 = love.graphics.newImage("pics/enemyShipAnim1.png")
-    spriteShip1Width = enemyPic1:getWidth()/numberOfSprites
-    spriteShip1Height = enemyPic1:getHeight()
-    enemyAnim1 = animation.new(enemyPic1, spriteShip1Width, spriteShip1Height, 0.25)
+        local enemy = {
+            numberOfSprites = numberOfSprites,
+            animationSpeed = animationSpeed,
+            lifes = lifes,
+            pic = enemyPic,
+            spriteShipWidth = spriteShipWidth,
+            spriteShipHeight = spriteShipHeight,
+            enemyAnim = enemyAnim
+        }
 
-    enemyPic2 = love.graphics.newImage("pics/enemyShipAnim2.png")
-    spriteShip2Width = enemyPic2:getWidth()/numberOfSprites
-    spriteShip2Height = enemyPic2:getHeight()
-    enemyAnim2 = animation.new(enemyPic2, spriteShip2Width, spriteShip2Height, 0.25)
+        table.insert(enemyTypes, enemy)
+    end
 end
 
 function enemyShip.init()
@@ -33,29 +38,20 @@ function enemyShip.init()
     math.random()
 
     local enemyShip
-    if math.floor(math.random(1, 2)) == 1 then
-        enemyShip = {
-            x = math.random(spriteShip1Width, ScreenWidth - spriteShip1Width),
-            y = 0 - spriteShip1Height,
-            duration = enemyAnim1.duration,
-            quads = enemyAnim1.quads,
-            spriteSheet = enemyAnim1.spriteSheet,
-            spriteWidth = spriteShip1Width,
-            shipType = 1,
-            lifes = 1
-        }
-    else
-        enemyShip = {
-            x = math.random(spriteShip2Width, ScreenWidth - spriteShip2Width),
-            y = 0 - spriteShip2Height,
-            duration = enemyAnim2.duration,
-            quads = enemyAnim2.quads,
-            spriteSheet = enemyAnim2.spriteSheet,
-            spriteWidth = spriteShip2Width,
-            shipType = 1,
-            lifes = 2
-        }
-    end
+    local type = math.floor(math.random(1, 2))
+
+    enemyShip = {
+        x = math.random(enemyTypes[type].spriteShipWidth, ScreenWidth - enemyTypes[type].spriteShipWidth),
+        y = 0 - enemyTypes[type].spriteShipHeight,
+        duration = enemyTypes[type].enemyAnim.duration,
+        quads = enemyTypes[type].enemyAnim.quads,
+        spriteSheet = enemyTypes[type].enemyAnim.spriteSheet,
+        spriteWidth = enemyTypes[type].spriteShipWidth,
+        spriteHeight = enemyTypes[type].spriteShipHeight,
+        shipType = enemyTypes[type].type,
+        lifes = enemyTypes[type].lifes
+    }
+
     enemyShip.speed = math.random(120, 150)
     enemyShip.currentTime = 0
     enemyShip.hitTimer = 0
@@ -66,15 +62,7 @@ function enemyShip.init()
 end
 
 function enemyShip.draw(enemyShip)
-    animation.play(enemyShip, enemyShip.x, enemyShip.y, spriteShip1Width/2, spriteShip1Height/2)
-end
-
-function enemyShip.getSpriteWidth(shipType)
-    if shipType == 1 then
-        return spriteShip1Width
-    else
-        return spriteShip2Width
-    end
+    animation.play(enemyShip, enemyShip.x, enemyShip.y, enemyShip.spriteWidth/2, enemyShip.spriteHeight/2)
 end
 
 return enemyShip
