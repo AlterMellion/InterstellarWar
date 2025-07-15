@@ -45,7 +45,7 @@ function love.load()
     love.window.setTitle("Interstellar War")
 
     audio.load()
-    background.load()
+    background.load("level"..level)
     explosions.load()
     playerShots.load()
     spaceship.load()
@@ -55,7 +55,7 @@ function love.load()
     gameover.load()
     continue.load()
     startScreen.load()
-    boss.loadConfig("level1")
+    boss.loadConfig("level"..level)
 end
 
 function love.update(dt)

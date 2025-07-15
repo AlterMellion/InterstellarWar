@@ -5,9 +5,9 @@ local y = 0
 local level1Music
 local gameOverMusic
 
-function background.load()
-    background = love.graphics.newImage("pics/spaceBackground.jpg")
-    level1Music = love.audio.newSource("audio/hyperion-hypercube-355494.mp3", "static")
+function background.load(level)
+    background = love.graphics.newImage("levelsassets/"..level.."/background/pic/spaceBackground.jpg")
+    level1Music = love.audio.newSource("levelsassets/"..level.."/background/audio/hyperion-hypercube-355494.mp3", "static")
     level1Music:setLooping(true)
     gameOverMusic = love.audio.newSource("audio/quiz-countdown-194417.mp3", "static")
 end

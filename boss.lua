@@ -44,11 +44,11 @@ function boss.loadConfig(level)
     lifes = decodedConfig[level]["boss"]["lifes"]
     scoreThreshold = decodedConfig[level]["boss"]["scoreThreshold"]
 
-    bossPicName = "pics/"..level.."/boss/sprite/bossSprite.png"
+    bossPicName = "levelsassets/"..level.."/boss/sprite/bossSprite.png"
     numberOfBossSprites = decodedConfig[level]["boss"]["sprite"]["numberOfSprites"]
     bossAnimationSpeed = decodedConfig[level]["boss"]["sprite"]["animationSpeed"]
 
-    shotPicName = "pics/"..level.."/boss/weapon/1/basic/shotAnim.png"
+    shotPicName = "levelsassets/"..level.."/boss/weapon/1/basic/shotAnim.png"
     numberOfShotsSprites = decodedConfig[level]["boss"]["weapons"][1]["basic"]["numberOfSprites"]
     shotAnimSprite = decodedConfig[level]["boss"]["weapons"][1]["basic"]["animationSpeed"]
 
