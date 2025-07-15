@@ -4,7 +4,8 @@ local explosions = require("explosions")
 local animation = require("animation")
 local audio = require("audio")
 
-local lifes = 3
+local baselifes = 3
+local lifes
 local hitTimer = 0
 local isHit = false
 local hitDuration = 2
@@ -22,6 +23,7 @@ local spriteHeight
 local spaceshipAnim
 
 function spaceship.load()
+    lifes = baselifes
     spaceshipPic = love.graphics.newImage("pics/spaceship.png")
     picWidth = spaceshipPic:getWidth()
     picHeight = spaceshipPic:getHeight()

@@ -27,6 +27,7 @@ local boss = require("boss")
 local audio = require("audio")
 
 IsGameOver = false
+local GameOverLoaded = false
 local sleepTimer = 0
 local isGameStarted = false
 local isGameComplete = false
@@ -46,6 +47,7 @@ function love.load()
     love.window.setTitle("Interstellar War")
 
     config.load()
+    startScreen.load()
     audio.load()
     background.load("level"..level)
     explosions.load()
@@ -54,9 +56,6 @@ function love.load()
     enemyShip.load("level"..level)
     enemyShips.load()
     score.load()
-    gameover.load()
-    continue.load()
-    startScreen.load()
     boss.loadConfig("level"..level)
 end
 
@@ -99,6 +98,11 @@ function love.update(dt)
         explosions.update(dt)
 
         if IsGameOver then
+            if not GameOverLoaded then
+                gameover.load()  
+                continue.load()
+                GameOverLoaded = true
+            end
             sleepTimer = sleepTimer + dt
             if sleepTimer > 1 then
                 continue.updateCountdown()
@@ -152,19 +156,22 @@ function love.draw()
         if #explosions > 0 then
             explosions.draw()
         end
+        print(spaceship.lifes())
         spaceship.draw()
         score.draw()
 
         if spaceship.lifes() == 0 or IsGameOver then
             IsGameOver = true
-            gameover.draw()
-            continue.draw()
-            if isBossLoaded then
-                boss.playTheme(false)
-            else
-                background.stopMusic()
+            if GameOverLoaded then
+                gameover.draw()
+                continue.draw()
+                if isBossLoaded then
+                    boss.playTheme(false)
+                else
+                    background.stopMusic()
+                end
+                background.startGameOverTheme()     
             end
-            background.startGameOverTheme()
         end
     else
         startScreen.draw()
