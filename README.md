@@ -2,11 +2,9 @@
 
 # ToDo
 ## Features
-- add bonus when detroying a ship: 
-    - a different weapon
-    - an additional life
-    - increase overheat
-    - invicibility
+- bonus/
+    - add collision
+    - add effects
 - add a boss fight
     - improve accuracy when shooting at the boss: no colision with the tip of the wings
     - improve boss movement: diagonals, unexpected change

@@ -17,15 +17,17 @@ function powerups.load()
 end
 
 function powerups.spawn(x, y)
-    local index = math.floor(math.random(1,5))
-    local currentPowerUp =  
-    {
-        index = index,
-        x = x,
-        y = y
-    }
-    print("new bonus qt x "..x.." y "..y)
-    table.insert(displayedPowerUps, currentPowerUp)
+    local spawn = math.floor(math.random(1, 10))
+    if spawn % 10 == 0 then
+        local index = math.floor(math.random(1,5))
+        local currentPowerUp =  
+        {
+            index = index,
+            x = x,
+            y = y
+        }
+        table.insert(displayedPowerUps, currentPowerUp)
+    end
 end
 
 function powerups.update(dt)
