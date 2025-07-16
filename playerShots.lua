@@ -7,6 +7,7 @@ local animation = require("animation")
 local enemyShip = require("enemyShip")
 local boss = require("boss")
 local audio = require("audio")
+local powerups = require("powerups")
 
 local basicShotPic
 local shotSpeed = 200
@@ -133,6 +134,7 @@ function playerShots.update(dt, enemyShipsTable, bossInstance)
                             explosions.add(currentEnemy.x, currentEnemy.y, 1)
                             table.remove(enemyShipsTable, j)
                             table.remove(playerShots, i)
+                            powerups.spawn(currentEnemy.x, currentEnemy.y)
                             if not IsGameOver then
                                 score.update(1)
                             end
