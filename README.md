@@ -3,6 +3,7 @@
 # ToDo
 ## Features
 - new level after winning: keep the same ships but make them shoot
+- splash screens: add fading in and out
 - bonus
     - add feedback regarding overheat
 - add a boss fight

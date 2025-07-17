@@ -4,8 +4,6 @@ local message
 local font
 
 function gameover.load()
-    font = love.graphics.newFont("fonts/pixelmix.ttf", 35)
-    love.graphics.setFont(font)
     message = "GAME OVER"
 end
 
