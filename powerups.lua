@@ -58,8 +58,7 @@ function powerups.draw()
 end
 
 function powerups.apply(index)
-    --index = math.floor(math.random(2,3))
-    --print(index)
+    index = 4
     if index == 1 then
         -- limited invicibility
     end
@@ -75,7 +74,7 @@ function powerups.apply(index)
     end
 
     if index == 4 then
-        -- increase armor
+        spaceship.updateArmor(1)
     end
 
     if index == 5 then

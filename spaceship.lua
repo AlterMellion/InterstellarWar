@@ -10,6 +10,9 @@ local hitTimer = 0
 local isHit = false
 local hitDuration = 2
 
+local armor = 0
+local armorBreakSound
+
 local speed = 200
 
 local spaceshipPic
@@ -37,6 +40,8 @@ function spaceship.load()
     spaceship.x = ScreenWidth/2
     spaceship.y = ScreenHeight - spriteHeight/2
     spaceship.speed = speed
+
+    armorBreakSound = love.audio.newSource("audio/armorBreak.wav", "static")
 end
 
 function spaceship.draw()
@@ -111,6 +116,14 @@ end
 
 function spaceship.updateLifes(value)
     if hitTimer > hitDuration then
+        if value == -1 and armor > 0 then
+            spaceship.updateArmor(-1)
+            isHit = true
+            hitTimer = 0
+            armorBreakSound:play()
+            return
+        end
+        
         lifes = lifes + value
         if lifes == 0 then
             explosions.add(spaceship.x, spaceship.y, 1)
@@ -122,6 +135,15 @@ function spaceship.updateLifes(value)
             end
         end
     end
+end
+
+function spaceship.updateArmor(value)
+    if armor == 0 and value == -1 then
+        return armor
+    end
+
+    armor = armor + value
+    return armor
 end
 
 function spaceship.getPosition()

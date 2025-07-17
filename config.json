@@ -3,8 +3,8 @@
     {
         "boss":
         {
-            "lifes": 5,
-            "scoreThreshold": 5,
+            "lifes": 50,
+            "scoreThreshold": 200,
             "sprite":
             {
                 "numberOfSprites": 3,
