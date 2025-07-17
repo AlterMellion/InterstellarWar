@@ -40,9 +40,9 @@ function powerups.update(dt)
         displayedPowerUps[i].y = displayedPowerUps[i].y + 100 * dt
 
         local distance = helper.distanceBetweenTwoObjects(displayedPowerUps[i].x, displayedPowerUps[i].y, spaceship.x, spaceship.y)
-        print(distance)
         if distance < spriteWidth then
             sound:play()
+            powerups.apply(displayedPowerUps[i].index)
             table.remove(displayedPowerUps, i)
             do break end
         end
@@ -54,6 +54,28 @@ function powerups.draw()
         if powerup ~= nil then
             love.graphics.draw(sprites.spriteSheet, sprites.quads[powerup.index], powerup.x, powerup.y, 0, 1, 1)
         end
+    end
+end
+
+function powerups.apply(index)
+    if index == 1 then
+        -- limited invicibility
+    end
+
+    if index == 2 then
+        -- increase overheat limit
+    end
+
+    if index == 3 then
+        spaceship.updateLifes(1)
+    end
+
+    if index == 4 then
+        -- increase armor
+    end
+
+    if index == 5 then
+        -- adition weapon firing
     end
 end
 

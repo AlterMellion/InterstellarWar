@@ -112,7 +112,6 @@ end
 function spaceship.updateLifes(value)
     if hitTimer > hitDuration then
         lifes = lifes + value
-        
         if lifes == 0 then
             explosions.add(spaceship.x, spaceship.y, 1)
         else
