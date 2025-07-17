@@ -58,12 +58,16 @@ function powerups.draw()
 end
 
 function powerups.apply(index)
+    --index = math.floor(math.random(2,3))
+    --print(index)
     if index == 1 then
         -- limited invicibility
     end
 
     if index == 2 then
-        -- increase overheat limit
+        -- lazy loading, to avoid circular dependency
+        local playerShots = require("playerShots")
+        playerShots.updateOverheatLimit(2)
     end
 
     if index == 3 then
