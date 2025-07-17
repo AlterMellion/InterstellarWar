@@ -2,8 +2,7 @@
 
 # ToDo
 ## Features
-- bonus/
-    - add collision
+- bonus
     - add effects
 - add a boss fight
     - improve accuracy when shooting at the boss: no colision with the tip of the wings

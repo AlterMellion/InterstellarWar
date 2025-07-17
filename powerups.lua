@@ -1,6 +1,8 @@
 local powerups={}
 
 local animation = require("animation")
+local spaceship = require("spaceship")
+local helper = require("helper")
 
 local pic
 local numberOfSprites = 5
@@ -8,12 +10,15 @@ local spriteWidth
 local spriteHeight
 local sprites
 local displayedPowerUps = {}
+local sound
 
 function powerups.load()
     pic = love.graphics.newImage("pics/powerups.png")
     spriteWidth = pic:getWidth()/numberOfSprites
     spriteHeight = pic:getHeight()
     sprites = animation.new(pic, spriteWidth, spriteHeight, 0.25)
+
+    sound = love.audio.newSource("audio/powerUp.wav", "static")
 end
 
 function powerups.spawn(x, y)
@@ -33,6 +38,14 @@ end
 function powerups.update(dt)
     for i = #displayedPowerUps, 1, -1 do
         displayedPowerUps[i].y = displayedPowerUps[i].y + 100 * dt
+
+        local distance = helper.distanceBetweenTwoObjects(displayedPowerUps[i].x, displayedPowerUps[i].y, spaceship.x, spaceship.y)
+        print(distance)
+        if distance < spriteWidth then
+            sound:play()
+            table.remove(displayedPowerUps, i)
+            do break end
+        end
     end
 end
 
