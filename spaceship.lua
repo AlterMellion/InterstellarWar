@@ -10,9 +10,6 @@ local hitTimer = 0
 local isHit = false
 local hitDuration = 2
 
-local armor = 0
-local armorBreakSound
-
 local speed = 200
 
 local spaceshipPic
@@ -24,6 +21,15 @@ local numberOfSprites = 3
 local spriteWidth
 local spriteHeight
 local spaceshipAnim
+
+
+local armor = 0
+local armorBreakSound
+local shieldSprite
+local numberOfShieldSprites = 5
+local shieldSpriteWidth
+local shieldSpriteHeight
+local shieldSpriteAnim
 
 function spaceship.load()
     lifes = baselifes
@@ -41,13 +47,18 @@ function spaceship.load()
     spaceship.y = ScreenHeight - spriteHeight/2
     spaceship.speed = speed
 
+    shieldSprite = love.graphics.newImage("pics/magneticShield.png")
+    shieldSpriteWidth = shieldSprite:getWidth()/numberOfShieldSprites
+    shieldSpriteHeight = shieldSprite:getHeight()
+    shieldSpriteAnim = animation.new(shieldSprite, shieldSpriteWidth, shieldSpriteHeight, 0.5)
+    shieldSpriteAnim.currentTime = 0
     armorBreakSound = love.audio.newSource("audio/armorBreak.wav", "static")
 end
 
 function spaceship.draw()
     -- Blink when being hit
     if lifes > 0 then
-        if not isHit or (isHit and math.floor(love.timer.getTime() * 100) % 2 == 0) then
+        if not isHit or armor > 0 or (isHit and math.floor(love.timer.getTime() * 100) % 2 == 0) then
             animation.play(spaceshipAnim, spaceship.x, spaceship.y, spriteWidth/2, spriteHeight/2)
         end
     end
@@ -60,12 +71,17 @@ function spaceship.draw()
             picWidth/2,
             picHeight/2
         )
-        local x = ScreenWidth - (spriteWidth * i * scale)
+    end
+
+    -- Display armor
+    if armor > 0 then
+        animation.play(shieldSpriteAnim, spaceship.x, spaceship.y, shieldSpriteWidth/2, shieldSpriteHeight/2, 1.4)
     end
 end
 
 function spaceship.update(dt)
     animation.update(spaceshipAnim, dt)
+    animation.update(shieldSpriteAnim, dt)
 
     -- Recovery time during which the player can't be damaged again
     hitTimer = hitTimer + dt
