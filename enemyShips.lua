@@ -36,13 +36,13 @@ function enemyShips.move(dt)
         local result = math.random(1, 3)
         if result == 1 then
             maxEnemiesOnScreen = maxEnemiesOnScreen + 1
-            print("Increase max enemies on screen:"..maxEnemiesOnScreen)
+            --print("Increase max enemies on screen:"..maxEnemiesOnScreen)
         elseif result == 2 then
             speedBoost = currentScore
-            print("Increase enemies speedboost: +"..speedBoost)
+            --print("Increase enemies speedboost: +"..speedBoost)
         else
             enemyFrequencyMax = enemyFrequencyMax - 0.25
-            print("Reduce max frequency by -0.25: "..enemyFrequencyMax)
+            --print("Reduce max frequency by -0.25: "..enemyFrequencyMax)
         end
         increaseDifficulty = false
     end

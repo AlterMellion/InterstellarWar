@@ -18,10 +18,10 @@ local numberOfSprites = 3
 local spriteWidth
 local spriteHeight
 
-local maxShotsBeforeOverHeat = 10
+local maxShotsBeforeOverHeat = 8
 local currentShots = 0
 local weaponOverHeated = false
-local coolDownSpeed = 2
+local coolDownSpeed = 1.5
 local weaponIcon
 local weaponState
 
@@ -157,6 +157,8 @@ end
 
 function playerShots.updateOverheatLimit(value)
     maxShotsBeforeOverHeat = maxShotsBeforeOverHeat + value
+    coolDownSpeed = coolDownSpeed + value
+    currentShots = 0
 end
 
 return playerShots

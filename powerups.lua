@@ -22,9 +22,9 @@ function powerups.load()
 end
 
 function powerups.spawn(x, y)
-    local spawn = math.floor(math.random(1, 10))
-    if spawn % 10 == 0 then
-        local index = math.floor(math.random(1,5))
+    local spawn = math.floor(math.random(1, 20))
+    if spawn % 20 == 0 then
+        local index = math.floor(math.random(2, 4))
         local currentPowerUp =  
         {
             index = index,
@@ -58,7 +58,6 @@ function powerups.draw()
 end
 
 function powerups.apply(index)
-    index = 4
     if index == 1 then
         -- limited invicibility
     end
@@ -66,7 +65,7 @@ function powerups.apply(index)
     if index == 2 then
         -- lazy loading, to avoid circular dependency
         local playerShots = require("playerShots")
-        playerShots.updateOverheatLimit(2)
+        playerShots.updateOverheatLimit(0.5)
     end
 
     if index == 3 then

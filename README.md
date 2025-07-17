@@ -3,7 +3,7 @@
 # ToDo
 ## Features
 - bonus
-    - add effects
+    - add feedback regarding overheat
 - add a boss fight
     - improve accuracy when shooting at the boss: no colision with the tip of the wings
     - improve boss movement: diagonals, unexpected change
