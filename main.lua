@@ -13,22 +13,6 @@ love.window.setMode(600, 800)
 ScreenHeight = love.graphics.getHeight()
 ScreenWidth = love.graphics.getWidth()
 
-local love2d = love.graphics.newImage('pics/Love2d.png')
-love.graphics.draw(love2d, ScreenWidth/2, ScreenHeight/2, 0, 1, 1, love2d:getWidth()/2, love2d:getHeight()/2)
-love.graphics.present()
-
-love.timer.sleep(3)
-
-local burro = love.graphics.newImage('pics/burro.png')
-love.graphics.draw(burro, ScreenWidth/2, ScreenHeight/2, 0, 1, 1, burro:getWidth()/2, burro:getHeight()/2)
-local helper = require("helper")
-local font = love.graphics.newFont("fonts/pixelmix.ttf", 35)
-love.graphics.setFont(font)
-helper.outlineText("Burro Studio", 0, burro:getHeight() *2)
-love.graphics.present()
-
-love.timer.sleep(3)
-
 local config = require("config")
 local spaceship = require("spaceship")
 local playerShots = require("playerShots")
@@ -62,7 +46,30 @@ function ResetGame()
     score.load()
 end
 
+function DrawEngineSplashScreen()    
+    local love2d = love.graphics.newImage('pics/Love2d.png')
+    love.graphics.draw(love2d, ScreenWidth/2, ScreenHeight/2, 0, 1, 1, love2d:getWidth()/2, love2d:getHeight()/2)
+    love.graphics.present()
+    
+    love.timer.sleep(3)
+end
+
+function DrawStudioSplashScreen()
+    local burro = love.graphics.newImage('pics/burro.png')
+    love.graphics.draw(burro, ScreenWidth/2, ScreenHeight/2, 0, 1, 1, burro:getWidth()/2, burro:getHeight()/2)
+    local helper = require("helper")
+    local font = love.graphics.newFont("fonts/pixelmix.ttf", 35)
+    love.graphics.setFont(font)
+    helper.outlineText("Burro Studio", 0, burro:getHeight() *2)
+    love.graphics.present()
+
+    love.timer.sleep(3)
+end
+
 function love.load()
+    DrawEngineSplashScreen()
+    DrawStudioSplashScreen()
+    
     powerups.load()
     config.load()
     startScreen.load()
