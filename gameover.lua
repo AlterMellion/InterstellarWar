@@ -1,14 +1,16 @@
 local gameover = {}
 
+local helper = require("helper")
+
 local message
-local font
 
 function gameover.load()
     message = "GAME OVER"
 end
 
 function gameover.draw()
-    love.graphics.printf(message, 0, ScreenHeight / 2 - font:getHeight() / 2, ScreenWidth, "center")
+    local screenHeight = love.graphics.getHeight()
+    helper.outlineText(message, 0, (screenHeight / 2))
 end
 
 return gameover

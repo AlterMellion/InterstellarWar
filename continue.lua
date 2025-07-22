@@ -1,5 +1,7 @@
 local continue = {}
 
+local helper = require("helper")
+
 local continueMessage
 local font
 local maxCountdown = 10
@@ -15,8 +17,10 @@ end
 
 function continue.draw()
     if countdownNumber >= 0 then
-        love.graphics.printf(continueMessage, 0, ScreenHeight / 2 - font:getHeight() / 2 + 50, ScreenWidth, "center")
-        love.graphics.printf(countdownNumber, 0, ScreenHeight / 2 - font:getHeight() / 2 + 100, ScreenWidth, "center")
+        local screenHeight = love.graphics.getHeight()
+        helper.outlineText(continueMessage, 0, (screenHeight / 2) + 50)
+        helper.outlineText(countdownNumber, 0, (screenHeight / 2) + 100)
+
     end
 end
 

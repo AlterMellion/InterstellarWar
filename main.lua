@@ -42,6 +42,7 @@ local maxLevels
 local decodedConfig
 
 function ResetGame()
+    background.load(currentLevel)
     continue.resetCountdown()
     enemyShips.reset()
     spaceship.load()
@@ -246,9 +247,9 @@ function love.keypressed(key)
 
         if(key == "return") then
             if IsGameOver then
-                ResetGame()
                 IsGameOver = false
                 background.stopGameOverTheme()
+                ResetGame()
                 if isBossLoaded then
                     boss.playTheme(true)
                 else
