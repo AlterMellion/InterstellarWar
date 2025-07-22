@@ -5,7 +5,6 @@
 - next level
   - add a transition, with the ship going upward
   - play different sound track (smooth fade transition if possible)
-  - check why the right enemies aren't loaded
   - make them shoot
   - refactor the code when reaching 3 level
 - splash screens: add fading in and out

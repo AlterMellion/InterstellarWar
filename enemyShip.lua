@@ -7,6 +7,7 @@ local config = require("config")
 local enemyTypes = {}
 
 function enemyShip.load(level)
+    enemyTypes = {}
     local decodedConfig = config.get()
 
     for i=1, #decodedConfig["levels"][level]["enemies"] do   
