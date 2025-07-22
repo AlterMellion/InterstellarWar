@@ -1,77 +1,80 @@
 {
-    "level1":
-    {
-        "boss":
+    "levels":
+    [
         {
-            "lifes": 50,
-            "scoreThreshold": 200,
-            "sprite":
+            "name": "1",
+            "boss":
             {
-                "numberOfSprites": 3,
-                "animationSpeed": 0.25
+                "lifes": 5,
+                "scoreThreshold": 5,
+                "sprite":
+                {
+                    "numberOfSprites": 3,
+                    "animationSpeed": 0.25
+                },
+                "theme": "audio/ufo-battle-355493.mp3",
+                "weapons":
+                [
+                    {
+                        "basic":
+                        {
+                            "numberOfSprites": 3,
+                            "animationSpeed": 0.25,
+                            "canonPositions" : 
+                            [
+                                {"x": 114, "y": 313},
+                                {"x": 206, "y": 388}, 
+                                {"x": 295, "y": 313}
+                            ]
+                        }
+                    }
+                ]
             },
-            "theme": "audio/ufo-battle-355493.mp3",
-            "weapons":
+            "enemies":
             [
                 {
-                    "basic":
-                    {
-                        "numberOfSprites": 3,
-                        "animationSpeed": 0.25,
-                        "canonPositions" : 
-                        [
-                            {"x": 114, "y": 313},
-                            {"x": 206, "y": 388}, 
-                            {"x": 295, "y": 313}
-                        ]
-                    }
+                    "type": 1,
+                    "lifes": 1,
+                    "numberOfSprites": 3,
+                    "animationSpeed": 0.25
+                },
+                {
+                    "type": 2,
+                    "lifes": 2,
+                    "numberOfSprites": 3,
+                    "animationSpeed": 0.25
                 }
             ]
         },
-        "enemies":
-        [
-            {
-                "type": 1,
-                "lifes": 1,
-                "numberOfSprites": 3,
-                "animationSpeed": 0.25
-            },
-            {
-                "type": 2,
-                "lifes": 2,
-                "numberOfSprites": 3,
-                "animationSpeed": 0.25
-            }
-        ]
-    },
-    "level2":
-    {
-        "boss":
         {
-            "lifes": 5,
-            "scoreThreshold": 5,
-            "sprite":
+            "name": "2",
+            "boss":
             {
-                "numberOfSprites": 3,
-                "animationSpeed": 0.25
-            },
-            "theme": "audio/ufo-battle-355493.mp3",
-            "weapons":
-            [
+                "lifes": 5,
+                "scoreThreshold": 5,
+                "sprite":
                 {
-                    "basic":
+                    "numberOfSprites": 3,
+                    "animationSpeed": 0.25
+                },
+                "theme": "audio/ufo-battle-355493.mp3",
+                "weapons":
+                [
                     {
-                        "numberOfSprites": 3,
-                        "animationSpeed": 0.25,
-                        "canonPositions" : 
-                        [
-                            {"x": 114, "y": 313},
-                            {"x": 206, "y": 388}, 
-                            {"x": 295, "y": 313}
-                        ]
+                        "basic":
+                        {
+                            "numberOfSprites": 3,
+                            "animationSpeed": 0.25,
+                            "canonPositions" : 
+                            [
+                                {"x": 114, "y": 313},
+                                {"x": 206, "y": 388}, 
+                                {"x": 295, "y": 313}
+                            ]
+                        }
                     }
-                }
-            ]
+                ]
+            }
         }
-    }
+    ]
 }

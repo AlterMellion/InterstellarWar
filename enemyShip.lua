@@ -9,12 +9,12 @@ local enemyTypes = {}
 function enemyShip.load(level)
     local decodedConfig = config.get()
 
-    for i=1, #decodedConfig[level]["enemies"] do   
-        local numberOfSprites = decodedConfig[level]["enemies"][i]["numberOfSprites"]
-        local animationSpeed = decodedConfig[level]["enemies"][i]["animationSpeed"]
-        local lifes = decodedConfig[level]["enemies"][i]["lifes"]
+    for i=1, #decodedConfig["levels"][level]["enemies"] do   
+        local numberOfSprites = decodedConfig["levels"][level]["enemies"][i]["numberOfSprites"]
+        local animationSpeed = decodedConfig["levels"][level]["enemies"][i]["animationSpeed"]
+        local lifes = decodedConfig["levels"][level]["enemies"][i]["lifes"]
 
-        local enemyPic = love.graphics.newImage("levelsassets/"..level.."/enemies/"..i.."/enemyShipAnim.png")
+        local enemyPic = love.graphics.newImage("levelsassets/level"..level.."/enemies/"..i.."/enemyShipAnim.png")
         local spriteShipWidth = enemyPic:getWidth()/numberOfSprites
         local spriteShipHeight = enemyPic:getHeight()
         local enemyAnim = animation.new(enemyPic, spriteShipWidth, spriteShipHeight, animationSpeed)

@@ -40,20 +40,20 @@ local canonPositions = {}
 function boss.loadConfig(level)
     local decodedConfig = config.get()
     
-    lifes = decodedConfig[level]["boss"]["lifes"]
-    scoreThreshold = decodedConfig[level]["boss"]["scoreThreshold"]
+    lifes = decodedConfig["levels"][level]["boss"]["lifes"]
+    scoreThreshold = decodedConfig["levels"][level]["boss"]["scoreThreshold"]
 
-    bossPicName = "levelsassets/"..level.."/boss/sprite/bossSprite.png"
-    numberOfBossSprites = decodedConfig[level]["boss"]["sprite"]["numberOfSprites"]
-    bossAnimationSpeed = decodedConfig[level]["boss"]["sprite"]["animationSpeed"]
+    bossPicName = "levelsassets/level"..level.."/boss/sprite/bossSprite.png"
+    numberOfBossSprites = decodedConfig["levels"][level]["boss"]["sprite"]["numberOfSprites"]
+    bossAnimationSpeed = decodedConfig["levels"][level]["boss"]["sprite"]["animationSpeed"]
 
-    shotPicName = "levelsassets/"..level.."/boss/weapon/1/basic/shotAnim.png"
-    numberOfShotsSprites = decodedConfig[level]["boss"]["weapons"][1]["basic"]["numberOfSprites"]
-    shotAnimSprite = decodedConfig[level]["boss"]["weapons"][1]["basic"]["animationSpeed"]
+    shotPicName = "levelsassets/level"..level.."/boss/weapon/1/basic/shotAnim.png"
+    numberOfShotsSprites = decodedConfig["levels"][level]["boss"]["weapons"][1]["basic"]["numberOfSprites"]
+    shotAnimSprite = decodedConfig["levels"][level]["boss"]["weapons"][1]["basic"]["animationSpeed"]
 
-    bossThemeName = decodedConfig[level]["boss"]["theme"]
+    bossThemeName = decodedConfig["levels"][level]["boss"]["theme"]
 
-    local canonPositionArray = decodedConfig[level]["boss"]["weapons"][1]["basic"]["canonPositions"]
+    local canonPositionArray = decodedConfig["levels"][level]["boss"]["weapons"][1]["basic"]["canonPositions"]
     for i = 1, #canonPositionArray do
         table.insert(canonPositions, {x = canonPositionArray[i]["x"], y = canonPositionArray[i]["y"]})
     end

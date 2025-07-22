@@ -38,6 +38,7 @@ local isBossLoaded = false
 local bossInstance
 
 local currentLevel = 1
+local decodedConfig
 
 function ResetGame()
     continue.resetCountdown()
@@ -70,14 +71,14 @@ function LoadFont()
 end
 
 function LoadLevel(level)
-    background.load("level"..level)
+    background.load(level)
     explosions.load()
     playerShots.load()
     spaceship.load()
-    enemyShip.load("level"..level)
+    enemyShip.load(level)
     enemyShips.load()
     score.load()
-    boss.loadConfig("level"..level)
+    boss.loadConfig(level)
 end
 
 function love.load()
@@ -89,6 +90,8 @@ function love.load()
     config.load()
     startScreen.load()
     audio.load()
+    
+    decodedConfig = config.get()
 end
 
 function love.update(dt)
@@ -213,6 +216,10 @@ function love.draw()
         startScreen.draw()
         ResetGame()
     end
+end
+
+function GetCurrentLevel()
+    --decodedConfig
 end
 
 function love.keypressed(key)

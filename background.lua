@@ -13,13 +13,12 @@ local displayLevelName = true
 local currentLevel
 
 function background.load(level)
-    background = love.graphics.newImage("levelsassets/"..level.."/background/pic/spaceBackground.jpg")
-    level1Music = love.audio.newSource("levelsassets/"..level.."/background/audio/hyperion-hypercube-355494.mp3", "static")
+    background = love.graphics.newImage("levelsassets/level"..level.."/background/pic/spaceBackground.jpg")
+    level1Music = love.audio.newSource("levelsassets/level"..level.."/background/audio/hyperion-hypercube-355494.mp3", "static")
     level1Music:setLooping(true)
     gameOverMusic = love.audio.newSource("audio/quiz-countdown-194417.mp3", "static")
 
-    local splitRes = helper.splitString(level, "level")
-    currentLevel = splitRes[1]
+    currentLevel = level
 end
 
 function background.draw()
@@ -28,7 +27,7 @@ function background.draw()
 
     if displayLevelName then
         local screenHeight = love.graphics.getHeight()
-        helper.outlineText("level "..currentLevel, 0, (screenHeight / 2))
+        helper.outlineText("LEVEL "..currentLevel, 0, (screenHeight / 2))
     end
 end
 
