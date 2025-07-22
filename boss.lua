@@ -17,6 +17,7 @@ local bossMoveDirection
 local isDestinationReached
 local isBossDestroyed
 local isBossExploding
+local isBossAppearing
 local explosionCurrentTime
 local scoreThreshold
 local numberOfBossSprites
@@ -66,6 +67,7 @@ function boss.load()
     isDestinationReached = false
     isBossDestroyed = false
     isBossExploding = true
+    isBossAppearing = true
     explosionCurrentTime = 0
     isHit = false
     shots = {}
@@ -111,6 +113,7 @@ function boss.update(dt)
     if bossAnim.y < spriteBossHeight/2 then
         bossAnim.y = bossAnim.y + 100 * dt
     else
+        isBossAppearing = false
         lastShots = lastShots + dt
         if lastShots > coolDown and lifes > 0 then
             boss.shoot()
@@ -257,6 +260,10 @@ end
 
 function boss.scorePoint()
     return scorePoints
+end
+
+function boss.isAppearing()
+    return isBossAppearing
 end
 
 return boss

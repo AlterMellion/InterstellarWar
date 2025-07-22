@@ -237,7 +237,9 @@ end
 function love.keypressed(key)
     if isGameStarted then
         if key == "space" then
-            if not isGameComplete and not background.IsLevelNameDisplayed() then
+            if not isGameComplete and 
+               not background.IsLevelNameDisplayed() and
+               not boss.isAppearing() then
                 playerShots.shoot(spaceship)
             end
         end

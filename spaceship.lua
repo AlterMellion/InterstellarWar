@@ -80,6 +80,7 @@ function spaceship.draw()
 end
 
 function spaceship.update(dt)
+    -- Spaceship appear on screen
     if spaceship.y > (ScreenHeight - spriteHeight/2) then
         spaceship.y = spaceship.y - 50 * dt
     else

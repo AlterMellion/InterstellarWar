@@ -13,7 +13,6 @@
 - add a boss fight
     - improve accuracy when shooting at the boss: no colision with the tip of the wings
     - improve boss movement: diagonals, unexpected change, make sure it4s more random
-    - prevent shooting when the boss is arriving
 
 ## Bugs
 - during the count down, there are still collision with the spaceship though its not display. Most likely because it's still registered
