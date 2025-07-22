@@ -58,12 +58,15 @@ function DrawStudioSplashScreen()
     local burro = love.graphics.newImage('pics/burro.png')
     love.graphics.draw(burro, ScreenWidth/2, ScreenHeight/2, 0, 1, 1, burro:getWidth()/2, burro:getHeight()/2)
     local helper = require("helper")
-    local font = love.graphics.newFont("fonts/pixelmix.ttf", 35)
-    love.graphics.setFont(font)
     helper.outlineText("Burro Studio", 0, burro:getHeight() *2)
     love.graphics.present()
 
     love.timer.sleep(3)
+end
+
+function LoadFont()
+    local font = love.graphics.newFont("fonts/pixelmix.ttf", 35)
+    love.graphics.setFont(font)
 end
 
 function LoadLevel(level)
@@ -78,8 +81,9 @@ function LoadLevel(level)
 end
 
 function love.load()
-    DrawEngineSplashScreen()
-    DrawStudioSplashScreen()
+    LoadFont()
+    --DrawEngineSplashScreen()
+    --DrawStudioSplashScreen()
 
     powerups.load()
     config.load()
@@ -104,7 +108,9 @@ function love.update(dt)
 
         if not isBossLoaded then
             if score.getValue() < boss.scoreThreshold() then
-                enemyShips.spawn(dt)
+                if not background.IsLevelNameDisplayed() then
+                    enemyShips.spawn(dt)
+                end
             elseif #enemyShips.getTable() == 0 and #explosions <= 0 then
                 bossInstance = boss.load()
                 background.stopMusic()
@@ -212,7 +218,7 @@ end
 function love.keypressed(key)
     if isGameStarted then
         if key == "space" then
-            if not isGameComplete then
+            if not isGameComplete and not background.IsLevelNameDisplayed() then
                 playerShots.shoot(spaceship)
             end
         end

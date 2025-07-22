@@ -44,7 +44,7 @@ function spaceship.load()
     spaceshipAnim.currentTime = 0
 
     spaceship.x = ScreenWidth/2
-    spaceship.y = ScreenHeight - spriteHeight/2
+    spaceship.y = ScreenHeight + spriteHeight
     spaceship.speed = speed
 
     shieldSprite = love.graphics.newImage("pics/magneticShield.png")
@@ -80,16 +80,20 @@ function spaceship.draw()
 end
 
 function spaceship.update(dt)
-    animation.update(spaceshipAnim, dt)
-    animation.update(shieldSpriteAnim, dt)
+    if spaceship.y > (ScreenHeight - spriteHeight/2) then
+        spaceship.y = spaceship.y - 50 * dt
+    else
+        animation.update(spaceshipAnim, dt)
+        animation.update(shieldSpriteAnim, dt)
 
-    -- Recovery time during which the player can't be damaged again
-    hitTimer = hitTimer + dt
-    if hitTimer > hitDuration then
-        isHit = false
+        -- Recovery time during which the player can't be damaged again
+        hitTimer = hitTimer + dt
+        if hitTimer > hitDuration then
+            isHit = false
+        end
+
+        spaceship.move(dt)
     end
-
-    spaceship.move(dt)
 end
 
 function spaceship.move(dt)  
