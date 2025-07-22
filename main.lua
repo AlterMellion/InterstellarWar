@@ -38,6 +38,7 @@ local isBossLoaded = false
 local bossInstance
 
 local currentLevel = 1
+local maxLevels
 local decodedConfig
 
 function ResetGame()
@@ -77,7 +78,6 @@ function LoadLevel(level)
     spaceship.load()
     enemyShip.load(level)
     enemyShips.load()
-    score.load()
     boss.loadConfig(level)
 end
 
@@ -86,12 +86,14 @@ function love.load()
     --DrawEngineSplashScreen()
     --DrawStudioSplashScreen()
 
+    score.load()
     powerups.load()
     config.load()
     startScreen.load()
     audio.load()
     
     decodedConfig = config.get()
+    maxLevels = #decodedConfig["levels"]
 end
 
 function love.update(dt)
@@ -125,7 +127,17 @@ function love.update(dt)
                 boss.update(dt)
             else
                 bossInstance = nil
-                isGameComplete = true
+                isBossLoaded = false
+                currentLevel = currentLevel + 1
+                if currentLevel > maxLevels then
+                    isGameComplete = true
+                    return
+                end
+                enemyShips.reset()       
+                boss.playTheme(false)
+                LoadLevel(currentLevel)
+                background.startMusic()
+                return
             end
         end
         

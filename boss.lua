@@ -14,19 +14,20 @@ local bossTheme
 local spriteBossWidth
 local spriteBossHeight
 local bossMoveDirection
-local isDestinationReached = false
-local isBossDestroyed = false
-local isBossExploding = true
-local explosionCurrentTime = 0
+local isDestinationReached
+local isBossDestroyed
+local isBossExploding
+local explosionCurrentTime
 local scoreThreshold
 local numberOfBossSprites
 local numberOfShotsSprites
 local lifes
-local isHit = false
+local isHit
 local hitDuration = 0.1
 local bossPicName
 local bossAnimationSpeed
 local bossThemeName
+local scorePoints
 
 local shotPicName
 local shotAnimSprite
@@ -42,6 +43,7 @@ function boss.loadConfig(level)
     
     lifes = decodedConfig["levels"][level]["boss"]["lifes"]
     scoreThreshold = decodedConfig["levels"][level]["boss"]["scoreThreshold"]
+    scorePoints = decodedConfig["levels"][level]["boss"]["scorePoints"]
 
     bossPicName = "levelsassets/level"..level.."/boss/sprite/bossSprite.png"
     numberOfBossSprites = decodedConfig["levels"][level]["boss"]["sprite"]["numberOfSprites"]
@@ -60,7 +62,15 @@ function boss.loadConfig(level)
     
 end
 
-function boss.load()
+function boss.load()    
+    isDestinationReached = false
+    isBossDestroyed = false
+    isBossExploding = true
+    explosionCurrentTime = 0
+    isHit = false
+    shots = {}
+    lastShots = 0
+
     local shotPic = love.graphics.newImage(shotPicName)
     spriteShotsWidth = shotPic:getWidth()/numberOfShotsSprites
     spriteShotsHeight = shotPic:getHeight()
@@ -244,4 +254,9 @@ end
 function boss.scoreThreshold()
     return scoreThreshold
 end
+
+function boss.scorePoint()
+    return scorePoints
+end
+
 return boss

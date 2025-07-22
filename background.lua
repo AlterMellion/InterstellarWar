@@ -7,12 +7,14 @@ local y = 0
 local level1Music
 local gameOverMusic
 
-local displayDuration = 0
+local displayDuration
 local maxDisplayDuration = 5
-local displayLevelName = true
+local displayLevelName
 local currentLevel
 
 function background.load(level)
+    displayLevelName = true
+    displayDuration = 0
     background = love.graphics.newImage("levelsassets/level"..level.."/background/pic/spaceBackground.jpg")
     level1Music = love.audio.newSource("levelsassets/level"..level.."/background/audio/hyperion-hypercube-355494.mp3", "static")
     level1Music:setLooping(true)
