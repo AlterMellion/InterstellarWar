@@ -37,7 +37,7 @@ local isGameComplete = false
 local isBossLoaded = false
 local bossInstance
 
-local level = 1
+local currentLevel = 1
 
 function ResetGame()
     continue.resetCountdown()
@@ -66,14 +66,7 @@ function DrawStudioSplashScreen()
     love.timer.sleep(3)
 end
 
-function love.load()
-    DrawEngineSplashScreen()
-    DrawStudioSplashScreen()
-    
-    powerups.load()
-    config.load()
-    startScreen.load()
-    audio.load()
+function LoadLevel(level)
     background.load("level"..level)
     explosions.load()
     playerShots.load()
@@ -82,6 +75,16 @@ function love.load()
     enemyShips.load()
     score.load()
     boss.loadConfig("level"..level)
+end
+
+function love.load()
+    DrawEngineSplashScreen()
+    DrawStudioSplashScreen()
+
+    powerups.load()
+    config.load()
+    startScreen.load()
+    audio.load()
 end
 
 function love.update(dt)
@@ -234,7 +237,9 @@ function love.keypressed(key)
             end
         end
     else
-        if(key == "return") then
+        if(key == "return") then          
+            LoadLevel(currentLevel)
+            
             isGameStarted = true
             isGameComplete = false
             isBossLoaded = false
